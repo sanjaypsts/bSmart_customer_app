@@ -1,0 +1,1 @@
+export const BASEURL ="https://wms.demopsts.com/api";
