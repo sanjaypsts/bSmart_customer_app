@@ -1,0 +1,57 @@
+{
+    "splashScreen": {
+        "splash": "Streamline your Business with us efficiently"
+    },
+    "login": {
+        "welcome": "Welcome!",
+        "login_descripton": "Enter your credentials to access your account",
+        "email": "Email",
+        "password": "Password",
+        "forgot_password": "Forgot password?",
+        "login": "Login",
+        "or": "OR",
+        "google": "Google",
+        "dont_have_an_account": "Don’t have an account? ",
+        "sign_Up": "Sign Up",
+        "create_account": "Create Account",
+        "sign_up_descripton": "Create account to directly order from warehouse",
+        "name": "Name",
+        "email_address": "Email address",
+        "contact_number": "Contact Number",
+        "already_have_an_account": "Already have an account? ",
+        "forgot_password_descripton": "Create account to directly order from warehouse",
+        "send_request": "Send Request",
+        "login_instead": "Login Instead",
+        "thanks": "Thanks!",
+        "thanks_descripton": "Warehouse admin will contact you soon regarding account creation"
+    },
+    "category": {
+        "category": "Category",
+        "delivery_window": "Delivery Window",
+        "search_products": "Search Products",
+        "add": "Add"
+    },
+    "cart":{
+        "cart":"cart"
+
+
+    },
+    "Notifications":{
+        "notifications":"Notifications",
+        "newer":"Newer",
+        "older":"Older"
+    },
+    "Address":{
+        "Address":"Addresses",
+        "view_addresses":"VIEW ADDRESSES",
+        "billing_address":"Billing Address",
+        "shipping_address":"Shipping Address",
+        "edit":"Edit",
+        "contact":"Contact",
+        "view_contacts":"VIEW CONTACTS",
+        "edit_address":"Edit Address",
+        "edit_shipping_address":"EDIT SHIPPING ADDRESS"
+
+    }
+
+}

@@ -1,16 +1,32 @@
-import { StatusBar, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import Login from './login'
+import * as React from 'react';
+import { Button, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import Login from './login';
+import ForgetPassword from './forgetPassword';
+import Signup from './signup';
+import Success from './success';
 
-const MainLogin = () => {
+
+const Stack = createStackNavigator();
+
+function MyStack() {
   return (
-    <View style={{flex:1}}>
-      <StatusBar animated={true} backgroundColor="white" barStyle={'dark-content'} />
-      <Login/>
-    </View>
-  )
+    <Stack.Navigator initialRouteName={"Login"}  screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Login" component={Login}  options={() => ({ gestureEnabled: false, animation: "slide_from_right" })} />
+      <Stack.Screen name="ForgetPassword" component={ForgetPassword} options={() => ({ gestureEnabled: false, animation: "slide_from_right" })}  />
+      <Stack.Screen name="Signup" component={Signup} options={() => ({ gestureEnabled: false, animation: "slide_from_right" })}  />
+      <Stack.Screen name="Success" component={Success} options={() => ({ gestureEnabled: false, animation: "slide_from_right" })}  />
+
+  
+    </Stack.Navigator>
+  );
 }
 
-export default MainLogin
-
-const styles = StyleSheet.create({})
+export default function MainLogin() {
+  return (
+    <NavigationContainer>
+      <MyStack />
+    </NavigationContainer>
+  );
+}

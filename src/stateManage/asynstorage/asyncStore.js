@@ -11,7 +11,7 @@ export const storeAuthToken = async (value) => {
 
   export const removeAuthToken = async () => {
     try {
-        console.log('Value', value)
+     
       await AsyncStorage.removeItem('auth_token')
     } catch (e) {
       // saving error
@@ -21,7 +21,7 @@ export const storeAuthToken = async (value) => {
     try {
         const value = await AsyncStorage.getItem('auth_token')
         if(value){
-            console.log('VALUE INSDIE getAuthToken',value)
+          
             return value;
         }else {
             return null;

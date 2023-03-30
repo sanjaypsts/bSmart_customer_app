@@ -1,37 +1,33 @@
 import { StatusBar, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import MainLogin from './src/ui/screen/auth/mainLogin'
-import { store } from './src/stateManage/store'
-import {Provider} from 'react-redux';
-// import { store, persistor } from './src/stateManage/store';
-// import { Provider } from 'react-redux';
-// import { PersistGate } from 'redux-persist/integration/react'
+import { store, persistor } from './src/stateManage/store'
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react'
+import Splashscreen from './src/ui/splashscreen';
+import Errorhandling from './src/ui/errorHandle/errorhandling';
+import { COLORS } from './src/ui/helper/color';
+
 
 const App = () => {
-  return (
-    <Provider store={store}>
-    <View style={{ flex: 1,}}>
-      <StatusBar animated={true} backgroundColor="white" barStyle={'dark-content'} />
-      <MainLogin />
-    </View>
-    </Provider>
-   
-  //   <Provider store={store}>
-  //   <PersistGate loading={<Text>{/* Loading... */}</Text>} persistor={persistor}>
-  //     <View style={styles.container}>
-  //       <StatusBar backgroundColor={'rgba(52, 52, 52, 0.8)'}
+  try {
+    return (
+      <Provider store={store}>
+        <PersistGate loading={<Text>{/* Loading... */}</Text>} persistor={persistor}>
+          <View style={{ flex: 1, }}>
+            <StatusBar animated={true} backgroundColor={COLORS.appColor} barStyle={COLORS.barStyle} />
 
-  //       />
-  //       {
-  //          <MainLogin />
+            <Splashscreen />
 
-  //       }
-       
+          </View>
+        </PersistGate>
+      </Provider>
 
-  //     </View>
-  //   </PersistGate>
-  // </Provider>
-  )
+    )
+  } catch {
+    <Errorhandling/>
+
+  }
 }
 
 export default App
