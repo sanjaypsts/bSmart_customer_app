@@ -94,12 +94,12 @@ const Login = ({ navigation }) => {
             .then(response => {
                 setLoading(false)
                 if (response.data.status == true || response.data.status == 'true') {
-                    console.log(response.data)
+        
                     navigation.push('Success')
                 } 
             }).catch(err => {
                 setLoading(false)
-                console.log(err)
+             
                 if (err.response.status == 400) {
                     seterrorMessage(err.response.data.message)
                 }
@@ -180,8 +180,8 @@ const Login = ({ navigation }) => {
             </KeyboardAvoidingView>
         )
     } catch (err) {
-        console.log(err
-        );
+   
+ 
         <Errorhandling />
     }
 }

@@ -41,7 +41,7 @@ export const globalStyles = StyleSheet.create({
 
     // Apptitle
     appTitle: {
-        color: COLORS.appTextColor, fontSize: normalize(20), fontFamily:  "RedHatDisplay-Regular",
+        color: COLORS.appTextColor, fontSize: normalize(20), fontFamily: "RedHatDisplay-Regular",
     },
     appSubtitle: {
         color: COLORS.appTextColor, fontSize: normalize(15), fontFamily: "RedHatDisplay-Regular",
@@ -93,42 +93,42 @@ export const globalStyles = StyleSheet.create({
 
 
 
-    
+
     // cart details
 
-    cart_heading1:{
+    cart_heading1: {
         color: COLORS.appTextColor, fontSize: normalize(16), fontFamily: "RedHatDisplay-Bold",
-        
-    },
-    cart_title:{
-        color: "#CCCCCC",  fontSize: normalize(15), fontFamily: "RedHatDisplay-SemiBold",
 
     },
-    cart_title2:{
-        color:COLORS.appTextColor,  fontSize: normalize(15), fontFamily: "RedHatDisplay-Medium"
+    cart_title: {
+        color: "#CCCCCC", fontSize: normalize(15), fontFamily: "RedHatDisplay-SemiBold",
 
     },
-    
-    
+    cart_title2: {
+        color: COLORS.appTextColor, fontSize: normalize(15), fontFamily: "RedHatDisplay-Medium"
+
+    },
+
+
 
 
 
     // order details
 
-    order_heading1:{
+    order_heading1: {
         color: COLORS.appTextColor, fontSize: normalize(16), fontFamily: "RedHatDisplay-Bold",
-        
-    },
-    order_title:{
-        color: "#CCCCCC",  fontSize: normalize(12), fontFamily: "RedHatDisplay-SemiBold",
 
     },
-    order_title2:{
-        color:COLORS.appTextColor,  fontSize: normalize(12), fontFamily: "RedHatDisplay-Medium"
+    order_title: {
+        color: "#CCCCCC", fontSize: normalize(12), fontFamily: "RedHatDisplay-SemiBold",
 
     },
-    
-    
+    order_title2: {
+        color: COLORS.appTextColor, fontSize: normalize(12), fontFamily: "RedHatDisplay-Medium"
+
+    },
+
+
 
 
 
@@ -211,33 +211,70 @@ export const MiniCartBox = ({ children }) => {
 export const SubmitBotton = ({ title, loadingStaus }) => {
 
     return (
-<View style={{width:"100%",justifyContent:"center",alignItems:"center"}}>
+        <View style={{ width: "100%", justifyContent: "center", alignItems: "center" }}>
 
-        <LinearGradient
-            colors={['#01E3AD', '#01289D',]}
-            start={{ x: 0.0, y: 2.0 }} end={{ x: 1.0, y: 1.0 }}
-            style={{
-                height: 50, width: 300,
-                backgroundColor: "white", alignItems: "center", justifyContent: "center", padding: 5,
-                shadowColor: "#000",
-                borderRadius: 50,
-                shadowOffset: {
-                    width: 0,
-                    height: 7,
-                },
-                shadowOpacity: 0.43,
-                shadowRadius: 9.51,
-                elevation: 15,
-            }}
-        >
-            {loadingStaus ? <ActivityIndicator color={COLORS.appTextColor} /> :
-                <Text style={{ color: COLORS.appTextColor }}>{title}</Text>}
+            <LinearGradient
+                colors={['#01E3AD', '#01289D',]}
+                start={{ x: 0.0, y: 2.0 }} end={{ x: 1.0, y: 1.0 }}
+                style={{
+                    height: 50, width: 300,
+                    backgroundColor: "white", alignItems: "center", justifyContent: "center", padding: 5,
+                    shadowColor: "#000",
+                    borderRadius: 50,
+                    shadowOffset: {
+                        width: 0,
+                        height: 7,
+                    },
+                    shadowOpacity: 0.43,
+                    shadowRadius: 9.51,
+                    elevation: 15,
+                }}
+            >
+                {loadingStaus ? <ActivityIndicator color={COLORS.appTextColor} /> :
+                    <Text style={{ color: COLORS.appTextColor }}>{title}</Text>}
 
 
-        </LinearGradient>
+            </LinearGradient>
         </View>
 
     )
 }
 
+
+
+
+
+export const CheckedBox = ({ }) => {
+    return (
+        <View style={{
+            backgroundColor: "#1B2F48", padding: 10, borderRadius: 20, borderColor: "#CCCCCC", borderWidth: 1, flexDirection: "row", justifyContent: "center", alignItems: "center"
+
+        }}
+        >
+            <View style={{
+                backgroundColor: "#1B2F48",
+            }}>
+
+            </View>
+
+
+        </View>
+
+    )
+}
+
+
+export const UnCheckedBox = ({ }) => {
+    return (
+        <View style={{
+            backgroundColor: "#E0EBF0", padding: 10, borderRadius: 20, borderColor: "#CCCCCC", borderWidth: 1, flexDirection: "row", justifyContent: "center", alignItems: "center"
+
+        }}
+        >
+
+
+        </View>
+
+    )
+}
 

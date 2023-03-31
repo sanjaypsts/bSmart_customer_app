@@ -1,25 +1,21 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export const storeAuthToken = async (value) => {
+
+
+
+export const storeContactNumber = async (value) => {
     try {
-        console.log('storeAuthToken #####')
-    //   await AsyncStorage.setItem('auth_token', value);
+   
+      await AsyncStorage.setItem('SelectedContact',value);
     } catch (e) {
       // saving error
     }
   }
 
-  export const removeAuthToken = async () => {
+
+    export const getContactNumber = async () => {
     try {
-     
-      await AsyncStorage.removeItem('auth_token')
-    } catch (e) {
-      // saving error
-    }
-  }
-  export const getAuthToken = async () => {
-    try {
-        const value = await AsyncStorage.getItem('auth_token')
+        const value = await AsyncStorage.getItem('SelectedContact')
         if(value){
           
             return value;
@@ -30,3 +26,55 @@ export const storeAuthToken = async (value) => {
       // error reading value
     }
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// export const storeAuthToken = async (value) => {
+//     try {
+//         
+//     //   await AsyncStorage.setItem('auth_token', value);
+//     } catch (e) {
+//       // saving error
+//     }
+//   }
+
+//   export const removeAuthToken = async () => {
+//     try {
+     
+//       await AsyncStorage.removeItem('auth_token')
+//     } catch (e) {
+//       // saving error
+//     }
+//   }
+//   export const getAuthToken = async () => {
+//     try {
+//         const value = await AsyncStorage.getItem('auth_token')
+//         if(value){
+          
+//             return value;
+//         }else {
+//             return null;
+//         }
+//     } catch(e) {
+//       // error reading value
+//     }
+//   }

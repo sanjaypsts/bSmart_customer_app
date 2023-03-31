@@ -37,10 +37,10 @@ const ForgetPassword = ({ navigation }) => {
         //     }).catch(err => {
         //         setLoading(false)
 
-        //         console.log(err)
+        //    
 
         //         if (err) {
-        //             console.log(err)
+        //          \
         //         }
         //     })
 
@@ -98,8 +98,7 @@ const ForgetPassword = ({ navigation }) => {
             </KeyboardAvoidingView>
         )
     } catch (err) {
-        console.log(err
-        );
+    
         <Errorhandling />
     }
 }

@@ -9,13 +9,16 @@ import LoadingModal from '../../component/loading';
 import { useSelector } from 'react-redux';
 import { IMAGES } from '../../globalImage';
 import { useTranslation } from 'react-i18next'
+import { globalStyles } from '../../helper/globalStyle';
 
 
 const SingleCategory = ({ route, navigation }) => {
   const { t, i18n } = useTranslation();
 
   const { loginData } = useSelector(state => state.loginReducer);
-  const [categoryData, setcategoryData] = useState([]);
+  const { category_Data } = useSelector(state => state.categoryReducer);
+
+  const [categoryData, setcategoryData] = useState(category_Data);
 
   const [SingleCategoryData, setSingleCategoryData] = useState([]);
   const [loading, setloading] = useState(false);
@@ -24,8 +27,8 @@ const SingleCategory = ({ route, navigation }) => {
   const routedata = route.params
 
   useEffect(() => {
-    if (routedata != undefined && routedata.data != undefined && routedata.id != undefined) {
-      setcategoryData(routedata.data)
+    if (routedata != undefined && routedata.id != undefined) {
+      setcategoryData(category_Data)
       getData(routedata.id)
       setcurrentCategory(routedata.id)
     }
@@ -44,16 +47,16 @@ const SingleCategory = ({ route, navigation }) => {
 
     setloading(true)
     let formData = new FormData();
-    formData.append('category_id',JSON.stringify([ category_unique_id]));
-    formData.append('limit', 3);
+    formData.append('category_id', JSON.stringify([category_unique_id]));
+    formData.append('limit', 50);
     formData.append('page_number', 1);
     formData.append('sorting', JSON.stringify({ "id": "asc" }));
     apicallHeaderPost(formData/* {'category_unique_id':id,'limit':3,'page_number':1,'sorting':{"id":"asc"}} */, 'mfilterProductDetailsUsingCategoryId', loginData.data.token)
       .then(response => {
-        console.log("err", response)
+      
 
         setloading(false)
-        if ( response.status == 200 && response.data.status == true || response.data.status == 'true') {
+        if (response.status == 200 && response.data.status == true || response.data.status == 'true') {
           setSingleCategoryData(response.data.data.data_list)
         } else {
 
@@ -84,29 +87,29 @@ const SingleCategory = ({ route, navigation }) => {
             {categoryData && categoryData.length > 0 &&
               categoryData.map((i, index) => (
                 <TouchableOpacity key={index} onPress={() => { getData(i.id), setcurrentCategory(i.id) }}  >
-                  <SmallCategoryCard title={i.category_name} currentCategory={i.id == currentCategory ? "#333333" : "#E1E9F1"} TextcurrentCategory={i.id != currentCategory ? "#333333" : "white"} />
+                  <SmallCategoryCard title={i.category_name} currentCategory={i.id != currentCategory ? "#333333" : "#E1E9F1"} TextcurrentCategory={i.id == currentCategory ? "#333333" : "white"} />
                 </TouchableOpacity>
               ))}
           </ScrollView>
         </View>
 
 
-
-        {SingleCategoryData && SingleCategoryData.length > 0 &&
-          SingleCategoryData.map((i, index) => (
-            <View key={index} >
-              <HorizontalSingleCategoryCard imageSource={i.image_url} title={i.product_name} price={i.standard_price} weight={i.unit_name}  quantity={i.quantity} product_id={i.id} />
-            </View>
-          ))}
-
+        <ScrollView  >
+          {SingleCategoryData && SingleCategoryData.length > 0 &&
+            SingleCategoryData.map((i, index) => (
+              <View key={index} >
+                <HorizontalSingleCategoryCard imageSource={i.image_url} title={i.product_name} price={i.standard_price} weight={i.unit_name} quantity={i.quantity} product_id={i.id} />
+              </View>
+            ))}
+        </ScrollView>
 
 
 
         <View style={{ position: "absolute", bottom: 40, marginHorizontal: wW / 20, alignItems: "flex-end", width: "100%" }}>
-           
-          <TouchableOpacity onPress={() => { navigation.push('Cart')}} style={{ height: 60, width: 60, borderRadius: 10, backgroundColor: "white", alignItems: "center", justifyContent: 'center' }}>
+
+          <TouchableOpacity onPress={() => { navigation.push('Cart') }} style={{ height: 60, width: 60, borderRadius: 10, backgroundColor: "white", alignItems: "center", justifyContent: 'center' }}>
             <Image resizeMode="contain" tintColor={"#333333"} style={[{ width: normalize(25), height: normalize(25), }]} source={IMAGES.Cart} />
-            <Text>Cart</Text>
+            <Text style={[globalStyles.cart_title2, { color: "black" }]}>Cart</Text>
           </TouchableOpacity>
 
         </View>

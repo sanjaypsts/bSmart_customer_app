@@ -44,7 +44,7 @@
 //         formData.append('sorting',JSON.stringify({"id":"asc"}));
 //         apicallHeaderPost(formData/* {'category_unique_id':id,'limit':3,'page_number':1,'sorting':{"id":"asc"}} */,'mfilterProductDetailsUsingCategoryId',loginData.data.token)
 //             .then(response => {
-//                 console.log("err",response)
+//              
      
 //                 setloading(false)
 //                 if (response.data.status == true || response.data.status == 'true') {
@@ -66,7 +66,7 @@
 
 //     try {
   
-//         console.log('currentCategory')
+//      
 //         return (
 
 //             <Modal

@@ -37,7 +37,7 @@ export const CustumTextInput = (props) => {
                         style={[globalStyles.inputText]}
                         placeholderTextColor={"#606563"}
                         // onChangeText={onChangeText}
-                    // onChangeText={(text) => setPassword(text)}
+                  
                     />
 
 

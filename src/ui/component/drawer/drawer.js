@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import GlobalModal, { ModalController, ModalData } from "react-native-global-modal-2"
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { MenuBotton } from '../../custumsIcons';
 import { IMAGES } from '../../globalImage';
 import { AppLogo, PowerdBy } from '../../globalSvg';
@@ -16,17 +16,27 @@ import { globalStyles } from '../../helper/globalStyle';
 import { normalize, wH, wW } from '../../helper/size';
 import { DrawerListButton } from './drawerHelper';
 import { useNavigation } from '@react-navigation/native';
-import { LogoutScreen } from '../../screen/auth/logout';
+import { Relogin } from '../../../stateManage/auth/actions';
+// import { LogoutScreen } from '../../screen/auth/logout';
 
 
 
 
 const Drawer = ({}) => {
   const navigation = useNavigation();
+  const dispatch = useDispatch()
 
   let { loginData } = useSelector(state => state.loginReducer);
 
 
+
+
+  const LogoutScreen = ( ) => {
+   
+    dispatch(Relogin({ status:false,  data:{
+      tocken:null
+    }}))
+  }
 
   return (
     <View style={styles.container}>

@@ -27,7 +27,7 @@ const DashBoard = ({ navigation }) => {
         navigation.push('SingleCategory', { id, data })
 
     }
-    console.log(intialBottom)
+  
     return (
         <BackGround>
             <DrawerHeader />

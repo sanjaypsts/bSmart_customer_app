@@ -14,7 +14,7 @@ const DrawerHeader = ({}) => {
     const [modalVisible, setModalVisible] = useState(false);
 
     const sliderOpen = () => {
-        // console.log("slider open")
+      
         setModalVisible(true)
 
     }

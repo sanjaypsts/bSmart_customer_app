@@ -110,7 +110,7 @@ export const Search = ({ title }) => {
 
 
 export const HorizontalSingleCategoryCard = ({ imageSource, title, price, weight, quantity, product_id }) => {
-    console.log(imageSource)
+   
     return (
         <View style={{
             backgroundColor: "#46494F", height: 100, flexDirection: "row", alignItems: "center", marginTop: 20,
@@ -173,7 +173,7 @@ export const AddBotton = (props) => {
 
 
     const AddCategory = (params) => {
-        console.log(params)
+       
         setQuantity(params)
 
 
@@ -182,7 +182,7 @@ export const AddBotton = (props) => {
         formData.append('customer_id', 84);
         formData.append('product_id', product_id);
         formData.append('quantity', params);
-        console.log(formData)
+      
         apicallHeaderPost(formData, 'addCartDetail', loginData.data.token)
             .then(response => {
 

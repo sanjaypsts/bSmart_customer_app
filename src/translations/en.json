@@ -29,7 +29,7 @@
         "category": "Category",
         "delivery_window": "Delivery Window",
         "search_products": "Search Products",
-        "add": "Add"
+        "add": "ADD"
     },
     "cart":{
         "cart":"cart"

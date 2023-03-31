@@ -7,6 +7,7 @@ import SingleCategory from '../screen/category/singleCategory';
 import Notification from '../component/notification';
 import Address from '../component/drawer/Address';
 import Contact from '../component/drawer/contacts';
+import PaymentSuccess from '../screen/cart/paymentSuccess';
 
 
 
@@ -21,6 +22,7 @@ function MyStack() {
       <Stack.Screen name="Notification" component={Notification} />
       <Stack.Screen name="Address" component={Address} />
       <Stack.Screen name="Contact" component={Contact} />
+      <Stack.Screen name="PaymentSuccess" component={PaymentSuccess} />
 
 
 

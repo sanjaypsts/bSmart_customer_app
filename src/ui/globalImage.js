@@ -5,7 +5,7 @@ const IMAGES = {
   Sms_tracking: require('../assets/image/sms_tracking.png'),
   Contact: require('../assets/image/contact.png'),
   Thanks: require('../assets/image/thanks.png'),
-  
+  Success:require('../assets/image/success.png'),
 
 
 

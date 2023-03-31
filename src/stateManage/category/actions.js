@@ -1,71 +1,35 @@
 import apicallHeader from "../apicallHeader";
-export const GET_CATEGORY = 'GET_CATEGORY';
+
+export const SET_CATEGORY_DATA = 'SET_CATEGORY_DATA';
 
 
-
-export const GetCategory = (value) => {
-
+export const Category_SET = (url, value) => {
+ 
+  try {
     return async dispatch => {
+      dispatch({
+        type: SET_CATEGORY_DATA,
+        payload: {loading:true},
+      });
 
-        apicallHeader('/mgetCategoryDetails',value)
-            .then(response => {
-                
-
-                if ( response.data.status !=  undefined && response.data.status == true || response.data.status == 'true') {
-                   
-                    dispatch({
-                        type: GET_CATEGORY,
-                        payload: response.data.data,
-                      });
-
-                } else {
-
-                }
-
-            }).catch(err => {
-
-
-            
-
-                if (err) {
-                 
-                }
-            })
-        //   const callBackResult = await apicall().post('/mcustomerLogin', value)
-        //   if (callBackResult.data) {
-
-        //     dispatch({
-        //       type: GET_LOGIN_DATA,
-        //       payload: callBackResult.data,
-        //     });
-        //   } else {
-
-        //   }
+      apicallHeader(url, value)
+        .then(response => {
+          if (response.status == 200 && response.data.status == true || response.data.status == 'true') {
+            dispatch({
+              type: SET_CATEGORY_DATA,
+              payload: response.data.data,
+            });
+          } else {
+          }
+        }).catch(err => {
+        
+          if (err) {
+           
+          }
+        })
     };
+  } catch (error) {
 
+  }
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

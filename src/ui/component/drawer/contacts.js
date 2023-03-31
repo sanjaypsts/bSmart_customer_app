@@ -2,26 +2,37 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import BackGround from '../backgroundImage'
 import BackBottonHeader from '../header/dashboardHeader'
-import { CartBox, Divider, globalStyles, MiniCartBox } from '../../helper/globalStyle'
+import { CartBox, CheckedBox, Divider, globalStyles, MiniCartBox, UnCheckedBox } from '../../helper/globalStyle'
 import { useTranslation } from 'react-i18next'
 import { normalize } from '../../helper/size'
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import apicallHeaderPost from '../../../stateManage/apicallHeaderPost'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { CustumTextInput } from '../inputBox'
 import LoadingModal from '../loading'
 import NoDataFound from '../../errorHandle/noDataFound'
+import { CONTACT_SET } from '../../../stateManage/userDetails/actions'
+import { getContactNumber, storeContactNumber } from '../../../stateManage/asynstorage/asyncStore'
 
 const Contact = ({ navigation }) => {
   const { t, i18n } = useTranslation();
   const { loginData } = useSelector(state => state.loginReducer);
+  const { contact_Data } = useSelector(state => state.userDetailsReducer);
+
   const [Data, setData] = useState([]);
   const [loading, setloading] = useState(false);
   const [editMode, setEditMode] = useState(false);
+  const [SelectMobileNumber, setSelectMobileNumber] = useState(0);
 
 
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    setData(contact_Data)
+    GetLocal()
+  }, [contact_Data])
 
 
   useEffect(() => {
@@ -35,27 +46,22 @@ const Contact = ({ navigation }) => {
   const getData = () => {
 
     setloading(true)
-    apicallHeaderPost({ customer_id: "" }, 'mgetParticularCustomerContactDetails', loginData.data.token)
-      .then(response => {
-   
-        setloading(false)
-        if (response.data.status == true || response.data.status == 'true') {
-       
-          setData(response.data.data)
-        } else {
+    dispatch(CONTACT_SET("mgetParticularCustomerContactDetails", loginData.data.token))
+    setloading(false)
 
-        }
-
-      }).catch(err => {
-        setloading(false)
+  }
 
 
+  const setLocal = async (mobileNumber) => {
+    await storeContactNumber(mobileNumber)
+    setSelectMobileNumber(mobileNumber)
+  }
 
 
-        if (err) {
-
-        }
-      })
+  const GetLocal = async () => {
+    const getNumber =  await getContactNumber();
+    setSelectMobileNumber(getNumber)
+  
   }
 
 
@@ -67,14 +73,10 @@ const Contact = ({ navigation }) => {
 
 
 
-
-
-  console.log(Data.length)
-
   try {
     return (
       <BackGround>
-        <LoadingModal loading={loading} setloading={setloading} />
+        <LoadingModal loading={contact_Data.loading} setloading={setloading} />
 
         <BackBottonHeader updateSingleCategory={() => { navigation.goBack(null) }} />
 
@@ -126,10 +128,22 @@ const Contact = ({ navigation }) => {
               {Data && Data.length > 0 &&
                 Data.map((i, index) => (
                   <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 20, }}>
-                    <View>
-                      <Text style={globalStyles.heading}>{i.contact_name}</Text>
-                      <Text style={globalStyles.title}>{i.contact_number}</Text>
+
+                    <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center", }}>
+                      <TouchableOpacity onPress={() => {setLocal(i.contact_number) }} style={{ marginRight:20 }}>
+                        {i.contact_number == SelectMobileNumber ?
+                          <CheckedBox /> : <UnCheckedBox />
+                        }
+                      </TouchableOpacity>
+
+                      <View>
+                        <Text style={globalStyles.heading}>{i.contact_name}</Text>
+                        <Text style={globalStyles.title}>{i.contact_number}</Text>
+                      </View>
                     </View>
+
+
+
                     <TouchableOpacity onPress={() => { setEditMode(true) }} style={{ flexDirection: "row", justifyContent: "center" }}>
                       <MiniCartBox>
                         <Feather name="edit-3" size={normalize(15)} color="white" />
