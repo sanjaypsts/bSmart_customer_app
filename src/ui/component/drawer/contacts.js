@@ -14,16 +14,19 @@ import { CustumTextInput } from '../inputBox'
 import LoadingModal from '../loading'
 import NoDataFound from '../../errorHandle/noDataFound'
 import { CONTACT_SET } from '../../../stateManage/userDetails/actions'
-import { getContactNumber, storeContactNumber } from '../../../stateManage/asynstorage/asyncStore'
+import { getContactNumber, storeContactNumber, storeName } from '../../../stateManage/asynstorage/asyncStore'
 
 const Contact = ({ navigation }) => {
   const { t, i18n } = useTranslation();
   const { loginData } = useSelector(state => state.loginReducer);
   const { contact_Data } = useSelector(state => state.userDetailsReducer);
+  const { USER_DATA } = useSelector(state => state.userdatareducer);
 
   const [Data, setData] = useState([]);
   const [loading, setloading] = useState(false);
   const [editMode, setEditMode] = useState(false);
+  const [Selecteditnumber, setSelecteditnumber] = useState("");
+
   const [SelectMobileNumber, setSelectMobileNumber] = useState(0);
 
 
@@ -46,22 +49,24 @@ const Contact = ({ navigation }) => {
   const getData = () => {
 
     setloading(true)
-    dispatch(CONTACT_SET("mgetParticularCustomerContactDetails", loginData.data.token))
+    dispatch(CONTACT_SET({customer_unique_id:USER_DATA.customer_unique_id},"mgetParticularCustomerContactDetails", loginData.data.token))
     setloading(false)
 
   }
 
 
-  const setLocal = async (mobileNumber) => {
+  const setLocal = async (mobileNumber,name) => {
     await storeContactNumber(mobileNumber)
+    await storeName(name)
+
     setSelectMobileNumber(mobileNumber)
   }
 
 
   const GetLocal = async () => {
-    const getNumber =  await getContactNumber();
+    const getNumber = await getContactNumber();
     setSelectMobileNumber(getNumber)
-  
+
   }
 
 
@@ -90,18 +95,22 @@ const Contact = ({ navigation }) => {
             <CartBox>
               {Data && Data.length > 0 &&
                 Data.map((i, index) => (
-                  <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
-                    <View>
-                      <Text style={globalStyles.edit_heading}>{"Contact Name"}</Text>
-                      <CustumTextInput title={"Contact Name"} value={i.contact_name} />
-                      <Text style={[globalStyles.edit_heading, { marginTop: 15 }]}>{"Contact Number"}</Text>
-                      <CustumTextInput title={"Contact Number"} value={i.contact_number} />
-                    </View>
-                  </View>
+                  <>
+                    {Selecteditnumber == i.contact_number &&
+                      <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+                        <View>
+                          <Text style={globalStyles.edit_heading}>{"Contact Name"}</Text>
+                          <CustumTextInput title={"Contact Name"} value={i.contact_name} />
+                          <Text style={[globalStyles.edit_heading, { marginTop: 15 }]}>{"Contact Number"}</Text>
+                          <CustumTextInput title={"Contact Number"} value={i.contact_number} />
+                        </View>
+                      </View>
+                    }
+                  </>
                 ))}
 
               <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: 30 }}>
-                <TouchableOpacity onPress={() => { setEditMode(false) }} style={{ flexDirection: "row", justifyContent: "center" }}>
+                <TouchableOpacity onPress={() => { setEditMode(false); }} style={{ flexDirection: "row", justifyContent: "center" }}>
                   <MiniCartBox>
                     <AntDesign name="close" size={normalize(16)} color="white" />
                     <Text style={globalStyles.title}> Cancel</Text>
@@ -130,7 +139,7 @@ const Contact = ({ navigation }) => {
                   <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 20, }}>
 
                     <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center", }}>
-                      <TouchableOpacity onPress={() => {setLocal(i.contact_number) }} style={{ marginRight:20 }}>
+                      <TouchableOpacity onPress={() => { setLocal(i.contact_number,i.contact_name) }} style={{ marginRight: 20 }}>
                         {i.contact_number == SelectMobileNumber ?
                           <CheckedBox /> : <UnCheckedBox />
                         }
@@ -144,7 +153,7 @@ const Contact = ({ navigation }) => {
 
 
 
-                    <TouchableOpacity onPress={() => { setEditMode(true) }} style={{ flexDirection: "row", justifyContent: "center" }}>
+                    <TouchableOpacity onPress={() => { setEditMode(true) ; setSelecteditnumber(i.contact_number)}} style={{ flexDirection: "row", justifyContent: "center" }}>
                       <MiniCartBox>
                         <Feather name="edit-3" size={normalize(15)} color="white" />
                         <Text style={globalStyles.title}>   Edit</Text>

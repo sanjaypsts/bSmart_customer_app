@@ -17,6 +17,8 @@ import { normalize, wH, wW } from '../../helper/size';
 import { DrawerListButton } from './drawerHelper';
 import { useNavigation } from '@react-navigation/native';
 import { Relogin } from '../../../stateManage/auth/actions';
+import RNRestart from 'react-native-restart';
+
 // import { LogoutScreen } from '../../screen/auth/logout';
 
 
@@ -31,11 +33,13 @@ const Drawer = ({}) => {
 
 
 
-  const LogoutScreen = ( ) => {
+  const LogoutScreen =  async ( ) => {
    
-    dispatch(Relogin({ status:false,  data:{
+   await dispatch(Relogin({ status:false,data:{
       tocken:null
     }}))
+
+    RNRestart.Restart()
   }
 
   return (

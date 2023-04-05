@@ -9,8 +9,11 @@ import { globalStyles } from '../../helper/globalStyle';
 import { useTranslation } from 'react-i18next'
 import { useState } from 'react';
 import apicallHeaderPost from '../../../stateManage/apicallHeaderPost';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import LoadingModal from '../../component/loading';
+import { IMAGES } from '../../globalImage';
+import { storeCartCount } from '../../../stateManage/asynstorage/asyncStore';
+import { Product_Count_SET } from '../../../stateManage/userDetails/actions';
 
 
 
@@ -109,13 +112,21 @@ export const Search = ({ title }) => {
 
 
 
-export const HorizontalSingleCategoryCard = ({ imageSource, title, price, weight, quantity, product_id }) => {
-   
+export const HorizontalSingleCategoryCard = (props) => {
+
+    const { imageSource, title, price, weight, quantity, product_id } = props
+
+
+    const onChangenewCount = (newCount) => {
+        console.log(newCount)
+        // const { updateMasterState } = props;
+        // updateMasterState(updatedValue);
+    };
     return (
         <View style={{
             backgroundColor: "#46494F", height: 100, flexDirection: "row", alignItems: "center", marginTop: 20,
             shadowColor: "#000", borderColor: "white", borderWidth: 1,
-            borderRadius: 10,
+            borderRadius: 15,
             shadowOffset: {
                 width: 0,
                 height: 7,
@@ -127,7 +138,15 @@ export const HorizontalSingleCategoryCard = ({ imageSource, title, price, weight
         }}>
             <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", width: "100%", paddingHorizontal: 10 }}>
                 <View style={{ flexDirection: "row", alignItems: "center", width: '40%' }} >
-                    <Image source={{ uri: UPLOAD_IMAGE_PATH + imageSource }} style={{ width: normalize(70), height: normalize(70), borderRadius: 20, marginRight: 10 }} />
+
+                    {imageSource == undefined && imageSource == null ?
+                        <Image resizeMode="contain" source={IMAGES.AppLogo} style={{ width: normalize(70), height: normalize(70), borderRadius: 20, marginRight: 10 }} />
+                        :
+                        <Image resizeMode="contain" source={{ uri: UPLOAD_IMAGE_PATH + imageSource }} style={{ width: normalize(70), height: normalize(70), borderRadius: 20, marginRight: 10 }} />
+                    }
+
+
+
                     <View>
 
                         <Text style={{ color: "white", fontWeight: "700", fontSize: normalize(13), }}>{title}</Text>
@@ -139,8 +158,8 @@ export const HorizontalSingleCategoryCard = ({ imageSource, title, price, weight
                 </View>
 
                 <View style={{ flexDirection: "row", alignItems: "center", alignSelf: "flex-end" }}>
-                    <Text style={{ color: COLORS.appTextColor }}>${price}   </Text>
-                    <AddBotton quantity={quantity} product_id={product_id} />
+                    <Text style={{ color: COLORS.appTextColor }}>S${price.toFixed(2)}   </Text>
+                    <AddBotton quantity={quantity} product_id={product_id} updatequantity={(curentQty) => { onChangenewCount(curentQty) }} />
                 </View>
             </View>
 
@@ -153,8 +172,9 @@ export const HorizontalSingleCategoryCard = ({ imageSource, title, price, weight
 
 // Add btn
 export const AddBotton = (props) => {
+    const dispatch = useDispatch()
 
-    const { quantity, product_id,updatequantity } = props
+    const { quantity, product_id, updatequantity } = props
 
     const [quantity1, setQuantity] = useState(quantity);
     const [loading, setloading] = useState(false);
@@ -171,32 +191,47 @@ export const AddBotton = (props) => {
     // }
 
 
+    const setLocal = async (count) => {
+        
+        dispatch(Product_Count_SET({"total_Product_count": count}))
+        typeof (count)
+        console.log(count)
+        await storeCartCount(JSON.stringify(count))
+
+    }
+
 
     const AddCategory = (params) => {
-       
+        console.log("Add")
         setQuantity(params)
 
 
         setloading(true)
         let formData = new FormData();
-        formData.append('customer_id', 84);
+        formData.append('customer_id', 1);
         formData.append('product_id', product_id);
         formData.append('quantity', params);
-      
+
         apicallHeaderPost(formData, 'addCartDetail', loginData.data.token)
             .then(response => {
 
                 setloading(false)
                 if (response.status == 200 && response.data.status == true || response.data.status == 'true') {
-                 
-                    updatequantity(response.data.data.quantity)
-                 
+                    console.log("Add")
+                    const data = response.data.data.data_list.quantity
+                    // updatequantity(response.data.data.data_list.quantity)
+                    console.log(response.data.data.data_list.quantity)
+                    updatequantity(data)
 
+
+
+                    setLocal(response.data.data.data_total_count)
                 } else {
 
                 }
 
             }).catch(err => {
+                console.log("err", err.response.data)
                 setloading(false)
 
 
@@ -227,7 +262,7 @@ export const AddBotton = (props) => {
                 }
             </View>
 
-            {quantity1 <= 0  ?
+            {quantity1 <= 0 ?
                 <Text style={{ color: "white", fontSize: normalize(15) }}>{t('category.add')}</Text>
                 :
                 <Text style={{ color: "white", fontSize: normalize(15) }}>{quantity1}</Text>

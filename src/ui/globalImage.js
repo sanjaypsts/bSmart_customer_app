@@ -39,8 +39,12 @@ const IMAGES = {
   ItemsImage: require('../assets/image/3d_square.png'),
   Shopping_cart: require('../assets/image/shopping_cart.png'),
   billImage: require('../assets/image/bill.png'),
+  personalcard:require('../assets/image/personalcard.png'),
+  cardtick: require('../assets/image/card-tick.png'),
+
   Receipt_text: require('../assets/image/receipt-text.png'),
   truck: require('../assets/image/truck-tick.png'),
+  ContactUser: require('../assets/image/User.png'),
 
 
   

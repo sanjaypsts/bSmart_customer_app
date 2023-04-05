@@ -10,6 +10,7 @@ import { COLORS } from '../../helper/color';
 import { AddBotton } from '../category/categoryHelper';
 import { globalStyles } from '../../helper/globalStyle';
 import { useState } from 'react';
+import { useEffect } from 'react';
 
 
 
@@ -20,7 +21,7 @@ export const CartDivider = ({ imageSource, title }) => {
             <View style={{ height: 1, backgroundColor: "#8E8E8E", width: "30%" }}></View>
             <View style={{ flexDirection: 'row', alignItems: "center", justifyContent: "center" }}>
                 <Image source={imageSource} style={{ width: 20, height: 20, borderRadius: 10 }} />
-                <Text style={{ color: "white", letterSpacing: 5 }}> {title}</Text>
+                <Text style={[globalStyles.cart_title,{  letterSpacing: 5 }]}> {title}</Text>
 
             </View>
             <View style={{ height: 1, backgroundColor: "#8E8E8E", width: "30%" }}></View>
@@ -33,28 +34,36 @@ export const CartDivider = ({ imageSource, title }) => {
 
 
 export const ItemCartBox = (props) => {
-    const {title,price, quantity, product_id,updateCalculate } = props
+    const {title,price,weight, quantity, product_id,updateCalculate } = props
 
     const [quantity1, setQuantity] = useState(quantity);
+    let totalValue = (price * quantity1)
+
+    useEffect(() => {
+ console.log(price * quantity1)
+    }, [totalValue])
+    
     return (
         <>
    
      
+ 
+        
+    
             <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 5, alignItems: "center",width:"100%" }}>
                 <View style={{width:'70%'}}>
                     <Text style={globalStyles.cart_heading1}>{title}</Text>
-                    <Text style={globalStyles.cart_title}>10 KG</Text>
-                    <Text style={globalStyles.cart_title2}>$ {price}</Text>
+                    <Text style={globalStyles.cart_title}>{weight}</Text>
+                    <Text style={globalStyles.cart_title2}>S$ {(price).toFixed(2)}</Text>
 
                 </View>
 
                 <View style={{width:'30%',alignItems:"flex-end"}} >
                     <AddBotton quantity={quantity1} product_id={product_id} updatequantity={(curentQty) => {setQuantity(curentQty),updateCalculate(curentQty)}} />
-                    <Text style={[globalStyles.cart_title2,]}>$ {price * quantity1}  </Text>
+                    <Text style={[globalStyles.cart_title2,]}>S$ {(price * quantity1 != 'NaN' ?  price : price * quantity)}</Text>
                 </View>
             </View>
             <View style={{ height: 1, backgroundColor: "#8E8E8E", marginVertical:10 }}></View>
-
 
 
 

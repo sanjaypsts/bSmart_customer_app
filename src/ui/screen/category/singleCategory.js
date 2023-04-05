@@ -11,6 +11,9 @@ import { IMAGES } from '../../globalImage';
 import { useTranslation } from 'react-i18next'
 import { globalStyles } from '../../helper/globalStyle';
 
+import { getCartCount } from "../../../stateManage/asynstorage/asyncStore"
+import { useFocusEffect } from '@react-navigation/native';
+
 
 const SingleCategory = ({ route, navigation }) => {
   const { t, i18n } = useTranslation();
@@ -24,21 +27,47 @@ const SingleCategory = ({ route, navigation }) => {
   const [loading, setloading] = useState(false);
   const [currentCategory, setcurrentCategory] = useState("");
 
+
+  const [TotalProduct, setTotalProduct] = useState("");
   const routedata = route.params
 
-  useEffect(() => {
+    const { USER_DATA } = useSelector(state => state.userdatareducer);
+    const { TotalCount } = useSelector(state => state.ProductCountReducer);
+
+    useFocusEffect(
+      React.useCallback(() => {
+    GetLocal()
+
     if (routedata != undefined && routedata.id != undefined) {
       setcategoryData(category_Data)
       getData(routedata.id)
       setcurrentCategory(routedata.id)
+    } else {
+      {
+        category_Data[0] != undefined &&
+          getData(category_Data[0].id)
+        setcurrentCategory(category_Data[0].id)
+      }
     }
   }, [])
+  );
 
 
   const onChangeChild = (updatedValue) => {
     navigation.goBack(null)
   };
 
+
+
+  const GetLocal = async () => {
+    const getTotalCount = await getCartCount();
+    console.log("getTotalCount", getTotalCount)
+    setTotalProduct(getTotalCount)
+  }
+
+  useEffect(() => {
+    setTotalProduct(TotalCount.total_Product_count)
+  }, [TotalCount])
 
 
 
@@ -53,11 +82,14 @@ const SingleCategory = ({ route, navigation }) => {
     formData.append('sorting', JSON.stringify({ "id": "asc" }));
     apicallHeaderPost(formData/* {'category_unique_id':id,'limit':3,'page_number':1,'sorting':{"id":"asc"}} */, 'mfilterProductDetailsUsingCategoryId', loginData.data.token)
       .then(response => {
-      
+
 
         setloading(false)
         if (response.status == 200 && response.data.status == true || response.data.status == 'true') {
           setSingleCategoryData(response.data.data.data_list)
+          console.log(response.data.data.data_total_count,"bsduvbsudvb")
+          setTotalProduct(response.data.data.data_total_cart_count)
+
         } else {
 
         }
@@ -98,7 +130,7 @@ const SingleCategory = ({ route, navigation }) => {
           {SingleCategoryData && SingleCategoryData.length > 0 &&
             SingleCategoryData.map((i, index) => (
               <View key={index} >
-                <HorizontalSingleCategoryCard imageSource={i.image_url} title={i.product_name} price={i.standard_price} weight={i.unit_name} quantity={i.quantity} product_id={i.id} />
+                <HorizontalSingleCategoryCard imageSource={i.image_url} title={i.product_name} price={i.standard_price} weight={i.unit_name} quantity={i.quantity} product_id={i.id}  updateMasterState={(text) => { console.log("single") }}/>
               </View>
             ))}
         </ScrollView>
@@ -107,8 +139,19 @@ const SingleCategory = ({ route, navigation }) => {
 
         <View style={{ position: "absolute", bottom: 40, marginHorizontal: wW / 20, alignItems: "flex-end", width: "100%" }}>
 
-          <TouchableOpacity onPress={() => { navigation.push('Cart') }} style={{ height: 60, width: 60, borderRadius: 10, backgroundColor: "white", alignItems: "center", justifyContent: 'center' }}>
-            <Image resizeMode="contain" tintColor={"#333333"} style={[{ width: normalize(25), height: normalize(25), }]} source={IMAGES.Cart} />
+          <TouchableOpacity onPress={() => { navigation.push('Cart') }} style={{ height: 70, width: 65, borderRadius: 10, backgroundColor: "white", alignItems: "center", justifyContent: 'center' }}>
+            <View>
+              <Image resizeMode="contain" tintColor={"#333333"} style={[{ width: normalize(25), height: normalize(25), alignSelf: "center" }]} source={IMAGES.Cart} />
+
+              <View style={{ position: "absolute", width: normalize(30), height: normalize(25) }}>
+                <View style={{ backgroundColor: "red", width: normalize(18), height: normalize(18), alignSelf: "flex-end", borderRadius: 30, justifyContent: "center", alignItems: "center", bottom: normalize(5) }}>
+                  <Text style={{ color: "white", fontSize: normalize(10) }}>{TotalProduct}</Text>
+                </View>
+
+              </View>
+            </View>
+
+
             <Text style={[globalStyles.cart_title2, { color: "black" }]}>Cart</Text>
           </TouchableOpacity>
 

@@ -8,9 +8,25 @@ import Home from '../Home/home'
 import Category from '../category/category'
 import DrawerHeader from '../../component/header/header'
 import Orders from '../orders/orders'
+import { useEffect } from 'react'
+import { CUSTOMER_PROFILE_SET, Product_Count_SET } from '../../../stateManage/userDetails/actions'
+import { useDispatch, useSelector } from 'react-redux'
 
 
-const DashBoard = ({ navigation }) => {
+const DashBoard = ({ route, navigation }) => {
+    const routedata = route.params
+    let { loginData } = useSelector(state => state.loginReducer);
+ 
+
+ 
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        if (routedata != undefined && routedata.Screen != undefined) {
+            setintialBottom(routedata.Screen)
+        }
+    }, [routedata])
+
     const [intialBottom, setintialBottom] = useState('home');
 
     const handleCallback = (params) => {
@@ -27,7 +43,25 @@ const DashBoard = ({ navigation }) => {
         navigation.push('SingleCategory', { id, data })
 
     }
-  
+
+
+    useEffect(() => {
+        dispatch(CUSTOMER_PROFILE_SET({ "customer_unique_id": " "},"customerProfile",loginData.data.token))
+   
+   
+    }, [])
+
+
+
+    
+
+    useEffect(() => {
+     
+       dispatch(Product_Count_SET({"total_Product_count": ""}))
+        
+   
+    }, [])
+
     return (
         <BackGround>
             <DrawerHeader />
@@ -37,10 +71,7 @@ const DashBoard = ({ navigation }) => {
                     <Category singleCategory={CategoryCallback} /> :
                     intialBottom == 'Orders' ? <Orders /> : <Home />
 
-
-
                 }
-
             </ScrollView>
             <View style={[globalPaddingHorizontal, { position: "absolute", bottom: 30, width: wW }]}>
                 <DrawerBottom parentCallback={handleCallback} />

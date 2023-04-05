@@ -23,7 +23,7 @@
         "send_request": "Send Request",
         "login_instead": "Login Instead",
         "thanks": "Thanks!",
-        "thanks_descripton": "Warehouse admin will contact you soon regarding account creation"
+        "thanks_descripton": "Admin will contact you soon regarding account creation"
     },
     "category": {
         "category": "Category",
@@ -32,7 +32,7 @@
         "add": "ADD"
     },
     "cart":{
-        "cart":"cart"
+        "cart":"Cart"
 
 
     },

@@ -28,7 +28,7 @@ export const globalStyles = StyleSheet.create({
         fontSize: normalize(15), marginTop: normalize(5), paddingHorizontal: wW / 20, textAlign: "center", color: "#CCCCCC", fontFamily: "RedHatDisplay-Regular"
     },
     logininputText: {
-        color: COLORS.appTextColor, fontSize: normalize(16), marginLeft: 5, fontFamily: "RedHatDisplay-Regular"
+        color: COLORS.appTextColor, fontSize: normalize(16), marginLeft: 5, fontFamily: "RedHatDisplay-Regular",flex:1,marginRight:30
     },
     inputText: {
         color: COLORS.appTextColor, fontSize: normalize(16), borderBottomColor: "grey", borderBottomWidth: 2, fontFamily: "RedHatDisplay-Regular", width: "100%", height: 50
@@ -41,7 +41,7 @@ export const globalStyles = StyleSheet.create({
 
     // Apptitle
     appTitle: {
-        color: COLORS.appTextColor, fontSize: normalize(20), fontFamily: "RedHatDisplay-Regular",
+        color: COLORS.appTextColor, fontSize: normalize(25),fontFamily: "RedHatDisplay-Medium"
     },
     appSubtitle: {
         color: COLORS.appTextColor, fontSize: normalize(15), fontFamily: "RedHatDisplay-Regular",
@@ -94,7 +94,7 @@ export const globalStyles = StyleSheet.create({
 
 
 
-    // cart details
+    // cart details 
 
     cart_heading1: {
         color: COLORS.appTextColor, fontSize: normalize(16), fontFamily: "RedHatDisplay-Bold",

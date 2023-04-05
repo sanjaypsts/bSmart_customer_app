@@ -11,11 +11,12 @@ import { useTranslation } from 'react-i18next'
 import { CartBox, CheckedBox, Divider, globalStyles, SubmitBotton, UnCheckedBox } from '../../helper/globalStyle'
 import { useState } from 'react'
 import apicallHeaderPost from '../../../stateManage/apicallHeaderPost'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import LoadingModal from '../../component/loading'
 import { useFocusEffect } from '@react-navigation/native';
-import { getContactNumber } from '../../../stateManage/asynstorage/asyncStore'
+import { getContactName, getContactNumber } from '../../../stateManage/asynstorage/asyncStore'
+import { ADDRESS_SET } from '../../../stateManage/userDetails/actions'
 
 const Cart = ({ navigation }) => {
   const { t, i18n } = useTranslation();
@@ -23,6 +24,8 @@ const Cart = ({ navigation }) => {
   const { loginData } = useSelector(state => state.loginReducer);
   const { contact_Data } = useSelector(state => state.userDetailsReducer);
   const { address_Data } = useSelector(state => state.addressReducer);
+  const { USER_DATA } = useSelector(state => state.userdatareducer);
+
 
   const [loading, setloading] = useState(false);
 
@@ -33,6 +36,9 @@ const Cart = ({ navigation }) => {
   const [Balance_Credit, setBalance_Credit] = useState(0);
 
   const [SelectMobileNumber, setSelectMobileNumber] = useState("Select Contact");
+  const [SelectName, setSelectName] = useState("");
+
+  const dispatch = useDispatch()
 
 
 
@@ -56,17 +62,39 @@ const Cart = ({ navigation }) => {
       setData([])
       getData()
       GetLocalData()
+
     }, [])
   );
 
 
+  useEffect(() => {
+
+    dispatch(ADDRESS_SET({ customer_unique_id: USER_DATA.customer_unique_id }, "mgetParticularCustomershippingAddressDetails", loginData.data.token))
 
 
-  
+  }, [])
+
+
+
   const GetLocalData = async () => {
-    const getNumber =  await getContactNumber();
-    setSelectMobileNumber(getNumber)
-  
+    const getNumber = await getContactNumber();
+    const getName = await getContactName();
+
+
+
+
+    {
+      getNumber != null && getNumber != undefined &&
+        setSelectMobileNumber(getNumber)
+
+    }
+
+    {
+      getName != null && getName != undefined &&
+        setSelectName(getName)
+
+    }
+
   }
 
 
@@ -74,12 +102,14 @@ const Cart = ({ navigation }) => {
 
 
 
-    apicallHeaderPost({ 'customer_id': 84 }, 'getCartDetail', loginData.data.token)
+    apicallHeaderPost({ 'customer_id': USER_DATA.customer_unique_id },'getCartDetail', loginData.data.token)
       .then(response => {
         setloading(false)
         if (response.status == 200 && response.data.status == true || response.data.status == 'true') {
-          setData(response.data.data.data_list)
+        
 
+        
+          setData(response.data.data.data_list)
           const data = response.data.data.data_list
           const total_Price = (data.reduce((a, v) => a = a + v.total_price_without_tax, 0))
           const total_Price_with_Tax = (data.reduce((a, v) => a = a + v.total_price_with_tax, 0))
@@ -126,7 +156,7 @@ const Cart = ({ navigation }) => {
       }
     });
 
-  
+
 
 
     // const data = [{ "product_id": 6, "batch_id": "", "quantity": "1", "unit_id": 6, "unit_price": "5.00", "total_amount": "5.00", "gross_amount": "4.63", "tax_id": 2, "tax_amount": "0.37" }]
@@ -145,16 +175,16 @@ const Cart = ({ navigation }) => {
     formData.append('mobile_number', SelectMobileNumber);
     formData.append('payment_date', "2001-01-01");
 
- 
+
 
 
 
     apicallHeaderPost(formData, 'mcreateOrderDetails', loginData.data.token)
       .then(response => {
         setloading(false)
-        if (response.status == 200 && response.data.status == true || response.data.status == 'true') {
-         
+        if (response.status == 200 && response.status == 201 && response.data.status == true || response.data.status == 'true') {
 
+          console.log(response.data)
           navigation.push('PaymentSuccess')
         } else {
 
@@ -163,7 +193,7 @@ const Cart = ({ navigation }) => {
       }).catch(err => {
         setloading(false)
 
-     
+
 
         if (err) {
 
@@ -211,7 +241,7 @@ const Cart = ({ navigation }) => {
         <CartBox>
           <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 8 }}>
             <Text style={{ color: "white", fontWeight: "500", fontSize: normalize(16), }}>{"Subtotal"}</Text>
-            <Text style={{ color: "white", fontWeight: "500", fontSize: normalize(16), }}>$ {Subtotal.toFixed(1)}</Text>
+            <Text style={{ color: "white", fontWeight: "500", fontSize: normalize(16), }}>S$ {Subtotal.toFixed(2)}</Text>
           </View>
 
           <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 5 }}>
@@ -219,7 +249,7 @@ const Cart = ({ navigation }) => {
               <Image resizeMode='contain' source={IMAGES.Receipt_text} style={{ width: 18, height: 18, borderRadius: 10 }} />
               <Text style={{ color: COLORS.appTextColor, fontWeight: "400", fontSize: normalize(16), }}> Tax</Text>
             </View>
-            <Text style={{ color: COLORS.appTextColor, fontWeight: "400", fontSize: normalize(16), }}>$ {totalTax.toFixed(1)}</Text>
+            <Text style={{ color: COLORS.appTextColor, fontWeight: "400", fontSize: normalize(16), }}>S$ {totalTax.toFixed(2)}</Text>
           </View>
 
           <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 5 }}>
@@ -227,26 +257,35 @@ const Cart = ({ navigation }) => {
               <Image resizeMode='contain' source={IMAGES.truck} style={{ width: 18, height: 18, borderRadius: 10 }} />
               <Text style={{ color: COLORS.appTextColor, fontWeight: "400", fontSize: normalize(16), }}> Delivery</Text>
             </View>
-            <Text style={{ color: COLORS.appTextColor, fontWeight: "400", fontSize: normalize(16), }}>$ {deliveryAmt.toFixed(1)}</Text>
+            <Text style={{ color: COLORS.appTextColor, fontWeight: "400", fontSize: normalize(16), }}>S$ {deliveryAmt.toFixed(2)}</Text>
           </View>
           <View style={{ backgroundColor: "white", height: 0.5, width: "100%", marginVertical: 10 }}></View>
           <View style={{ flexDirection: "row", justifyContent: "space-between", }}>
             <Text style={{ color: "white", fontWeight: "500", fontSize: normalize(16), }}>{"Grand total"}</Text>
-            <Text style={{ color: "white", fontWeight: "500", fontSize: normalize(16), }}>$ {Grandtotal.toFixed(1)}</Text>
+            <Text style={{ color: "white", fontWeight: "500", fontSize: normalize(16), }}>S$ {Grandtotal.toFixed(2)}</Text>
           </View>
         </CartBox>
 
-        <CartDivider imageSource={IMAGES.billImage} title={'CONTACT '} />
+        <CartDivider imageSource={IMAGES.personalcard} title={'CONTACT '} />
 
 
 
-        <TouchableOpacity onPress={() =>  navigation.push('Contact')}>
+        <TouchableOpacity onPress={() => navigation.push('Contact')}>
           <CartBox>
             <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
-              <View>
-                <Text style={{ color: "white", fontWeight: "500", fontSize: normalize(16), }}>{SelectMobileNumber}</Text>
 
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <Image resizeMode='contain' source={IMAGES.ContactUser} style={{ width: normalize(35), height: normalize(35), borderRadius: 10, marginRight: 20 }} />
+
+                <View>
+                  {
+                    SelectName != undefined && SelectName != null && SelectName != "" &&
+                    <Text style={{ color: "white", fontWeight: "500", fontSize: normalize(16), }}>{SelectName}</Text>
+                  }
+                  <Text style={{ color: "white", fontWeight: "500", fontSize: normalize(16), }}>{SelectMobileNumber}</Text>
+                </View>
               </View>
+
               <View>
                 <Ionicons name="chevron-forward" size={normalize(25)} color="white" />
               </View>
@@ -280,13 +319,13 @@ const Cart = ({ navigation }) => {
 
 
 
-        <CartDivider imageSource={IMAGES.billImage} title={'PAYMENT MODE '} />
+        <CartDivider imageSource={IMAGES.cardtick} title={'PAYMENT MODE '} />
 
         <CartBox>
           <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
             <View>
               <Text style={{ color: "white", fontWeight: "500", fontSize: normalize(16), }}>{"Cash"}</Text>
-              <Text style={{ color: "white", fontWeight: "500", fontSize: normalize(16), }}>Balance Credit: ${Balance_Credit}</Text>
+              <Text style={{ color: "white", fontWeight: "500", fontSize: normalize(16), }}>Balance Credit: ${(Balance_Credit).toFixed(2)}</Text>
             </View>
             <View>
               {/* <Ionicons name="chevron-forward" size={normalize(25)} color="white" /> */}

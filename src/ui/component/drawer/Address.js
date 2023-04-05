@@ -47,6 +47,7 @@ export default Address = ({ navigation }) => {
   const { t, i18n } = useTranslation();
   const { loginData } = useSelector(state => state.loginReducer);
   const { address_Data } = useSelector(state => state.addressReducer);
+  let { USER_DATA } = useSelector(state => state.userdatareducer);
 
   const [Data, setData] = useState([]);
   const [loading, setloading] = useState(false);
@@ -72,7 +73,7 @@ export default Address = ({ navigation }) => {
   const getData = () => {
 
     setloading(true)
-    dispatch(ADDRESS_SET("mgetParticularCustomershippingAddressDetails", loginData.data.token))
+    dispatch(ADDRESS_SET({customer_unique_id:USER_DATA.customer_unique_id},"mgetParticularCustomershippingAddressDetails", loginData.data.token))
     setloading(false)
   }
 

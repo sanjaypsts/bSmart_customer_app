@@ -8,6 +8,7 @@ import LoadingModal from '../../component/loading'
 import { globalStyles } from '../../helper/globalStyle'
 import { useTranslation } from 'react-i18next'
 import { Category_SET } from '../../../stateManage/category/actions'
+import { useFocusEffect } from '@react-navigation/native'
 
 const Category = (props) => {
     const { loginData } = useSelector(state => state.loginReducer);
@@ -19,13 +20,28 @@ const Category = (props) => {
 
     const dispatch = useDispatch()
 
-    useEffect(() => {
-        getData()
-    }, [])
+    // useEffect(() => {
+    //     getData()
+    // }, [])
 
-    useEffect(() => {
-        setCategoryData(category_Data)
-    }, [category_Data])
+
+    useFocusEffect(
+        React.useCallback(() => {
+            getData()
+        }, [])
+      );
+
+
+      useFocusEffect(
+        React.useCallback(() => {
+            setCategoryData(category_Data)
+        }, [category_Data])
+      );
+    
+
+    // useEffect(() => {
+    //     setCategoryData(category_Data)
+    // }, [category_Data])
    
     const getData = () => {
         setloading(true)

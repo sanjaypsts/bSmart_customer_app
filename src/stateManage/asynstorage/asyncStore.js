@@ -12,6 +12,16 @@ export const storeContactNumber = async (value) => {
     }
   }
 
+  
+export const storeName = async (value) => {
+  try {
+ 
+    await AsyncStorage.setItem('SelectedName',value);
+  } catch (e) {
+    // saving error
+  }
+}
+
 
     export const getContactNumber = async () => {
     try {
@@ -28,8 +38,47 @@ export const storeContactNumber = async (value) => {
   }
 
 
+  
+  export const getContactName = async () => {
+    try {
+        const value = await AsyncStorage.getItem('SelectedName')
+        if(value){
+          
+            return value;
+        }else {
+            return null;
+        }
+    } catch(e) {
+      // error reading value
+    }
+  }
 
 
+
+
+
+  export const storeCartCount = async (value) => {
+    try {
+      await AsyncStorage.setItem('TotalSelectProduct',value);
+    } catch (e) {
+      // saving error
+    }
+  }
+
+
+  export const getCartCount = async () => {
+    try {
+        const value = await AsyncStorage.getItem('TotalSelectProduct')
+        if(value){
+          
+            return value;
+        }else {
+            return null;
+        }
+    } catch(e) {
+      // error reading value
+    }
+  }
 
 
 

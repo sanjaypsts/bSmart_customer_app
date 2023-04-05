@@ -49,17 +49,17 @@ export const LoginInput = (props) => {
 
 
                 {passwordEye &&
-                    <>
+                    <View style={{right:30}}>
                         {passwordVisible ?
                             <TouchableOpacity onPress={() => setPasswordVisible(!passwordVisible)}>
-                                <Ionicons name="eye-outline" size={normalize(25)} color="white" />
+                                <Ionicons name="eye-outline" size={normalize(20)} color="white" />
                             </TouchableOpacity>
                             :
                             <TouchableOpacity onPress={() => setPasswordVisible(!passwordVisible)}>
-                                <Ionicons name="eye-off-outline" size={normalize(25)} color="white" />
+                                <Ionicons name="eye-off-outline" size={normalize(20)} color="white" />
                             </TouchableOpacity>
                         }
-                    </>
+                    </View>
                 }
 
 

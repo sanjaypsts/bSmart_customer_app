@@ -6,11 +6,20 @@ import { globalStyles } from '../../helper/globalStyle';
 import { IMAGES } from '../../globalImage';
 import { normalize } from '../../helper/size';
 
-const Success = () => {
+import BackBottonHeader from '../../component/header/dashboardHeader';
+
+
+const Success = ({navigation}) => {
+    const onChangeChild = (updatedValue) => {
+        navigation.push('Login')
+      };
+    
     
     const { t, i18n } = useTranslation();
     return (
         <BackGround>
+        <BackBottonHeader updateSingleCategory={(text) => { onChangeChild(false) }} />
+
             <View style={{ justifyContent: "center", alignItems: "center", flex: 1 }}>
             <Image style={[{ width: normalize(150), height: normalize(150), }]} source={IMAGES.Thanks} />
 

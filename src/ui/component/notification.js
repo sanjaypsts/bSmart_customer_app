@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux'
 import { OrderNotification, OTPNotification } from '../globalSvg'
 import { normalize } from '../helper/size'
 import LoadingModal from './loading'
+import NoDataFound from '../errorHandle/noDataFound'
 
 
 const Notification = ({ navigation }) => {
@@ -36,9 +37,9 @@ const Notification = ({ navigation }) => {
 
     setloading(true)
 
-    apicallHeaderPost({ 'limit': 3, }, 'getCustomerNotificationDetails', loginData.data.token)
+    apicallHeaderPost({ 'limit': 50, }, 'getCustomerNotificationDetails', loginData.data.token)
       .then(response => {
-   
+
 
         setloading(false)
         if (response.data.status == true || response.data.status == 'true') {
@@ -65,7 +66,7 @@ const Notification = ({ navigation }) => {
 
     return (
       <View style={{ flexDirection: 'row', marginHorizontal: 10, marginVertical: 10 }}>
-        <View style={{ width: 50,height: 50, justifyContent: 'center', alignItems: 'center',backgroundColor:"#424445",borderRadius:30 }}>
+        <View style={{ width: 50, height: 50, justifyContent: 'center', alignItems: 'center', backgroundColor: "#424445", borderRadius: 30 }}>
           {item.type == 'OTP' ? <OTPNotification width={normalize(20)} height={normalize(20)} /> : <OrderNotification width={normalize(20)} height={normalize(20)} />}
         </View>
         <View style={{ marginHorizontal: 5 }}>
@@ -79,17 +80,22 @@ const Notification = ({ navigation }) => {
 
   return (
     <BackGround>
-        <LoadingModal loading={loading} setloading={setloading} />
+      <LoadingModal loading={loading} setloading={setloading} />
 
       <BackBottonHeader updateSingleCategory={(text) => { goBack(false) }} />
 
       <Text style={globalStyles.appTitle}>{t('Notifications.notifications')}</Text>
 
-      <FlatList
-        data={DATA}
-        renderItem={(item) => renderNotificationItem(item)}
-      />
 
+
+      {DATA.length == 0 ? <NoDataFound /> :
+
+
+        <FlatList
+          data={DATA}
+          renderItem={(item) => renderNotificationItem(item)}
+        />
+      }
     </BackGround>
   )
 }

@@ -13,7 +13,7 @@ const initialState = {
 function loginReducer(state = initialState, action) {
   switch (action.type) {
     case GET_LOGIN_DATA:
-      return {login:false, loginData: action.payload};
+      return {login:false,loginData: action.payload};
     default:
       return state;
   }

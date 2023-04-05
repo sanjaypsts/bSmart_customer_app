@@ -16,13 +16,14 @@ import { globalStyles, GradiateText, SubmitBotton } from '../../helper/globalSty
 const Login = ({ navigation }) => {
 
     const dispatch = useDispatch()
-    const [username, setUsername] = useState('cuswms@wms.com');
+    const [username, setUsername] = useState('cuswms@gmail.com');
     const [password, setPassword] = useState('Admin123@');
     const [error, seterrorMessage] = useState('');
 
     const [loading, setLoading] = useState(false);
 
     const authentication = async () => {
+        console.log("true")
         setLoading(true)
         apicall({ 'login_email': username, 'password': password }, 'mcustomerLogin')
             .then(response => {
@@ -33,6 +34,9 @@ const Login = ({ navigation }) => {
 
                 }
             }).catch(err => {
+                console.log(err)
+                console.log(err.response)
+
                 setLoading(false)
                 if (err.response.status == 400) {
 
