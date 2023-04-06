@@ -5,7 +5,7 @@ import { normalize, wW } from "./size";
 import LinearGradient from 'react-native-linear-gradient'
 import MaskedView from '@react-native-masked-view/masked-view';
 
-
+export const Dateformat =  'ddd, D MMM, Y • HH:mm';
 
 export const globalStyles = StyleSheet.create({
 

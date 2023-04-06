@@ -17,6 +17,8 @@ import LoadingModal from '../../component/loading'
 import { useFocusEffect } from '@react-navigation/native';
 import { getContactName, getContactNumber } from '../../../stateManage/asynstorage/asyncStore'
 import { ADDRESS_SET } from '../../../stateManage/userDetails/actions'
+import { Category_SET } from '../../../stateManage/category/actions'
+import Toast from 'react-native-simple-toast';
 
 const Cart = ({ navigation }) => {
   const { t, i18n } = useTranslation();
@@ -25,6 +27,7 @@ const Cart = ({ navigation }) => {
   const { contact_Data } = useSelector(state => state.userDetailsReducer);
   const { address_Data } = useSelector(state => state.addressReducer);
   const { USER_DATA } = useSelector(state => state.userdatareducer);
+
 
 
   const [loading, setloading] = useState(false);
@@ -74,6 +77,13 @@ const Cart = ({ navigation }) => {
 
   }, [])
 
+  useEffect(() => {
+    dispatch(Category_SET("mgetCategoryDetails", loginData.data.token))
+
+
+
+  })
+
 
 
   const GetLocalData = async () => {
@@ -102,14 +112,14 @@ const Cart = ({ navigation }) => {
 
 
 
-    apicallHeaderPost({ 'customer_id': USER_DATA.customer_unique_id },'getCartDetail', loginData.data.token)
+
+
+    apicallHeaderPost({ 'customer_id': USER_DATA.customer_unique_id }, 'getCartDetail', loginData.data.token)
       .then(response => {
         setloading(false)
         if (response.status == 200 && response.data.status == true || response.data.status == 'true') {
-        
-
-        
           setData(response.data.data.data_list)
+
           const data = response.data.data.data_list
           const total_Price = (data.reduce((a, v) => a = a + v.total_price_without_tax, 0))
           const total_Price_with_Tax = (data.reduce((a, v) => a = a + v.total_price_with_tax, 0))
@@ -136,6 +146,8 @@ const Cart = ({ navigation }) => {
 
 
   const Place_order = () => {
+
+
     setloading(true)
     let formData = new FormData();
 
@@ -196,20 +208,43 @@ const Cart = ({ navigation }) => {
 
 
         if (err) {
+   
+          const data = [err.response.data.data]
 
+
+     
+          for (var i = 0; i < 1; i++) {
+            for (var key in data[i]) {
+              // console.log(data[i][key]);
+              Toast.showWithGravity(data[i][key], Toast.LONG, Toast.BOTTOM);
+
+            }
+          }
+
+
+
+
+
+
+
+          // for (var i = 0; i < peoples.length; i++) {
+          //   for (var key in peoples[i]) {
+          //     console.log(key + ' == ' + peoples[i][key]);
+          //   }
+          // }
         }
       })
 
   }
 
 
-
+  console.log("Data", Data)
 
   return (
     <BackGround>
       <LoadingModal loading={loading} setloading={setloading} />
 
-      <BackBottonHeader updateSingleCategory={() => { navigation.goBack(null) }} />
+      <BackBottonHeader updateSingleCategory={() => { navigation.push("DashBoard") }} />
       <Text style={globalStyles.appTitle}>{t('cart.cart')}</Text>
 
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -219,7 +254,7 @@ const Cart = ({ navigation }) => {
         <CartBox>
           {Data && Data.length > 0 &&
             Data.map((i, index) => (
-              <ItemCartBox title={i.product_name} price={i.standard_price} weight={i.unit_name} quantity={i.quantity} product_id={i.product_id} updateCalculate={() => getData()} />
+              <ItemCartBox title={i.product_name} price={i.standard_price} weight={i.unit_name} quantity={i.quantity} product_id={i.product_id} totalPrice={i.total_price_with_tax} updatequantity={(data) => getData()} />
             ))}
           <TouchableOpacity onPress={() => { navigation.push('SingleCategory') }} style={{ flexDirection: 'row', alignItems: "center", width: "100%", justifyContent: "space-between" }}>
             <View style={{ flexDirection: 'row', alignItems: "center", }}>
@@ -325,7 +360,7 @@ const Cart = ({ navigation }) => {
           <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
             <View>
               <Text style={{ color: "white", fontWeight: "500", fontSize: normalize(16), }}>{"Cash"}</Text>
-              <Text style={{ color: "white", fontWeight: "500", fontSize: normalize(16), }}>Balance Credit: ${(Balance_Credit).toFixed(2)}</Text>
+              <Text style={{ color: "white", fontWeight: "500", fontSize: normalize(16), }}>Balance Credit: S${(Balance_Credit).toFixed(2)}</Text>
             </View>
             <View>
               {/* <Ionicons name="chevron-forward" size={normalize(25)} color="white" /> */}

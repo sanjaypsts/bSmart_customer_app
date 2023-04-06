@@ -14,6 +14,7 @@ import LoadingModal from '../../component/loading';
 import { IMAGES } from '../../globalImage';
 import { storeCartCount } from '../../../stateManage/asynstorage/asyncStore';
 import { Product_Count_SET } from '../../../stateManage/userDetails/actions';
+import Imagewithloader from '../../component/imageloading';
 
 
 
@@ -21,6 +22,7 @@ import { Product_Count_SET } from '../../../stateManage/userDetails/actions';
 
 
 export const CategoryCard = ({ imageSource, title }) => {
+
 
     return (
         <View style={{
@@ -36,8 +38,9 @@ export const CategoryCard = ({ imageSource, title }) => {
 
             elevation: 15,
         }}>
-            <Image resizeMode='contain' source={{ uri: UPLOAD_IMAGE_PATH + imageSource }} style={{ width: normalize(90), height: normalize(90), borderRadius: 20 }} />
+            {/* <Image resizeMode='contain' source={{ uri: UPLOAD_IMAGE_PATH + imageSource }} style={{ width: normalize(90), height: normalize(90), borderRadius: 20 }} /> */}
 
+            <Imagewithloader imageurl={{ uri: `${UPLOAD_IMAGE_PATH + imageSource}` }} style={{width: normalize(90), height: normalize(90),}} imageStyle={{borderRadius: 20}}/>
 
             <View style={{ height: 40, alignItems: "center", justifyContent: "center" }} >
 
@@ -199,10 +202,8 @@ export const AddBotton = (props) => {
         await storeCartCount(JSON.stringify(count))
 
     }
-
-
     const AddCategory = (params) => {
-        console.log("Add")
+  
         setQuantity(params)
 
 
@@ -223,7 +224,7 @@ export const AddBotton = (props) => {
                     console.log(response.data.data.data_list.quantity)
                     updatequantity(data)
 
-
+                    setQuantity(response.data.data.data_list.quantity)
 
                     setLocal(response.data.data.data_total_count)
                 } else {
@@ -256,7 +257,7 @@ export const AddBotton = (props) => {
 
             <View>
                 {quantity1 >= 1 &&
-                    <TouchableOpacity onPress={() => { AddCategory(quantity1 - 1) }} style={{ width: 30, height: 30, backgroundColor: "white", borderRadius: 50, alignItems: "center", justifyContent: "center", }}>
+                    <TouchableOpacity onPress={() => { AddCategory(parseInt(quantity1) - 1) }} style={{ width: 30, height: 30, backgroundColor: "white", borderRadius: 50, alignItems: "center", justifyContent: "center", }}>
                         <Text >-</Text>
                     </TouchableOpacity>
                 }
@@ -268,7 +269,7 @@ export const AddBotton = (props) => {
                 <Text style={{ color: "white", fontSize: normalize(15) }}>{quantity1}</Text>
 
             }
-            <TouchableOpacity onPress={() => { AddCategory(quantity1 + 1) }} style={{ width: 25, height: 25, backgroundColor: "white", borderRadius: 50, alignItems: "center", justifyContent: "center", }}>
+            <TouchableOpacity onPress={() => { AddCategory(parseInt(quantity1) + 1) }} style={{ width: 25, height: 25, backgroundColor: "white", borderRadius: 50, alignItems: "center", justifyContent: "center", }}>
                 <Text >+</Text>
             </TouchableOpacity>
 

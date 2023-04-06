@@ -73,7 +73,7 @@ const OrderDetails = ({ route, navigation }) => {
                                                 <Text style={globalStyles.order_title2}>Quantity: {i.quantity}</Text>
                                             </View>
                                             <View style={{ alignItems: "center", justifyContent: "center" }}>
-                                                <Text numberOfLines={1} style={[globalStyles.order_heading1]}>{"S$50"} </Text>
+                                                <Text numberOfLines={1} style={[globalStyles.order_heading1]}>S$ {i.per_unit_itemcost.toFixed(2)} </Text>
                                             </View>
                                         </View>
                                         <View style={{ height: 1, backgroundColor: "#8E8E8E", marginVertical: 10 }}></View>
@@ -95,7 +95,7 @@ const OrderDetails = ({ route, navigation }) => {
                             <View style={{ justifyContent: "center", }}>
                                 <Text style={{ color: "white", fontWeight: "500", fontSize: normalize(16), }}>{"Customer 4"}</Text>
 
-                                <Text style={{ color: "white", fontWeight: "500", fontSize: normalize(16), }}>{"+65 654987321"}</Text>
+                                <Text style={{ color: "white", fontWeight: "500", fontSize: normalize(16), }}>+65 {orderDetailsData.mobile_number}</Text>
                             </View>
                         </CartBox>
                         </View>
@@ -148,7 +148,7 @@ const OrderDetails = ({ route, navigation }) => {
                                     <Text style={[globalStyles.cart_title, {}]}> {"Bill Total"}</Text>
                                 </View>
                                 <View style={{ justifyContent: "center", }}>
-                                    <Text style={{ color: "white", fontWeight: "500", fontSize: normalize(16), }}>{"$150.99 "}</Text>
+                                    <Text style={{ color: "white", fontWeight: "500", fontSize: normalize(16), }}>S$ {orderDetailsData.sub_total.toFixed(2)}</Text>
 
                                 </View>
                             </CartBox>

@@ -9,16 +9,19 @@ import Category from '../category/category'
 import DrawerHeader from '../../component/header/header'
 import Orders from '../orders/orders'
 import { useEffect } from 'react'
-import { CUSTOMER_PROFILE_SET, Product_Count_SET } from '../../../stateManage/userDetails/actions'
+import { CONTACT_SET, CUSTOMER_PROFILE_SET, Product_Count_SET } from '../../../stateManage/userDetails/actions'
 import { useDispatch, useSelector } from 'react-redux'
+import { Category_SET } from '../../../stateManage/category/actions'
 
 
 const DashBoard = ({ route, navigation }) => {
     const routedata = route.params
-    let { loginData } = useSelector(state => state.loginReducer);
- 
+    const { loginData } = useSelector(state => state.loginReducer);
+    const { USER_DATA } = useSelector(state => state.userdatareducer);
 
- 
+    const { contact_Data } = useSelector(state => state.userDetailsReducer);
+
+
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -26,6 +29,21 @@ const DashBoard = ({ route, navigation }) => {
             setintialBottom(routedata.Screen)
         }
     }, [routedata])
+    
+    useEffect(() => {
+        // dispatch(CONTACT_SET({ customer_unique_id: USER_DATA.customer_unique_id }, "mgetParticularCustomerContactDetails", loginData.data.token))
+        dispatch(Category_SET("mgetCategoryDetails", loginData.data.token))
+
+    })
+
+
+
+//     useEffect(() => {
+//   console.log("contact_Data",contact_Data)
+//     }, [])
+
+
+
 
     const [intialBottom, setintialBottom] = useState('home');
 
@@ -46,21 +64,30 @@ const DashBoard = ({ route, navigation }) => {
 
 
     useEffect(() => {
-        dispatch(CUSTOMER_PROFILE_SET({ "customer_unique_id": " "},"customerProfile",loginData.data.token))
-   
-   
+
+        dispatch(CUSTOMER_PROFILE_SET({ "customer_unique_id": " " }, "customerProfile", loginData.data.token))
+
     }, [])
 
 
 
-    
+
 
     useEffect(() => {
-     
-       dispatch(Product_Count_SET({"total_Product_count": ""}))
-        
-   
+        dispatch(Product_Count_SET({ "total_Product_count": "" }))
     }, [])
+
+
+
+
+
+
+
+
+  
+
+
+
 
     return (
         <BackGround>

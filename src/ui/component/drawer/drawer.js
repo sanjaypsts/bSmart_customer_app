@@ -93,7 +93,14 @@ const Drawer = ({}) => {
                       <MaterialIcons name="logout" size={normalize(25)} color="white" />
 
                     </TouchableOpacity>
+
+
+
+                    <TouchableOpacity onPress={() => {LogoutScreen()}} style={{}}>
+                   
                     <Text style={[globalStyles.loginHeading, { marginTop: 0, fontSize: normalize(18) }]}>  Logout</Text>
+
+                    </TouchableOpacity>
                   </View>
 
 

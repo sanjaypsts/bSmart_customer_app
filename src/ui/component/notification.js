@@ -10,6 +10,7 @@ import { OrderNotification, OTPNotification } from '../globalSvg'
 import { normalize } from '../helper/size'
 import LoadingModal from './loading'
 import NoDataFound from '../errorHandle/noDataFound'
+import Toast from 'react-native-simple-toast';
 
 
 const Notification = ({ navigation }) => {
@@ -18,15 +19,12 @@ const Notification = ({ navigation }) => {
   const [loading, setloading] = useState(false);
   const { loginData } = useSelector(state => state.loginReducer);
 
-
   const goBack = () => {
     navigation.goBack(null)
   };
 
   useEffect(() => {
-
     getData()
-
   }, [])
 
 
@@ -34,30 +32,31 @@ const Notification = ({ navigation }) => {
 
   const getData = () => {
     setDATA([])
-
     setloading(true)
-
     apicallHeaderPost({ 'limit': 50, }, 'getCustomerNotificationDetails', loginData.data.token)
       .then(response => {
-
-
         setloading(false)
-        if (response.data.status == true || response.data.status == 'true') {
+        if (response.status == 200 && response.data.status == true || response.data.status == 'true' && response.data.data != undefined && response.data.data.notification_list != undefined) {
           setDATA(response.data.data.notification_list)
         } else {
 
         }
-
       }).catch(err => {
         setloading(false)
+        if (err.status == 401) {
 
-
-
-        if (err) {
-
+        } else {
+          {
+            err.response != undefined && err.response.data.message != undefined ?
+              Toast.showWithGravity(err.response.data.message, Toast.SHORT, Toast.BOTTOM)
+              :
+              Toast.showWithGravity("'Somthing went wrong'", Toast.LONG, Toast.BOTTOM)
+          }
         }
+
       })
   }
+
 
 
 
@@ -78,6 +77,12 @@ const Notification = ({ navigation }) => {
     )
   }
 
+  const onRefresh = async () => {
+ 
+    getData()
+
+  };
+
   return (
     <BackGround>
       <LoadingModal loading={loading} setloading={setloading} />
@@ -93,6 +98,8 @@ const Notification = ({ navigation }) => {
 
         <FlatList
           data={DATA}
+          onRefresh={onRefresh}
+          refreshing={loading}
           renderItem={(item) => renderNotificationItem(item)}
         />
       }

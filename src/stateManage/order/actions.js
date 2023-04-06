@@ -15,6 +15,7 @@ export const Order_SET = (data,url, value) => {
 
       apicallHeaderPost(data,url, value)
         .then(response => {
+          console.log(response)
           if (response.status == 200 && response.data.status == true || response.data.status == 'true') {
             dispatch({
               type: SET_ORDER_DATA,
@@ -25,7 +26,7 @@ export const Order_SET = (data,url, value) => {
         }).catch(err => {
         
           if (err) {
-           
+            console.log("err",err.response.data)
           }
         })
     };
