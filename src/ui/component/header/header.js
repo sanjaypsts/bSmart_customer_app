@@ -20,7 +20,7 @@ const DrawerHeader = ({}) => {
     }
     try {
         return (
-            <>
+            <View>
 
 
                 <View style={{ height: 70, alignItems: "center", flexDirection: 'row', justifyContent: "space-between" }}>
@@ -40,7 +40,7 @@ const DrawerHeader = ({}) => {
                 </View>
 
 
-            </>
+            </View>
         )
     } catch {
 

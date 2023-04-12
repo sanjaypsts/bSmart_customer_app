@@ -26,9 +26,11 @@ export const CategoryCard = ({ imageSource, title }) => {
 
     return (
         <View style={{
-            alignItems: "center", backgroundColor: "#464A50", width: 115, alignSelf: "flex-start",
+            alignItems: "center", backgroundColor: COLORS.lightdefaultcolor, width: 115, alignSelf: "flex-start",
             shadowColor: "#000", borderColor: "white", borderWidth: 1, marginTop: 10, padding: 5,/* marginHorizontal:2, */
             borderRadius: 20,
+            borderColor:'black',
+            borderWidth:1,
             shadowOffset: {
                 width: 0,
                 height: 7,
@@ -37,7 +39,8 @@ export const CategoryCard = ({ imageSource, title }) => {
             shadowRadius: 9.51,
 
             elevation: 15,
-        }}>
+        }}
+        >
             {/* <Image resizeMode='contain' source={{ uri: UPLOAD_IMAGE_PATH + imageSource }} style={{ width: normalize(90), height: normalize(90), borderRadius: 20 }} /> */}
 
             <Imagewithloader imageurl={{ uri: `${UPLOAD_IMAGE_PATH + imageSource}` }} style={{width: normalize(90), height: normalize(90),}} imageStyle={{borderRadius: 20}}/>

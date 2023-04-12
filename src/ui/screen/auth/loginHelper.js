@@ -26,12 +26,26 @@ export const LoginInput = (props) => {
     const lineColor = err == undefined || err == '' || err == null ? ['#01E3AD', '#01289D'] : [COLORS.ErrorMsg, COLORS.ErrorMsg]
     return (
 
-        <View style={{}}>
-         
+        <View style={{
+            backgroundColor: "#ECFAEC",
+            borderLeftWidth: 5, borderLeftColor: "#5ed85e",
+            shadowColor: 'black',
+            borderRadius: 5,
+            shadowOffset: {
+                // width: 0,
+                // height: 10,
+            },
+            // shadowOpacity: 0.20,
+            // shadowRadius: 9.51,
+
+            elevation: 3,
+
+        }}>
+
             <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", flexDirection: "row" }}>
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
 
-                    <Image  resizeMode='contain' style={[{ width: normalize(25), height: normalize(25), }]} source={imageSource} />
+                    <Image resizeMode='contain' style={[{ width: normalize(20), height: normalize(20), marginLeft: 10 }]} source={imageSource} />
                     <TextInput
                         placeholder={title}
                         value={value}
@@ -49,7 +63,7 @@ export const LoginInput = (props) => {
 
 
                 {passwordEye &&
-                    <View style={{right:30}}>
+                    <View style={{ right: 30 }}>
                         {passwordVisible ?
                             <TouchableOpacity onPress={() => setPasswordVisible(!passwordVisible)}>
                                 <Ionicons name="eye-outline" size={normalize(20)} color="white" />
@@ -66,7 +80,7 @@ export const LoginInput = (props) => {
             </View>
 
 
-            <LinearGradient
+            {/* <LinearGradient
                 colors={lineColor}
                 start={{ x: 0.0, y: 1.0 }} end={{ x: 1.0, y: 1.0 }}
                 style={{
@@ -84,9 +98,9 @@ export const LoginInput = (props) => {
                 }}
             >
 
-            </LinearGradient>
+            </LinearGradient> */}
 
-            {passwordEye &&
+            {passwordEye && err >= 1 &&
                 <Text style={{ alignSelf: "flex-end", color: COLORS.ErrorMsg, fontSize: normalize(16), fontFamily: "RedHatDisplay-Regular" }}>{err}</Text>
 
             }

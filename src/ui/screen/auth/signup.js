@@ -57,7 +57,7 @@
 
 // const styles = StyleSheet.create({})
 
-import { View, Button, Text, StyleSheet, TextInput, TouchableOpacity, KeyboardAvoidingView, ScrollView, Image, Platform } from 'react-native';
+import { View, Button, Text, StyleSheet, TextInput, TouchableOpacity, KeyboardAvoidingView, ScrollView, Image, Platform, ImageBackground } from 'react-native';
 import React, { useEffect, useState } from 'react'
 import BackGround from '../../component/backgroundImage'
 import { AppLogo } from '../../globalSvg'
@@ -70,6 +70,7 @@ import { Relogin } from '../../../stateManage/auth/actions';
 import apicall from '../../../stateManage/apicall';
 import { useTranslation } from "react-i18next";
 import { globalStyles, GradiateText, SubmitBotton } from '../../helper/globalStyle';
+import { COLORS } from '../../helper/color';
 
 const Login = ({ navigation }) => {
     const dispatch = useDispatch()
@@ -87,19 +88,19 @@ const Login = ({ navigation }) => {
     const createAccount = async () => {
         setLoading(true)
         let formData = new FormData();
-        formData.append('customer_name',name);
-        formData.append('office_contact_number',contactNumber);
-        formData.append('customer_email',email);
+        formData.append('customer_name', name);
+        formData.append('office_contact_number', contactNumber);
+        formData.append('customer_email', email);
         apicall(formData, 'mcreateCustomerDetails')
             .then(response => {
                 setLoading(false)
                 if (response.data.status == true || response.data.status == 'true') {
-        
+
                     navigation.push('Success')
-                } 
+                }
             }).catch(err => {
                 setLoading(false)
-             
+
                 if (err.response.status == 400) {
                     seterrorMessage(err.response.data.message)
                 }
@@ -119,10 +120,12 @@ const Login = ({ navigation }) => {
                 behavior={Platform.OS === 'ios' ? 'padding' : 'position'}
                 style={styles.container}>
 
-                <BackGround>
+                <BackGround cureentScreen={"login"}>
 
-                    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-                        <AppLogo width={normalize(100)} height={normalize(100)} />
+                    <View style={{ flex: 1, alignItems: "center" }}>
+                        <ImageBackground style={[{ width: wW, height: 250, justifyContent: "center", alignItems: "center" }]} source={IMAGES.loginBg} >
+                            <AppLogo width={normalize(100)} height={normalize(100)} />
+                        </ImageBackground>
 
                         {/* create Account title */}
                         <Text style={globalStyles.loginHeading}><Text>{t('login.create_account')}</Text></Text>
@@ -156,15 +159,15 @@ const Login = ({ navigation }) => {
                         </View>
 
 
-                        <TouchableOpacity style={{ borderWidth: 1, borderColor: "white", borderRadius: 10, justifyContent: "center", alignItems: 'center', flexDirection: "row", paddingHorizontal: 15, }}>
+                        <TouchableOpacity style={{ borderWidth: 1, borderColor: "green", borderRadius: 25, justifyContent: "center", alignItems: 'center', flexDirection: "row", paddingVertical: 2, paddingHorizontal: 50 }}>
                             <Image style={[{ width: normalize(18), height: normalize(20), }]} source={IMAGES.GoogleIcon} />
-                            <Text style={{ color: "white", margin: 10, fontSize: normalize(15), fontWeight: '500' }}>Google</Text>
+                            <Text style={{ color: COLORS.appTextColor, margin: 10, fontSize: normalize(15), fontWeight: '500' }}>{"Sign in with Google"}</Text>
                         </TouchableOpacity>
 
 
                         {/* login  */}
                         <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", marginVertical: 30 }}>
-                            <Text style={{ color: "white" }}>{t('login.already_have_an_account')} </Text>
+                            <Text style={{ color: COLORS.appTextColor }}>{t('login.already_have_an_account')} </Text>
                             <TouchableOpacity onPress={() => navigation.push('Login')}>
                                 <GradiateText title={t('login.login')} />
                             </TouchableOpacity>
@@ -180,8 +183,8 @@ const Login = ({ navigation }) => {
             </KeyboardAvoidingView>
         )
     } catch (err) {
-   
- 
+
+
         <Errorhandling />
     }
 }

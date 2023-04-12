@@ -62,6 +62,7 @@ import DrawerBottom from './component/bottom';
 import { IMAGES } from './globalImage';
 import Feather from 'react-native-vector-icons/Feather';
 import { normalize, wH, wW } from './helper/size';
+import { COLORS } from './helper/color';
 
 
 // header icons
@@ -77,7 +78,7 @@ export const MenuBotton = ({ }) => {
 
 export const NotificationBotton = ({ }) => {
   return (
-    <View style={styles.bottonStyle}>
+    <View style={[styles.bottonStyle,{}]}>
       <Ionicons name="notifications-outline" size={normalize(25)} color="white" />
     </View>
   )
@@ -122,7 +123,7 @@ export const HomeBotton = ({ imageSource, title,iconColor }) => {
 
 
       {/* <Ionicons name="notifications-outline" size={normalize(25)} color="white" /> */}
-      <Text style={{ color: iconColor }} >{title}</Text>
+      {/* <Text style={{ color: iconColor }} >{title}</Text> */}
     </View>
   )
 }
@@ -145,7 +146,7 @@ export const CartBotton = ({ }) => {
 const styles = StyleSheet.create({
 
   bottonStyle: {
-    backgroundColor: "#444748", padding: 12, borderRadius: 15, justifyContent: "center", alignItems: 'center'
+    backgroundColor: COLORS.defaultcolor, padding: 12, borderRadius: 15, justifyContent: "center", alignItems: 'center'
   },
   bottomIcon: {
 

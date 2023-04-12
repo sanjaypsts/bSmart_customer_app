@@ -22,10 +22,10 @@ export const globalStyles = StyleSheet.create({
     // login ,sign up and forgetPassword
 
     loginHeading: {
-        color: COLORS.appTextColor, fontSize: normalize(25), marginTop: normalize(35), fontFamily: "RedHatDisplay-Bold"
+        color: "#030D03", fontSize: normalize(25), marginTop: normalize(35), fontFamily: "RedHatDisplay-Bold"
     },
     loginTitle: {
-        fontSize: normalize(15), marginTop: normalize(5), paddingHorizontal: wW / 20, textAlign: "center", color: "#CCCCCC", fontFamily: "RedHatDisplay-Regular"
+        fontSize: normalize(15), marginTop: normalize(5), paddingHorizontal: wW / 20, textAlign: "center", color: "#071C07", fontFamily: "RedHatDisplay-Regular"
     },
     logininputText: {
         color: COLORS.appTextColor, fontSize: normalize(16), marginLeft: 5, fontFamily: "RedHatDisplay-Regular",flex:1,marginRight:30
@@ -52,7 +52,7 @@ export const globalStyles = StyleSheet.create({
 
     // app contant title
     heading: {
-        color: COLORS.appTextColor, fontSize: normalize(16), fontFamily: "RedHatDisplay-Medium"
+        color: COLORS.appTextColor, fontSize: normalize(16), fontFamily:"RedHatDisplay-Bold"
 
     },
     title: {
@@ -214,10 +214,10 @@ export const SubmitBotton = ({ title, loadingStaus }) => {
         <View style={{ width: "100%", justifyContent: "center", alignItems: "center" }}>
 
             <LinearGradient
-                colors={['#01E3AD', '#01289D',]}
+                colors={['#05A845', '#05A845',]}
                 start={{ x: 0.0, y: 2.0 }} end={{ x: 1.0, y: 1.0 }}
                 style={{
-                    height: 50, width: 300,
+                    height: 50, width: 350,
                     backgroundColor: "white", alignItems: "center", justifyContent: "center", padding: 5,
                     shadowColor: "#000",
                     borderRadius: 50,
@@ -231,7 +231,7 @@ export const SubmitBotton = ({ title, loadingStaus }) => {
                 }}
             >
                 {loadingStaus ? <ActivityIndicator color={COLORS.appTextColor} /> :
-                    <Text style={{ color: COLORS.appTextColor }}>{title}</Text>}
+                    <Text style={{ color: COLORS.appColor }}>{title}</Text>}
 
 
             </LinearGradient>

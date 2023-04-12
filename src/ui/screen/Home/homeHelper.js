@@ -7,6 +7,7 @@ import { CartBotton } from '../../custumsIcons';
 import { IMAGES } from '../../globalImage';
 import { globalStyles } from '../../helper/globalStyle';
 import { normalize } from '../../helper/size';
+import { COLORS } from '../../helper/color';
 
 
 
@@ -16,55 +17,30 @@ import { normalize } from '../../helper/size';
 
 export const PlaceOrderHorizontalCard = ({ imageSource, title }) => {
     return (
-        // <LinearGradient
-        //     colors={['#00FFFF', '#17C8FF', '#329BFF', '#4C64FF', '#6536FF', '#8000FF']}
-        //     start={{ x: 0.0, y: 1.0 }} end={{ x: 1.0, y: 1.0 }}
-        //     style={{
-        //      flexDirection: "row", alignItems: "center", justifyContent: "center",
-        //         shadowColor: "#329BFF", marginTop: 20,padding:0.8,
-        //         borderRadius: 15,
-        //         shadowOffset: {
-        //             width: 0,
-        //             height: 7,
-        //         },
-        //         shadowOpacity: 0.43,
-        //         shadowRadius: 9.51,
+      
+        <View style={{borderColor:"#0B2C0B",borderWidth:0.8,marginVertical:10,borderRadius: 20,
+        shadowOffset: {
+            width: 0,
+            height: 7,
+        },
+        shadowOpacity: 0.43,
+        shadowRadius: 9.51,
 
-        //         elevation: 15,
-        //     }}
-        // >
+        elevation: 15,
+        }}>
 
-        //     <View style={{ backgroundColor: "#202020", flex:1,  borderRadius: 15, alignItems: "center", flexDirection: "row",padding: 20, paddingHorizontal: 50  }}>
-        //         <Image style={[{ width: normalize(80), height: normalize(60), marginRight: 15 }]} source={IMAGES.No_order} />
-        //         <View>
-        //             <Text style={{ color: "white", fontSize: normalize(20) }}>No Orders</Text>
-        //             <Text style={{ color: "#9CA3AF", fontSize: normalize(15) }}>Place orders to your business.</Text>
-
-        //         </View>
-        //     </View>
-        // </LinearGradient>
-
-
-        <LinearGradient
-            colors={['#00A298', '#0155A0']}
-            start={{ x: 0.0, y: 1.0 }} end={{ x: 1.0, y: 1.0 }}
-            style={{
-                flexDirection: "row", alignItems: "center", justifyContent: "center",
-                shadowColor: "#329BFF",
-                marginTop: 10, padding: 0.8, borderRadius: 20,
-            }}
-        >
-
-            <View style={{ flex: 1, height: "100%", backgroundColor: "#202020", borderRadius: 20, flexDirection: "row", alignItems: "center", padding: 20, justifyContent: "center" }}>
-                <Image resizeMode="contain" style={[{ width: normalize(60), height: normalize(60), marginRight: 15 }]} source={IMAGES.No_order} />
+            <View style={{ flex: 1, height: "100%", backgroundColor: COLORS.lightdefaultcolor,borderRadius: 20,  flexDirection: "row", alignItems: "center", padding: 20, justifyContent: "center" }}>
+                <Image resizeMode="contain" style={[{ width: normalize(60), height: normalize(60), marginRight: 15,}]} source={IMAGES.No_order} />
                 <View>
-                    <Text style={[globalStyles.heading, {}]}>No Orders</Text>
-                    <Text style={[globalStyles.title, { color: "#9CA3AF", }]}>Place orders to your business.</Text>
+                    <Text style={[globalStyles.heading, {color:"#0F3C0F"}]}>No Orders</Text>
+                    <Text style={[globalStyles.title, { color: "#306930", }]}>Place orders to your business.</Text>
 
                 </View>
             </View>
 
-        </LinearGradient>
+            </View>
+
+ 
 
     )
 }
@@ -104,30 +80,40 @@ export const Order_Products = ({ imageSource, title }) => {
         // </LinearGradient>
 
 
-        <LinearGradient
-            colors={['#00A298', '#0155A0']}
-            start={{ x: 0.0, y: 1.0 }} end={{ x: 1.0, y: 1.0 }}
-            style={{
-                flexDirection: "row", alignItems: "center", justifyContent: "center",
-                shadowColor: "#329BFF",
-                marginTop: 10, padding: 0.8, borderRadius: 20,
-            }}
-        >
+        // <LinearGradient
+        //     colors={['#00A298', '#0155A0']}
+        //     start={{ x: 0.0, y: 1.0 }} end={{ x: 1.0, y: 1.0 }}
+        //     style={{
+        //         flexDirection: "row", alignItems: "center", justifyContent: "center",
+        //         shadowColor: "#329BFF",
+        //         marginTop: 10, padding: 0.8, borderRadius: 20,
+        //     }}
+        // >
+        <View style={{borderColor:"#0B2C0B",borderWidth:0.8,borderRadius: 20,marginTop:5,
+        shadowOffset: {
+            width: 0,
+            height: 7,
+        },
+        shadowOpacity: 0.43,
+        shadowRadius: 9.51,
 
-            <View style={{ flex: 1, height: "100%", backgroundColor: "#202020", borderRadius: 20, flexDirection: "row", alignItems: "center", padding: 20, justifyContent: "space-between" }}>
+        elevation: 15,}}>
+
+            <View style={{ flex: 1, height: "100%", backgroundColor: COLORS.lightdefaultcolor, borderRadius: 20, flexDirection: "row", alignItems: "center", padding: 20, justifyContent: "space-between" }}>
                 <View style={{ width: "55%", flexDirection: "row", alignItems: "center", }}>
-                    <Image resizeMode="contain" style={[{ width: normalize(60), height: normalize(60), marginRight: 15 }]} source={IMAGES.Order_Product} />
+                    <Image resizeMode="contain" style={[{ width: normalize(60), height: normalize(60), marginRight: 15  }]} source={IMAGES.Order_Product} />
                     <View>
-                        <Text style={[globalStyles.heading, {}]}>Order Products</Text>
-                        <Text style={[globalStyles.title, { color: "#9CA3AF", }]}>Order within 3PM for same day delivery.</Text>
+                        <Text style={[globalStyles.heading, {color:"#0F3C0F"}]}>Order Products</Text>
+                        <Text style={[globalStyles.title, {  color: "#306930", }]}>Order within 3PM for same day delivery.</Text>
                     </View>
                 </View>
                 <TouchableOpacity onPress={() => { navigation.push('DashBoard', { Screen: "Orders" }) }}>
                     <CartBotton />
                 </TouchableOpacity>
             </View>
+    </View>
 
-        </LinearGradient>
+        // </LinearGradient>
 
     )
 }
@@ -162,24 +148,43 @@ export const SmallCardList = ({ imageSource, title }) => {
         //     </View>
         // </LinearGradient>
 
-        <LinearGradient
-            colors={['#00A298', '#0155A0']}
-            start={{ x: 0.0, y: 1.0 }} end={{ x: 1.0, y: 1.0 }}
-            style={{
+        // <LinearGradient
+        //     colors={["#0B2C0B", "#0B2C0B"]}
+        //     start={{ x: 0.0, y: 1.0 }} end={{ x: 1.0, y: 1.0 }}
+        //     style={{
 
-                shadowColor: "#329BFF",
-                padding: 0.8, borderRadius: 20, height: 100, width: 110
-            }}
-        >
+                
+        //         padding: 0.8, borderRadius: 20, height: 100, width: 110,
+        //         // shadowOffset: {
+        //         //     width: 0,
+        //         //     height: 7,
+        //         // },
+        //         // shadowOpacity: 0.43,
+        //         // shadowRadius: 9.51,
+    
+        //         // elevation: 15,
+        //     }}
+        // >
 
-            <View style={{ width: "100%", height: "100%", backgroundColor: "#202020", borderRadius: 20, alignItems: "center", justifyContent: "center" }}>
+        <View style={{borderColor:"#0B2C0B",borderWidth:0.8,borderRadius: 20,marginTop:5, height: 100, width: 110,
+        shadowOffset: {
+            width: 0,
+            height: 7,
+        },
+        shadowOpacity: 0.43,
+        shadowRadius: 9.51,
+
+        elevation: 5,}}>
+            <View style={{ width: "100%", height: "100%",backgroundColor: COLORS.lightdefaultcolor,  borderRadius: 20, alignItems: "center", justifyContent: "center" }}>
 
                 <Image resizeMode="contain" style={[{ width: normalize(40), height: normalize(40) }]} source={imageSource} />
                 <Text style={[globalStyles.title, { lineHeight: 30 }]}>{title}</Text>
 
             </View>
+            
+            </View>
 
-        </LinearGradient>
+        // </LinearGradient>
 
     )
 }

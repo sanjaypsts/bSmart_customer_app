@@ -1,4 +1,4 @@
-import { Linking, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { ImageBackground, Linking, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import { globalPaddingHorizontal, normalize, wW } from '../../helper/size'
 import { Order_Products, PlaceOrderHorizontalCard, SmallCardList } from './homeHelper'
@@ -34,8 +34,9 @@ const Home = () => {
     return (
 
         <>
-            <Text style={globalStyles.appTitle}>Welcome Customer</Text>
 
+            <Text style={globalStyles.appTitle}>Welcome Customer</Text>
+   
             <PlaceOrderHorizontalCard />
             <Order_Products />
 

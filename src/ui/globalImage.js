@@ -1,11 +1,14 @@
 const IMAGES = {
   // loginIcon
+  loginBg:require('../assets/image/loginBg.png'),
+
   emailIcon: require('../assets/image/email.png'),
   PassIcon: require('../assets/image/password.png'),
   Sms_tracking: require('../assets/image/sms_tracking.png'),
   Contact: require('../assets/image/contact.png'),
   Thanks: require('../assets/image/thanks.png'),
   Success:require('../assets/image/success.png'),
+
 
 
 
@@ -21,6 +24,7 @@ const IMAGES = {
 
   // dashboardImage
   GoogleIcon: require('../assets/image/Google.png'),
+  Grocery: require('../assets/image/grocery.png'),
 
 
   BackGround: require('../assets/image/bg.png'),

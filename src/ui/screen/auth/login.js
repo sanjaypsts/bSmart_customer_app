@@ -1,9 +1,9 @@
 
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, KeyboardAvoidingView, ScrollView, Image, Platform } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, KeyboardAvoidingView, ScrollView, Image, Platform, ImageBackground } from 'react-native';
 import React, { useEffect, useState } from 'react'
 import BackGround from '../../component/backgroundImage'
 import { AppLogo } from '../../globalSvg'
-import { normalize, wW } from '../../helper/size'
+import { normalize, wH, wW } from '../../helper/size'
 import Errorhandling from '../../errorHandle/errorhandling'
 import { LoginInput } from './loginHelper';
 import { IMAGES } from '../../globalImage';
@@ -12,6 +12,7 @@ import { Relogin } from '../../../stateManage/auth/actions';
 import apicall from '../../../stateManage/apicall';
 import { useTranslation } from "react-i18next";
 import { globalStyles, GradiateText, SubmitBotton } from '../../helper/globalStyle';
+import { COLORS } from '../../helper/color';
 
 const Login = ({ navigation }) => {
 
@@ -54,20 +55,21 @@ const Login = ({ navigation }) => {
 
 
 
-        
+
         return (
 
-            
+
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'position'}
                 style={styles.container}>
-                <BackGround>
+                <BackGround cureentScreen={"login"}>
 
 
-                    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                    <View style={{ flex: 1, alignItems: "center" }}>
+                        <ImageBackground  style={[{ width: wW, height: 250,  justifyContent: "center", alignItems: "center"}]} source={IMAGES.loginBg} >
+                        <AppLogo width={normalize(100)} height={normalize(100)} />
+                        </ImageBackground>
 
-
-                        <AppLogo width={normalize(120)} height={normalize(120)} />
 
                         {/* welcome title */}
                         <Text style={globalStyles.loginHeading}>{t('login.welcome')}</Text>
@@ -75,14 +77,14 @@ const Login = ({ navigation }) => {
 
 
                         {/* input box */}
-                        <View style={{ width: "100%", marginVertical: 30 }} >
+                        <View style={{ width: "100%", marginTop: 60 }} >
                             <LoginInput imageSource={IMAGES.emailIcon} title={t('login.email')} value={username} updateMasterState={(text) => { setUsername(text); seterrorMessage("") }} err={error} />
-                            <View style={{ marginVertical: 5 }}></View>
+                            <View style={{ marginTop: 10 }}></View>
                             <LoginInput imageSource={IMAGES.PassIcon} title={t('login.password')} value={password} updateMasterState={(text) => { setPassword(text); seterrorMessage("") }} err={error} passwordEye={true} />
                         </View>
 
                         {/* ForgetPassword */}
-                        <TouchableOpacity onPress={() => navigation.push('ForgetPassword')} style={{ alignSelf: "flex-end" }}><Text style={{ color: "white", marginBottom: 30, }}>{t('login.forgot_password')}</Text></TouchableOpacity>
+                        <TouchableOpacity onPress={() => navigation.push('ForgetPassword')} style={{ alignSelf: "flex-end" }}><Text style={{ color: COLORS.appTextColor, marginVertical: 15, }}>{t('login.forgot_password')}</Text></TouchableOpacity>
 
                         {/* login Botton */}
                         <TouchableOpacity disabled={loading} onPress={() => { authentication() }} >
@@ -92,21 +94,21 @@ const Login = ({ navigation }) => {
 
                         {/* divider */}
                         <View style={{ flexDirection: "row", marginVertical: 20, justifyContent: "center", alignItems: "center" }}>
-                            <View style={{ height: 1, backgroundColor: "white", width: 60 }}></View>
-                            <Text style={{ color: "white", }}>  {t('login.or')}  </Text>
-                            <View style={{ height: 1, backgroundColor: "white", width: 60 }}></View>
+                            <View style={{ height: 1, backgroundColor: COLORS.appTextColor, width: 60 }}></View>
+                            <Text style={{ color: COLORS.appTextColor, }}>  {t('login.or')}  </Text>
+                            <View style={{ height: 1, backgroundColor:COLORS.appTextColor, width: 60 }}></View>
                         </View>
 
                         {/* Google login */}
-                        <TouchableOpacity style={{ borderWidth: 1, borderColor: "white", borderRadius: 10, justifyContent: "center", alignItems: 'center', flexDirection: "row", paddingHorizontal: 15, }}>
+                        <TouchableOpacity style={{ borderWidth: 1, borderColor: "green", borderRadius: 25   , justifyContent: "center", alignItems: 'center', flexDirection: "row", paddingVertical:2,paddingHorizontal:50}}>
                             <Image style={[{ width: normalize(18), height: normalize(20), }]} source={IMAGES.GoogleIcon} />
-                            <Text style={{ color: "white", margin: 10, fontSize: normalize(15), fontWeight: '500' }}>{t('login.google')}</Text>
+                            <Text style={{ color: COLORS.appTextColor, margin: 10, fontSize: normalize(15), fontWeight: '500' }}>{"Log in with Google"}</Text>
                         </TouchableOpacity>
 
 
                         {/* sign up  */}
                         <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", marginVertical: 30 }}>
-                            <Text style={{ color: "white" }}>{t('login.dont_have_an_account')} </Text>
+                            <Text style={{ color: COLORS.appTextColor }}>{t('login.dont_have_an_account')} </Text>
                             <TouchableOpacity onPress={() => navigation.push('Signup')}>
                                 <GradiateText title={t('login.sign_Up')} />
                                 {/* <Text style={{ color: "white" }}>{t('login.sign_Up')}</Text> */}
