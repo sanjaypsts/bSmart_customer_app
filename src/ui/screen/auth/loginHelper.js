@@ -15,7 +15,7 @@ import { globalStyles, GradiateTexte } from '../../helper/globalStyle';
 
 export const LoginInput = (props) => {
     const [passwordVisible, setPasswordVisible] = useState(true);
-    const { imageSource, title, value, err, passwordEye } = props
+    const { imageSource, title, value, textLength, keyBoardType, err, passwordEye } = props
 
 
     const onChangeText = (updatedValue) => {
@@ -27,16 +27,16 @@ export const LoginInput = (props) => {
     return (
 
         <View style={{}}>
-         
+
             <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", flexDirection: "row" }}>
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
 
-                    <Image  resizeMode='contain' style={[{ width: normalize(25), height: normalize(25), }]} source={imageSource} />
+                    <Image resizeMode='contain' style={[{ width: normalize(25), height: normalize(25), }]} source={imageSource} />
                     <TextInput
                         placeholder={title}
                         value={value}
-                        maxLength={125}
-
+                        maxLength={textLength}
+                        keyboardType={keyBoardType}
                         secureTextEntry={passwordEye && passwordVisible}
                         style={globalStyles.logininputText}
                         placeholderTextColor={"#606563"}
@@ -49,14 +49,14 @@ export const LoginInput = (props) => {
 
 
                 {passwordEye &&
-                    <View style={{right:30}}>
-                        {passwordVisible ?
+                    <View style={{ right: 30 }}>
+                        {!passwordVisible ?
                             <TouchableOpacity onPress={() => setPasswordVisible(!passwordVisible)}>
-                                <Ionicons name="eye-outline" size={normalize(20)} color="white" />
+                                <Ionicons name="eye-off-outline" size={normalize(20)} color="white" />
                             </TouchableOpacity>
                             :
                             <TouchableOpacity onPress={() => setPasswordVisible(!passwordVisible)}>
-                                <Ionicons name="eye-off-outline" size={normalize(20)} color="white" />
+                                <Ionicons name="eye-outline" size={normalize(20)} color="white" />
                             </TouchableOpacity>
                         }
                     </View>
@@ -86,7 +86,7 @@ export const LoginInput = (props) => {
 
             </LinearGradient>
 
-            {passwordEye &&
+            {err &&
                 <Text style={{ alignSelf: "flex-end", color: COLORS.ErrorMsg, fontSize: normalize(16), fontFamily: "RedHatDisplay-Regular" }}>{err}</Text>
 
             }

@@ -49,7 +49,7 @@ const Contact = ({ navigation }) => {
   const getData = () => {
 
     setloading(true)
-    dispatch(CONTACT_SET({customer_unique_id:USER_DATA.customer_unique_id},"mgetParticularCustomerContactDetails", loginData.data.token))
+    dispatch(CONTACT_SET({customer_unique_id:loginData.data.customer_shipping_address_alias_id.customer_unique_id},"mgetParticularCustomerContactDetails", loginData.data.token))
     setloading(false)
 
   }

@@ -51,7 +51,7 @@ const Category = (props) => {
         setloading(true)
 
         setCategoryData([])
-        dispatch(Category_SET("mgetCategoryDetails", loginData.data.token))
+        dispatch(Category_SET("mgetCategoryDetails",loginData.data.token))
      
     }
 

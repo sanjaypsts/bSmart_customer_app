@@ -3,22 +3,19 @@ import { StyleSheet, Text, View, Animated } from 'react-native'
 import React, { useRef, useEffect } from 'react';
 import { AppLogo, PowerdBy } from './globalSvg';
 import { useSelector } from 'react-redux';
-import Login from './screen/auth/login';
 import { SplashBackGround } from './component/backgroundImage';
-import DashBoard from './screen/dashBoard/dashBoard';
 import { normalize, wW } from './helper/size';
 import { globalStyles } from './helper/globalStyle';
 import MainLogin from './screen/auth/mainLogin';
 import AppNavigation from './navigation/navigation';
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
+import Errorhandling from './errorHandle/errorhandling';
 
 
 
 
 const FadeInView = (props) => {
   const fadeAnim = useRef(new Animated.Value(0)).current  // Initial value for opacity: 0
-
-
   useEffect(() => {
     Animated.timing(
 
@@ -55,7 +52,7 @@ const Splashscreen = () => {
 
 
 
-  let {t, i18n} = useTranslation();
+  let { t, i18n } = useTranslation();
 
   let Splash_Screen = (
 
@@ -82,9 +79,7 @@ const Splashscreen = () => {
 
         {
           isVisible ? Splash_Screen :
-            // loginData.status == true || loginData.status == 'true' ? Splash_Screen : Splash_Screen
             loginData.status == true || loginData.status == 'true' ? <AppNavigation /> : <MainLogin />
-          // <DashBoard /> : <Login />
 
         }
 
@@ -93,7 +88,9 @@ const Splashscreen = () => {
 
     )
   } catch (e) {
-   
+    <Errorhandling />
+
+
   }
 
 }

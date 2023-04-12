@@ -5,7 +5,7 @@ export const SET_ORDER_DATA = 'SET_ORDER_DATA';
 
 
 export const Order_SET = (data,url, value) => {
- 
+
   try {
     return async dispatch => {
       dispatch({
@@ -18,6 +18,7 @@ export const Order_SET = (data,url, value) => {
         
           if (response.status == 200 && response.data.status == true || response.data.status == 'true' && response.data.data != undefined) {
             const Data = response.data.data
+          
             dispatch({
               type: SET_ORDER_DATA,
               payload: {loading: false,  status: true, Data,ErrorData:[] },
@@ -25,7 +26,7 @@ export const Order_SET = (data,url, value) => {
           } else {
           }
         }).catch(err => {
-      
+    
           if (err) {
             const ErrorData = err.response.data
             dispatch({

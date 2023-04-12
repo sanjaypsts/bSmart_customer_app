@@ -31,32 +31,41 @@ const SingleCategory = ({ route, navigation }) => {
   const [TotalProduct, setTotalProduct] = useState("");
   const routedata = route.params
 
-    const { USER_DATA } = useSelector(state => state.userdatareducer);
-    const { TotalCount } = useSelector(state => state.ProductCountReducer);
+  const { USER_DATA } = useSelector(state => state.userdatareducer);
+  const { TotalCount } = useSelector(state => state.ProductCountReducer);
 
-    useFocusEffect(
-      React.useCallback(() => {
+  useFocusEffect(
+    React.useCallback(() => {
 
-        {category_Data.status &&
+      {
+        category_Data.status &&
           setcategoryData(category_Data.Data)
-    
+
       }
-    GetLocal()
+      GetLocal()
 
-    if (routedata != undefined && routedata.id != undefined) {
-    
+      if (routedata != undefined && routedata.id != undefined) {
 
 
-      getData(routedata.id)
-      setcurrentCategory(routedata.id)
-    } else {
-      { category_Data.status == true   && category_Data.Data.length >= 0 && category_Data.Data[0].id &&
-        getData(category_Data.Data[0].id)
-        setcurrentCategory(category_Data.Data[0].id)
+
+        getData(routedata.id)
+        setcurrentCategory(routedata.id)
+      } else {
+      
+        try {
+          {
+            category_Data.status && category_Data.Data[0].id != undefined &&
+              getData(category_Data.Data[0].id)
+            setcurrentCategory(category_Data.Data[0].id)
+          }
         }
-  
-    }
-  }, [])
+        catch {
+
+        }
+
+
+      }
+    }, [category_Data])
   );
 
 
@@ -65,7 +74,7 @@ const SingleCategory = ({ route, navigation }) => {
   //     getData(category_Data.Data[0].id)
   //     setcurrentCategory(category_Data.Data[0].id)
   //     }
- 
+
   // },[])
 
 
@@ -103,7 +112,7 @@ const SingleCategory = ({ route, navigation }) => {
         setloading(false)
         if (response.status == 200 && response.data.status == true || response.data.status == 'true') {
           setSingleCategoryData(response.data.data.data_list)
-          console.log(response.data.data.data_total_count,"bsduvbsudvb")
+          console.log(response.data.data.data_total_count, "bsduvbsudvb")
           setTotalProduct(response.data.data.data_total_cart_count)
 
         } else {
@@ -146,7 +155,7 @@ const SingleCategory = ({ route, navigation }) => {
           {SingleCategoryData && SingleCategoryData.length > 0 &&
             SingleCategoryData.map((i, index) => (
               <View key={index} >
-                <HorizontalSingleCategoryCard imageSource={i.image_url} title={i.product_name} price={i.standard_price} weight={i.unit_name} quantity={i.quantity} product_id={i.id}  updateMasterState={(text) => { console.log("single") }}/>
+                <HorizontalSingleCategoryCard imageSource={i.image_url} title={i.product_name} price={i.standard_price} weight={i.unit_name} quantity={i.quantity} product_id={i.id} updateMasterState={(text) => { console.log("single") }} />
               </View>
             ))}
         </ScrollView>

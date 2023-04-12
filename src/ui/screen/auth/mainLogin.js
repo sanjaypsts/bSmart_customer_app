@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Button, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Login from './login';
@@ -17,8 +16,6 @@ function MyStack() {
       <Stack.Screen name="ForgetPassword" component={ForgetPassword} options={() => ({ gestureEnabled: false, animation: "slide_from_right" })}  />
       <Stack.Screen name="Signup" component={Signup} options={() => ({ gestureEnabled: false, animation: "slide_from_right" })}  />
       <Stack.Screen name="Success" component={Success} options={() => ({ gestureEnabled: false, animation: "slide_from_right" })}  />
-
-  
     </Stack.Navigator>
   );
 }

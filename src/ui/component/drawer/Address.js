@@ -73,7 +73,7 @@ export default Address = ({ navigation }) => {
   const getData = () => {
 
     setloading(true)
-    dispatch(ADDRESS_SET({customer_unique_id:USER_DATA.customer_unique_id},"mgetParticularCustomershippingAddressDetails", loginData.data.token))
+    dispatch(ADDRESS_SET({customer_unique_id:loginData.data.customer_shipping_address_alias_id.customer_unique_id},"mgetParticularCustomershippingAddressDetails", loginData.data.token))
     setloading(false)
   }
 

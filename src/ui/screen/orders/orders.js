@@ -45,7 +45,7 @@ const Orders = ({ }) => {
         const newPurchase = Data.filter(function (item) {
             return item.status_name == "Incoming";
         }).map(function (item) {
-            console.log(item)
+      
             return { ...item, bgColor: "#554F42", TextColor: "#EE9A00" };
         });
         setPurchase_Order([...newPurchase]);
@@ -85,9 +85,9 @@ const Orders = ({ }) => {
         setPurchase_Order([]);
         setCurrent_Orders([])
         let formData = new FormData();
-        formData.append('customer_id', USER_DATA.customer_unique_id);
+        formData.append('customer_id', loginData.data.customer_shipping_address_alias_id.customer_unique_id);
         formData.append('sorting', JSON.stringify({ "id": "desc" }));
-        dispatch(Order_SET(formData, "mpreviousOrderDetailsByCustomerId", loginData.data.token))
+        dispatch(Order_SET(formData,"mpreviousOrderDetailsByCustomerId",loginData.data.token))
         setloading(false)
     }
 

@@ -4,6 +4,7 @@ const categoryinitialState = {
   category_Data: {
     loading: true,
     status: false,
+    Data:[],
     error: ""
 
   },

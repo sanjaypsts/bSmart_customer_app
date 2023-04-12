@@ -93,9 +93,9 @@ const Login = ({ navigation }) => {
         apicall(formData, 'mcreateCustomerDetails')
             .then(response => {
                 setLoading(false)
-                if (response.data.status == true || response.data.status == 'true') {
+                if (response.status == 200 && response.data.status == true || response.data.status == 'true') {
         
-                    navigation.push('Success')
+                    // navigation.push('Success')
                 } 
             }).catch(err => {
                 setLoading(false)
@@ -131,13 +131,13 @@ const Login = ({ navigation }) => {
 
                         {/* input */}
                         <View style={{ width: "100%", marginVertical: 30, }} >
-                            <LoginInput imageSource={IMAGES.emailIcon} title={t('login.name')} value={name} updateMasterState={(text) => { setName(text); seterrorMessage("") }} err={error} />
+                            <LoginInput imageSource={IMAGES.emailIcon} title={t('login.name')} value={name} textLength={50} keyBoardType={"default"} updateMasterState={(text) => { setName(text); seterrorMessage("") }} err={error} />
                             <View style={{ marginVertical: 5 }}></View>
 
-                            <LoginInput imageSource={IMAGES.Sms_tracking} title={t('login.email_address')} value={email} updateMasterState={(text) => { setEmail(text); seterrorMessage("") }} err={error} />
+                            <LoginInput imageSource={IMAGES.Sms_tracking} title={t('login.email_address')} value={email} textLength={50} keyBoardType={"email-address"} updateMasterState={(text) => { setEmail(text); seterrorMessage("") }} err={error} />
                             <View style={{ marginVertical: 5 }}></View>
 
-                            <LoginInput imageSource={IMAGES.Contact} title={t('login.contact_number')} value={contactNumber} updateMasterState={(text) => { setContactNumber(text); seterrorMessage("") }} err={error} />
+                            <LoginInput imageSource={IMAGES.Contact} title={t('login.contact_number')} value={contactNumber} textLength={8} keyBoardType={"number-pad"}  updateMasterState={(text) => { setContactNumber(text); seterrorMessage("") }} err={error} />
                             <View style={{ marginBottom: 8 }}></View>
 
                         </View>
