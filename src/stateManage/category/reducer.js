@@ -1,26 +1,22 @@
 
-import {SET_CATEGORY_DATA} from './actions';
+import { SET_CATEGORY_DATA, SET_CATEGORY_ERROR } from './actions';
 const categoryinitialState = {
   category_Data: {
-    loading:false,
-    error:""
+    loading: true,
+    status: false,
+    error: ""
 
   },
 }
- 
+
 
 export const categoryReducer = (state = categoryinitialState, action) => {
   switch (action.type) {
-      case SET_CATEGORY_DATA:
-     
-        return  {loading:false,category_Data: action.payload};
-        // {login:false, loginData: action.payload};
-   
-        // {
-          
-        //   ...action.payload, 
-        // }; 
-      
+    case SET_CATEGORY_DATA:
+
+      return { loading: false, category_Data: action.payload };
+    case SET_CATEGORY_ERROR:
+      return { loading: false, category_Data: action.payload };
     default:
       return state;
   }
@@ -28,7 +24,7 @@ export const categoryReducer = (state = categoryinitialState, action) => {
 
 
 // function CategoryReducer(state = categoryinitialState,action) {
-//  
+//
 
 //   switch (action.type) {
 //     case SET_CATEGORY_DATA:

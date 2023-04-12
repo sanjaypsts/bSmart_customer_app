@@ -32,7 +32,7 @@ const DashBoard = ({ route, navigation }) => {
     
     useEffect(() => {
         // dispatch(CONTACT_SET({ customer_unique_id: USER_DATA.customer_unique_id }, "mgetParticularCustomerContactDetails", loginData.data.token))
-        dispatch(Category_SET("mgetCategoryDetails", loginData.data.token))
+        // dispatch(Category_SET("mgetCategoryDetails", loginData.data.token))
 
     })
 

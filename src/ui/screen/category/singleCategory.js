@@ -21,7 +21,7 @@ const SingleCategory = ({ route, navigation }) => {
   const { loginData } = useSelector(state => state.loginReducer);
   const { category_Data } = useSelector(state => state.categoryReducer);
 
-  const [categoryData, setcategoryData] = useState(category_Data);
+  const [categoryData, setcategoryData] = useState([]);
 
   const [SingleCategoryData, setSingleCategoryData] = useState([]);
   const [loading, setloading] = useState(false);
@@ -36,21 +36,37 @@ const SingleCategory = ({ route, navigation }) => {
 
     useFocusEffect(
       React.useCallback(() => {
+
+        {category_Data.status &&
+          setcategoryData(category_Data.Data)
+    
+      }
     GetLocal()
 
     if (routedata != undefined && routedata.id != undefined) {
-      setcategoryData(category_Data)
+    
+
+
       getData(routedata.id)
       setcurrentCategory(routedata.id)
     } else {
-      {
-        category_Data[0] != undefined &&
-          getData(category_Data[0].id)
-        setcurrentCategory(category_Data[0].id)
-      }
+      { category_Data.status == true   && category_Data.Data.length >= 0 && category_Data.Data[0].id &&
+        getData(category_Data.Data[0].id)
+        setcurrentCategory(category_Data.Data[0].id)
+        }
+  
     }
   }, [])
   );
+
+
+  // useEffect(() => {
+  //   { category_Data.status == true   && category_Data.Data.length >= 0 && category_Data.Data[0].id &&
+  //     getData(category_Data.Data[0].id)
+  //     setcurrentCategory(category_Data.Data[0].id)
+  //     }
+ 
+  // },[])
 
 
   const onChangeChild = (updatedValue) => {

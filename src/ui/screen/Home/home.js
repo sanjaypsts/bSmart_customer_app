@@ -5,14 +5,13 @@ import { Order_Products, PlaceOrderHorizontalCard, SmallCardList } from './homeH
 import { IMAGES } from '../../globalImage'
 import { useTranslation } from "react-i18next";
 import { globalStyles } from '../../helper/globalStyle'
+import { useNavigation } from '@react-navigation/native'
 
 
 const Home = () => {
+    const navigation = useNavigation();
 
     const { t, i18n } = useTranslation();
-
-
-
         const sendWhatsApp = ( ) => {
     
             let url =
@@ -44,9 +43,15 @@ const Home = () => {
                     <SmallCardList imageSource={IMAGES.Whatsapp} title={"Whatsapp"} />
                 </TouchableOpacity>
 
-  
+                <TouchableOpacity onPress={() => { navigation.push('LastOrder')}}>
                 <SmallCardList imageSource={IMAGES.backInTime} title={"Last Order"} />
+                </TouchableOpacity>
+  
+             
+                <TouchableOpacity onPress={() => { navigation.push('MostOrder')}}>
+
                 <SmallCardList imageSource={IMAGES.Most_orderdered} title={"Most Ordered"} />
+                </TouchableOpacity>
             </View>
 
 

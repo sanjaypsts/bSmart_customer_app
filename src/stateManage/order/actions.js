@@ -10,23 +10,29 @@ export const Order_SET = (data,url, value) => {
     return async dispatch => {
       dispatch({
         type: SET_ORDER_DATA,
-        payload: {loading:true},
+        payload: { loading: true,status: false,Data:[],ErrorData:[]  },
       });
 
       apicallHeaderPost(data,url, value)
         .then(response => {
-          console.log(response)
-          if (response.status == 200 && response.data.status == true || response.data.status == 'true') {
+        
+          if (response.status == 200 && response.data.status == true || response.data.status == 'true' && response.data.data != undefined) {
+            const Data = response.data.data
             dispatch({
               type: SET_ORDER_DATA,
-              payload: response.data.data,
+              payload: {loading: false,  status: true, Data,ErrorData:[] },
             });
           } else {
           }
         }).catch(err => {
-        
+      
           if (err) {
-            console.log("err",err.response.data)
+            const ErrorData = err.response.data
+            dispatch({
+              type:  SET_ORDER_DATA,
+              payload: { loading: false, status: false, Data: [] ,ErrorData},
+
+            });
           }
         })
     };

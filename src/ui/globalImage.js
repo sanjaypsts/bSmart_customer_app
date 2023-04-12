@@ -59,6 +59,11 @@ const IMAGES = {
 
 
 
+  // Orders
+  PayWith: require('../assets/image/payWith.png'),
+
+
+
 
 
   

@@ -1,11 +1,11 @@
-import { ActivityIndicator, Image, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { COLORS } from "./color";
-import { normalize, wW } from "./size";
+import { normalize, wH, wW } from "./size";
 
 import LinearGradient from 'react-native-linear-gradient'
 import MaskedView from '@react-native-masked-view/masked-view';
 
-export const Dateformat =  'ddd, D MMM, Y • HH:mm';
+export const Dateformat = 'DD MMM Y • h:mm a';
 
 export const globalStyles = StyleSheet.create({
 
@@ -18,7 +18,16 @@ export const globalStyles = StyleSheet.create({
 
 
     },
+    modalStyle: {
+        backgroundColor:
+            "#202020", width: wW, /* borderRadius: wW / 10, */
+        borderTopLeftRadius: wW / 12,
+        borderTopRightRadius: wW / 12,
+        padding: wW / 20
+    },
 
+
+    //   
     // login ,sign up and forgetPassword
 
     loginHeading: {
@@ -28,7 +37,7 @@ export const globalStyles = StyleSheet.create({
         fontSize: normalize(15), marginTop: normalize(5), paddingHorizontal: wW / 20, textAlign: "center", color: "#CCCCCC", fontFamily: "RedHatDisplay-Regular"
     },
     logininputText: {
-        color: COLORS.appTextColor, fontSize: normalize(16), marginLeft: 5, fontFamily: "RedHatDisplay-Regular",flex:1,marginRight:30
+        color: COLORS.appTextColor, fontSize: normalize(16), marginLeft: 5, fontFamily: "RedHatDisplay-Regular", flex: 1, marginRight: 30
     },
     inputText: {
         color: COLORS.appTextColor, fontSize: normalize(16), borderBottomColor: "grey", borderBottomWidth: 2, fontFamily: "RedHatDisplay-Regular", width: "100%", height: 50
@@ -41,7 +50,7 @@ export const globalStyles = StyleSheet.create({
 
     // Apptitle
     appTitle: {
-        color: COLORS.appTextColor, fontSize: normalize(25),fontFamily: "RedHatDisplay-Medium"
+        color: COLORS.appTextColor, fontSize: normalize(25), fontFamily: "RedHatDisplay-Medium"
     },
     appSubtitle: {
         color: COLORS.appTextColor, fontSize: normalize(15), fontFamily: "RedHatDisplay-Regular",
@@ -278,3 +287,27 @@ export const UnCheckedBox = ({ }) => {
     )
 }
 
+
+
+export const CustumModal = ({ children }) => {
+
+    return (
+
+        <View style={{ maxHeight: wH - 100 }}>
+            <ScrollView bounces={false} >
+
+                <View style={[globalStyles.modalStyle,]}>
+                    <View style={{ justifyContent: "center", width: wW, alignItems: 'center' }}>
+                        <View style={{ width: normalize(72), backgroundColor: "#DBDFE9", height: 5, marginVertical: 8, borderRadius: 10 }}></View>
+                    </View>
+                    {children}
+                </View>
+             
+            </ScrollView>
+        </View>
+
+
+
+
+    )
+}

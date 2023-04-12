@@ -2,8 +2,7 @@
 import {SET_ORDER_DATA} from './actions';
 const orderinitialState = {
   Order_Data: {
-    loading:false,
-    error:""
+    loading: false,status: false,Data:[],ErrorData:[]
 
   },
 }

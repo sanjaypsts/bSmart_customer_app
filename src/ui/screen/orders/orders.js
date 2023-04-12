@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { CartBox, Dateformat, Divider, globalStyles } from '../../helper/globalStyle'
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,77 +8,172 @@ import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { useEffect } from 'react';
 import LoadingModal from '../../component/loading';
 import moment from 'moment';
-
+import NoDataFound from '../../errorHandle/noDataFound';
+import Entypo from 'react-native-vector-icons/Entypo';
+import { normalize } from '../../helper/size';
 
 const Orders = ({ }) => {
     const navigation = useNavigation();
 
     const { Order_Data } = useSelector(state => state.orderReducer);
     const [loading, setloading] = useState(false);
-    const [orderData, setorderData] = useState([]);
     const { loginData } = useSelector(state => state.loginReducer);
     const { USER_DATA } = useSelector(state => state.userdatareducer);
+    const [orderData, setorderData] = useState([]);
+
+    const [Purchase_Order, setPurchase_Order] = useState([]);
+    const [Current_Orders, setCurrent_Orders] = useState([]);
+    const [Previous_Orders, setPrevious_Orders] = useState([]);
+
+
+
+
+
 
     const dispatch = useDispatch()
-
-    console.log(Order_Data)
-
-
-
-
-    // useFocusEffect(
-    //     React.useCallback(() => {
-    //         getData()
-    //     })
-    //   );
-
-
-
 
     useEffect(() => {
         getData()
     }, [])
+
+
     useEffect(() => {
-        setorderData(Order_Data)
+
+        const Data = Order_Data.Data
+
+
+        const newPurchase = Data.filter(function (item) {
+            return item.status_name == "Incoming";
+        }).map(function (item) {
+            console.log(item)
+            return { ...item, bgColor: "#554F42", TextColor: "#EE9A00" };
+        });
+        setPurchase_Order([...newPurchase]);
+
+
+        const newCurrent = Data.filter(function (item) {
+            return item.status_name == "Dispatch";
+        }).map(function (item) {
+
+            return { ...item, bgColor: "#47554F", TextColor: "#71D67A" };
+        });
+        setCurrent_Orders([...newCurrent]);
+
+
+        const newPrevious = Data.filter(function (item) {
+            return item.status_name == "Cancelled";
+        }).map(function (item) {
+
+            return { ...item, bgColor: "#594D51", TextColor: "red" };
+        });
+        setPrevious_Orders([...newPrevious]);
+
+
     }, [Order_Data])
+
+
+    useEffect(() => {
+
+        const Data = Order_Data.Data
+
+
+    }, [])
 
     const getData = () => {
         setloading(true)
         setorderData([])
-        // USER_DATA.customer_unique_id
-
+        setPurchase_Order([]);
+        setCurrent_Orders([])
         let formData = new FormData();
         formData.append('customer_id', USER_DATA.customer_unique_id);
-
         formData.append('sorting', JSON.stringify({ "id": "desc" }));
         dispatch(Order_SET(formData, "mpreviousOrderDetailsByCustomerId", loginData.data.token))
         setloading(false)
     }
+
+
+
+    const renderData = ({ item }) => {
+        const ProductData = item.order_details
+
+        return (
+            <TouchableOpacity onPress={() => { navigation.push('OrderDetails', { id: item.id }) }}>
+                <CartBox>
+                    <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 5, alignItems: "center" }}>
+                        <Text style={globalStyles.order_heading1}>Order :  {item.bill_no}</Text>
+                        <View style={{ backgroundColor: item.bgColor, padding: 1, padding: 5, borderRadius: 20 }}>
+                            <Text style={[globalStyles.order_title, { color: item.TextColor, }]}> • {item.status_name}</Text>
+                        </View>
+                    </View>
+                    <Text numberOfLines={1} style={[globalStyles.order_title, { width: "80%" }]}>
+                        {ProductData && ProductData.length > 0 &&
+                            ProductData.map((i, index) => (
+                                <Text>{i.product_name} </Text>
+                            ))}
+                    </Text>
+                    <View style={{ height: 1, backgroundColor: "#8E8E8E", marginVertical: 10 }}></View>
+
+                    <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+                        <Text style={globalStyles.order_title2}>{moment(item.created_at).format(Dateformat)}</Text>
+                        <Entypo name="chevron-right" size={normalize(20)} color="white" />
+
+
+                    </View>
+
+
+                </CartBox>
+                <Text></Text>
+            </TouchableOpacity>
+        )
+    }
+
+
+
+    const onRefresh = async () => {
+
+        // getData()
+
+    };
+
 
     try {
         return (
             <>
                 <LoadingModal loading={Order_Data.loading} setloading={setloading} />
 
-                {/* <Text style={[globalStyles.appTitle, { marginBottom: 20 }]}>Purchase Order</Text> */}
-                {orderData && orderData.length > 0 &&
-                    orderData.map((i, index) => (
-
-                        <TouchableOpacity onPress={() => { navigation.push('OrderDetails', { id: i.id }) }}>
-                            <CartBox>
-                                <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 5, alignItems: "center" }}>
-                                    <Text style={globalStyles.order_heading1}>Order :  {i.bill_no}</Text>
-                                    <Text style={[globalStyles.order_title, {/* color:"#FFA500" */ }]}>{/* Processing */}{i.status_name}</Text>
-                                </View>
-                                <Text style={globalStyles.order_title}>Carrot 10KG, Beetroot 1 BAG 10KG + 2</Text>
-                                <View style={{ height: 1, backgroundColor: "#8E8E8E", marginVertical: 10 }}></View>
-                                <Text style={globalStyles.order_title2}>{/* 06 Dec 2022 at 10:40AM */}{moment(i.created_at).format(Dateformat)}</Text>
-                            </CartBox>
-                            <Text></Text>
 
 
-                        </TouchableOpacity>
-                    ))}
+
+
+                <Text style={[globalStyles.appTitle, { marginBottom: 20 }]}>Purchase Order</Text>
+
+
+                <FlatList
+                    data={Purchase_Order}
+                    onRefresh={onRefresh}
+                    refreshing={false}
+                    renderItem={(item) => renderData(item)}
+                />
+
+                <Text style={[globalStyles.appTitle, { marginBottom: 20 }]}>Current Orders</Text>
+
+                <FlatList
+                    data={Current_Orders}
+                    onRefresh={onRefresh}
+                    refreshing={false}
+                    renderItem={(item) => renderData(item)}
+                />
+
+
+                <Text style={[globalStyles.appTitle, { marginBottom: 20 }]}>Previous Orders</Text>
+
+                <FlatList
+                    data={Previous_Orders}
+                    onRefresh={onRefresh}
+                    refreshing={false}
+                    renderItem={(item) => renderData(item)}
+                />
+
                 <View style={{ marginBottom: 100 }}>
 
                 </View>

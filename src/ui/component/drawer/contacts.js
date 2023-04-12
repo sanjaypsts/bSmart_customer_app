@@ -147,7 +147,7 @@ const Contact = ({ navigation }) => {
 
                       <View>
                         <Text style={globalStyles.heading}>{i.contact_name}</Text>
-                        <Text style={globalStyles.title}>{i.contact_number}</Text>
+                        <Text style={globalStyles.title}>+65 {i.contact_number}</Text>
                       </View>
                     </View>
 

@@ -66,7 +66,7 @@ const Drawer = ({}) => {
                 <View style={{ height: 2, backgroundColor: "#727272", marginVertical: 20 }}></View>
 
 
-                <TouchableOpacity>
+                <TouchableOpacity  onPress={() => { navigation.push('credits');ModalController.hide()}}>
                   <DrawerListButton imageSource={IMAGES.Money} title={'Credits'} />
                 </TouchableOpacity>
 

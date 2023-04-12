@@ -9,6 +9,9 @@ import Address from '../component/drawer/Address';
 import Contact from '../component/drawer/contacts';
 import PaymentSuccess from '../screen/cart/paymentSuccess';
 import OrderDetails from '../screen/orders/orderDetails';
+import LastOrder from '../screen/orders/lastOrder';
+import MostOrder from '../screen/orders/mostOrder';
+import credits from '../screen/credits/credits';
 
 
 
@@ -25,10 +28,14 @@ function MyStack() {
       <Stack.Screen name="Contact" component={Contact} />
       <Stack.Screen name="PaymentSuccess" component={PaymentSuccess} />
       <Stack.Screen name="OrderDetails" component={OrderDetails} />
+      <Stack.Screen name="LastOrder" component={LastOrder} />
+      <Stack.Screen name="MostOrder" component={MostOrder} />
+      <Stack.Screen name="credits" component={credits} />
 
 
 
 
+      
    
     </Stack.Navigator>
   );

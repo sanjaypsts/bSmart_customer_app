@@ -78,7 +78,7 @@ const Cart = ({ navigation }) => {
   }, [])
 
   useEffect(() => {
-    dispatch(Category_SET("mgetCategoryDetails", loginData.data.token))
+    dispatch(Category_SET("mgetCategoryDetails",loginData.data.token))
 
 
 
@@ -195,8 +195,6 @@ const Cart = ({ navigation }) => {
       .then(response => {
         setloading(false)
         if (response.status == 200 && response.status == 201 && response.data.status == true || response.data.status == 'true') {
-
-          console.log(response.data)
           navigation.push('PaymentSuccess')
         } else {
 
@@ -238,7 +236,6 @@ const Cart = ({ navigation }) => {
   }
 
 
-  console.log("Data", Data)
 
   return (
     <BackGround>
@@ -360,7 +357,7 @@ const Cart = ({ navigation }) => {
           <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
             <View>
               <Text style={{ color: "white", fontWeight: "500", fontSize: normalize(16), }}>{"Cash"}</Text>
-              <Text style={{ color: "white", fontWeight: "500", fontSize: normalize(16), }}>Balance Credit: S${(Balance_Credit).toFixed(2)}</Text>
+              <Text style={{ color: "white", fontWeight: "500", fontSize: normalize(16), }}>Balance Credit: S$ {(Balance_Credit).toFixed(2)}</Text>
             </View>
             <View>
               {/* <Ionicons name="chevron-forward" size={normalize(25)} color="white" /> */}

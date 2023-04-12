@@ -142,11 +142,12 @@ export const HorizontalSingleCategoryCard = (props) => {
             <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", width: "100%", paddingHorizontal: 10 }}>
                 <View style={{ flexDirection: "row", alignItems: "center", width: '40%' }} >
 
-                    {imageSource == undefined && imageSource == null ?
+                    {/* {imageSource == undefined && imageSource == null ?
                         <Image resizeMode="contain" source={IMAGES.AppLogo} style={{ width: normalize(70), height: normalize(70), borderRadius: 20, marginRight: 10 }} />
                         :
                         <Image resizeMode="contain" source={{ uri: UPLOAD_IMAGE_PATH + imageSource }} style={{ width: normalize(70), height: normalize(70), borderRadius: 20, marginRight: 10 }} />
-                    }
+                    } */}
+            <Imagewithloader imageurl={{ uri: `${UPLOAD_IMAGE_PATH + imageSource}` }} style={{width: normalize(70), height: normalize(70),marginRight: 10}} imageStyle={{borderRadius: 20}}/>
 
 
 
