@@ -28,7 +28,7 @@ const BackBottonHeader = (props) => {
 
 
                     <View style={{width:"100%" ,alignItems:"center",}}>
-                        <AppLogo width={normalize(50)} height={normalize(50)} />
+                        <AppLogo width={normalize(40)} height={normalize(50)} />
 
                     </View>
 

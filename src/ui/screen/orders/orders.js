@@ -46,7 +46,7 @@ const Orders = ({ }) => {
             return item.status_name == "Incoming";
         }).map(function (item) {
       
-            return { ...item, bgColor: "#554F42", TextColor: "#EE9A00" };
+            return { ...item, bgColor: "#FFFFB1", TextColor: "#EE9A00" };
         });
         setPurchase_Order([...newPurchase]);
 
@@ -55,7 +55,7 @@ const Orders = ({ }) => {
             return item.status_name == "Dispatch";
         }).map(function (item) {
 
-            return { ...item, bgColor: "#47554F", TextColor: "#71D67A" };
+            return { ...item, bgColor: "#D2F8D2", TextColor: "#041904" };
         });
         setCurrent_Orders([...newCurrent]);
 
@@ -64,7 +64,7 @@ const Orders = ({ }) => {
             return item.status_name == "Cancelled";
         }).map(function (item) {
 
-            return { ...item, bgColor: "#594D51", TextColor: "red" };
+            return { ...item, bgColor: "#FFD8D8", TextColor: "red" };
         });
         setPrevious_Orders([...newPrevious]);
 

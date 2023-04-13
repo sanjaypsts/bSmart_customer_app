@@ -9,7 +9,7 @@ const IMAGES = {
 
 
 
-
+  Menu: require('../assets/image/menu.png'),
   No_order: require('../assets/image/no-order.png'),
   Order_Product: require('../assets/image/order_Product.png'),
   OrderCart: require('../assets/image/orderCart.png'),

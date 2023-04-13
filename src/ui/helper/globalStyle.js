@@ -19,8 +19,8 @@ export const globalStyles = StyleSheet.create({
 
     },
     modalStyle: {
-        backgroundColor:
-            "#202020", width: wW, /* borderRadius: wW / 10, */
+        backgroundColor:COLORS.appLightColor
+           , width: wW, /* borderRadius: wW / 10, */
         borderTopLeftRadius: wW / 12,
         borderTopRightRadius: wW / 12,
         padding: wW / 20
@@ -61,11 +61,11 @@ export const globalStyles = StyleSheet.create({
 
     // app contant title
     heading: {
-        color: COLORS.appTextColor, fontSize: normalize(16), fontFamily: "RedHatDisplay-Medium"
+        color: COLORS.appOppsiteTextColor, fontSize: normalize(18), fontFamily: "RedHatDisplay-Bold",
 
     },
     title: {
-        color: COLORS.appTextColor, fontSize: normalize(15), fontFamily: "RedHatDisplay-Regular"
+        color: COLORS.appColor, fontSize: normalize(15), fontFamily: "RedHatDisplay-Medium",
 
     },
 
@@ -95,7 +95,7 @@ export const globalStyles = StyleSheet.create({
     // Category
 
     categoryProductText: {
-        color: COLORS.appTextColor, fontSize: normalize(15), fontFamily: "RedHatDisplay-Bold",
+        color:COLORS.appOppsiteTextColor, fontSize: normalize(15), fontFamily: "RedHatDisplay-Bold",
 
     },
 
@@ -106,7 +106,7 @@ export const globalStyles = StyleSheet.create({
     // cart details 
 
     cart_heading1: {
-        color: COLORS.appTextColor, fontSize: normalize(16), fontFamily: "RedHatDisplay-Bold",
+        color: COLORS.appOppsiteTextColor, fontSize: normalize(16), fontFamily: "RedHatDisplay-Bold",
 
     },
     cart_title: {
@@ -114,7 +114,7 @@ export const globalStyles = StyleSheet.create({
 
     },
     cart_title2: {
-        color: COLORS.appTextColor, fontSize: normalize(15), fontFamily: "RedHatDisplay-Medium"
+        color: COLORS.appOppsiteTextColor, fontSize: normalize(15), fontFamily: "RedHatDisplay-Medium"
 
     },
 
@@ -125,15 +125,15 @@ export const globalStyles = StyleSheet.create({
     // order details
 
     order_heading1: {
-        color: COLORS.appTextColor, fontSize: normalize(16), fontFamily: "RedHatDisplay-Bold",
+        color:  COLORS.appOppsiteTextColor, fontSize: normalize(16), fontFamily: "RedHatDisplay-Bold",
 
     },
     order_title: {
-        color: "#CCCCCC", fontSize: normalize(12), fontFamily: "RedHatDisplay-SemiBold",
+        color: "Blue", fontSize: normalize(12), fontFamily: "RedHatDisplay-SemiBold",
 
     },
     order_title2: {
-        color: COLORS.appTextColor, fontSize: normalize(12), fontFamily: "RedHatDisplay-Medium"
+        color:  COLORS.appOppsiteTextColor, fontSize: normalize(12), fontFamily: "RedHatDisplay-Medium"
 
     },
 
@@ -161,7 +161,7 @@ export const GradientGenerate = ({ colors, ...rest }) => {
 export const GradiateText = ({ title }) => {
     return (
 
-        <GradientGenerate colors={['#01B9A9', '#01B9A9', '#003B9D']} style={[]}>{title}</GradientGenerate>
+        <GradientGenerate colors={['#03234C', '#03234C', '#03234C']} style={[]}>{title}</GradientGenerate>
 
 
     )
@@ -190,7 +190,7 @@ export const Divider = ({ imageSource, title }) => {
 export const CartBox = ({ children }) => {
     return (
         <View style={{
-            backgroundColor: "#46494F", padding: 15, borderRadius: 15, borderColor: "#CCCCCC", borderWidth: 1,
+            backgroundColor: COLORS.appLightColor, padding: 15, borderRadius: 15, borderColor: "#CCCCCC", borderWidth: 1,
 
         }}
         >
@@ -223,7 +223,7 @@ export const SubmitBotton = ({ title, loadingStaus }) => {
         <View style={{ width: "100%", justifyContent: "center", alignItems: "center" }}>
 
             <LinearGradient
-                colors={['#01E3AD', '#01289D',]}
+                colors={['#03234C', '#03234C',]}
                 start={{ x: 0.0, y: 2.0 }} end={{ x: 1.0, y: 1.0 }}
                 style={{
                     height: 50, width: 300,
@@ -256,7 +256,7 @@ export const SubmitBotton = ({ title, loadingStaus }) => {
 export const CheckedBox = ({ }) => {
     return (
         <View style={{
-            backgroundColor: "#1B2F48", padding: 10, borderRadius: 20, borderColor: "#CCCCCC", borderWidth: 1, flexDirection: "row", justifyContent: "center", alignItems: "center"
+            backgroundColor: "#1B2F48", padding: 10, borderRadius: 20, borderColor: "blue", borderWidth: 1, flexDirection: "row", justifyContent: "center", alignItems: "center"
 
         }}
         >
@@ -298,16 +298,31 @@ export const CustumModal = ({ children }) => {
 
                 <View style={[globalStyles.modalStyle,]}>
                     <View style={{ justifyContent: "center", width: wW, alignItems: 'center' }}>
-                        <View style={{ width: normalize(72), backgroundColor: "#DBDFE9", height: 5, marginVertical: 8, borderRadius: 10 }}></View>
+                        <View style={{ width: normalize(72), backgroundColor:  "#202020", height: 5, marginVertical: 8, borderRadius: 10 }}></View>
                     </View>
                     {children}
                 </View>
-             
+
             </ScrollView>
         </View>
 
 
 
 
+    )
+}
+
+
+
+
+
+export const BottomGradiate = ({ children,Sendcolor }) => {
+    console.log(Sendcolor)
+
+    return (
+
+        <View style={{  backgroundColor:Sendcolor ? "Blue" : "red",borderRadius:100 }}>
+            {children}
+        </View>
     )
 }

@@ -33,10 +33,10 @@ const Home = () => {
     return (
 
         <>
-            <Text style={globalStyles.appTitle}>Welcome Customer</Text>
+            <Text style={[globalStyles.appTitle,{marginBottom:10}]}>Welcome Customer</Text>
 
             <PlaceOrderHorizontalCard />
-            <Order_Products />
+            {/* <Order_Products /> */}
 
             <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginTop: 10 }}>
                 <TouchableOpacity onPress ={() => sendWhatsApp()}>

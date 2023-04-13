@@ -26,8 +26,8 @@ export const CategoryCard = ({ imageSource, title }) => {
 
     return (
         <View style={{
-            alignItems: "center", backgroundColor: "#464A50", width: 115, alignSelf: "flex-start",
-            shadowColor: "#000", borderColor: "white", borderWidth: 1, marginTop: 10, padding: 5,/* marginHorizontal:2, */
+            alignItems: "center", backgroundColor: COLORS.appLightColor, width: 115, alignSelf: "flex-start",
+            shadowColor: "#000", borderColor:COLORS.appOppsiteTextColor, borderWidth: 1, marginTop: 10, padding: 5,/* marginHorizontal:2, */
             borderRadius: 20,
             shadowOffset: {
                 width: 0,
@@ -127,7 +127,7 @@ export const HorizontalSingleCategoryCard = (props) => {
     };
     return (
         <View style={{
-            backgroundColor: "#46494F", height: 100, flexDirection: "row", alignItems: "center", marginTop: 20,
+            backgroundColor: COLORS.appLightColor, height: 100, flexDirection: "row", alignItems: "center", marginTop: 20,
             shadowColor: "#000", borderColor: "white", borderWidth: 1,
             borderRadius: 15,
             shadowOffset: {
@@ -153,16 +153,16 @@ export const HorizontalSingleCategoryCard = (props) => {
 
                     <View>
 
-                        <Text style={{ color: "white", fontWeight: "700", fontSize: normalize(13), }}>{title}</Text>
-                        <Text style={{ color: "white", fontWeight: "700", fontSize: normalize(5), }}></Text>
+                        <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "700", fontSize: normalize(13), }}>{title}</Text>
+                        <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "700", fontSize: normalize(5), }}></Text>
 
-                        <Text style={{ color: COLORS.appTextColor }}>{weight}</Text>
+                        <Text style={{ color: COLORS.appOppsiteTextColor }}>{weight}</Text>
                     </View>
                     {/* <Text style={{ color: "white", fontWeight: "700", fontSize: normalize(13), width: 150 }}>{title}</Text> */}
                 </View>
 
                 <View style={{ flexDirection: "row", alignItems: "center", alignSelf: "flex-end" }}>
-                    <Text style={{ color: COLORS.appTextColor }}>S${price.toFixed(2)}   </Text>
+                    <Text style={{ color: COLORS.appOppsiteTextColor }}>S${price.toFixed(2)}   </Text>
                     <AddBotton quantity={quantity} product_id={product_id} updatequantity={(curentQty) => { onChangenewCount(curentQty) }} />
                 </View>
             </View>
@@ -250,7 +250,7 @@ export const AddBotton = (props) => {
 
     return (
 
-        <View style={{ height: 35, borderColor: "white", borderWidth: 1, width: 90, backgroundColor: "#666C72", flexDirection: "row", alignItems: "center", justifyContent: 'space-between', padding: 5, borderRadius: 50, }}>
+        <View style={{ height: 35, borderColor: "white", borderWidth: 1, width: 90, backgroundColor: COLORS.appColor, flexDirection: "row", alignItems: "center", justifyContent: 'space-between', padding: 5, borderRadius: 50, }}>
 
 
             <LoadingModal loading={loading} setloading={setloading} />

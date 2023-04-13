@@ -7,13 +7,13 @@ import { PersistGate } from 'redux-persist/integration/react'
 import Splashscreen from './src/ui/splashscreen';
 import Errorhandling from './src/ui/errorHandle/errorhandling';
 import { COLORS } from './src/ui/helper/color';
+ 
 
-
-const App = () => {
+const App = () => { 
   try {
     return (
       <Provider store={store}>
-        <PersistGate loading={<Text>{/* Loading... */}</Text>} persistor={persistor}>
+        <PersistGate  loading={<Text>{/* Lo ading... */}</Text>} persistor={persistor}>
           <View style={{ flex: 1, }}>
             <StatusBar animated={true} backgroundColor={COLORS.appColor} barStyle={COLORS.barStyle} />
 

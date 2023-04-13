@@ -12,6 +12,7 @@ import LoadingModal from '../../component/loading'
 import { SubmitBotton } from '../../helper/globalStyle'
 import { wW } from '../../helper/size'
 import Toast from 'react-native-simple-toast';
+import { COLORS } from '../../helper/color'
 
 const LastOrder = ({ navigation }) => {
   const { loginData } = useSelector(state => state.loginReducer);
@@ -152,7 +153,7 @@ const LastOrder = ({ navigation }) => {
             ))}
         </ScrollView>
 
-        <View style={{ position: "absolute", bottom: 0, alignItems: 'center', width: wW, backgroundColor: "#35373D", height: 100, justifyContent: "center", borderTopWidth: 1, borderTopColor: "grey" }}>
+        <View style={{ position: "absolute", bottom: 0, alignItems: 'center', width: wW, backgroundColor: COLORS.appLightColor, height: 100, justifyContent: "center", borderTopWidth: 1, borderTopColor: "grey" }}>
 
           <TouchableOpacity onPress={() => {Place_order() }}>
             <SubmitBotton title={"Repeat Order"} loadingStaus={false} />

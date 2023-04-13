@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { CartBotton } from '../../custumsIcons';
 import { IMAGES } from '../../globalImage';
 import { normalize } from '../../helper/size';
+import { COLORS } from '../../helper/color';
 
 
 
@@ -30,13 +31,13 @@ export const DrawerListButton = ({ imageSource, title }) => {
                 // elevation: 2,
             }}
         >
-      <View style={{flex:1,height:"100%",backgroundColor:"#202020", borderRadius: 10, flexDirection: "row",alignItems:"center",padding:10}}>
-        <View style={{backgroundColor:"#47484A",borderRadius:50, width: normalize(35), height: normalize(35),justifyContent:"center",alignItems:"center",marginRight: 15,}}>
+      <View style={{flex:1,height:"100%",backgroundColor:COLORS.appLightColor, borderRadius: 10, flexDirection: "row",alignItems:"center",padding:10}}>
+        <View style={{backgroundColor:COLORS.appColor,borderRadius:50, width: normalize(35), height: normalize(35),justifyContent:"center",alignItems:"center",marginRight: 15,}}>
 
       <Image style={[{ width: normalize(20), height: normalize(20),  }]} source={imageSource} />
         </View>
 
-      <Text style={{ color: "white", fontSize: normalize(13) }}>{title}</Text>
+      <Text style={{ color:COLORS.appOppsiteTextColor, fontSize: normalize(13) }}>{title}</Text>
       </View>
      
         </LinearGradient>

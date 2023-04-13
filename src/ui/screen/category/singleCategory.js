@@ -13,6 +13,7 @@ import { globalStyles } from '../../helper/globalStyle';
 
 import { getCartCount } from "../../../stateManage/asynstorage/asyncStore"
 import { useFocusEffect } from '@react-navigation/native';
+import { COLORS } from '../../helper/color';
 
 
 const SingleCategory = ({ route, navigation }) => {
@@ -144,7 +145,7 @@ const SingleCategory = ({ route, navigation }) => {
             {categoryData && categoryData.length > 0 &&
               categoryData.map((i, index) => (
                 <TouchableOpacity key={index} onPress={() => { getData(i.id), setcurrentCategory(i.id) }}  >
-                  <SmallCategoryCard title={i.category_name} currentCategory={i.id != currentCategory ? "#333333" : "#E1E9F1"} TextcurrentCategory={i.id == currentCategory ? "#333333" : "white"} />
+                  <SmallCategoryCard title={i.category_name} currentCategory={i.id != currentCategory ? COLORS.appLightColor : "#333333" } TextcurrentCategory={i.id == currentCategory ?  COLORS.appLightColor : "#333333"} />
                 </TouchableOpacity>
               ))}
           </ScrollView>

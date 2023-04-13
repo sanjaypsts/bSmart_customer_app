@@ -7,6 +7,7 @@ import { CartBotton } from '../../custumsIcons';
 import { IMAGES } from '../../globalImage';
 import { globalStyles } from '../../helper/globalStyle';
 import { normalize } from '../../helper/size';
+import { COLORS } from '../../helper/color';
 
 
 
@@ -45,18 +46,18 @@ export const PlaceOrderHorizontalCard = ({ imageSource, title }) => {
         // </LinearGradient>
 
 
-        <LinearGradient
-            colors={['#00A298', '#0155A0']}
-            start={{ x: 0.0, y: 1.0 }} end={{ x: 1.0, y: 1.0 }}
+        <View
+            // colors={['#00A298', '#0155A0']}
+            // start={{ x: 0.0, y: 1.0 }} end={{ x: 1.0, y: 1.0 }}
             style={{
                 flexDirection: "row", alignItems: "center", justifyContent: "center",
                 shadowColor: "#329BFF",
-                marginTop: 10, padding: 0.8, borderRadius: 20,
+                marginTop: 10, padding: 0.8, borderRadius: 20,marginBottom:10
             }}
         >
 
-            <View style={{ flex: 1, height: "100%", backgroundColor: "#202020", borderRadius: 20, flexDirection: "row", alignItems: "center", padding: 20, justifyContent: "center" }}>
-                <Image resizeMode="contain" style={[{ width: normalize(60), height: normalize(60), marginRight: 15 }]} source={IMAGES.No_order} />
+            <View style={{ flex: 1, height: "100%", backgroundColor: COLORS.appLightColor, borderRadius: 20, flexDirection: "row", alignItems: "center", padding: 20, justifyContent: "center" }}>
+                <Image resizeMode="contain" style={[{ width: normalize(80), height: normalize(80), marginRight: 15 }]} source={IMAGES.No_order} />
                 <View>
                     <Text style={[globalStyles.heading, {}]}>No Orders</Text>
                     <Text style={[globalStyles.title, { color: "#9CA3AF", }]}>Place orders to your business.</Text>
@@ -64,7 +65,7 @@ export const PlaceOrderHorizontalCard = ({ imageSource, title }) => {
                 </View>
             </View>
 
-        </LinearGradient>
+        </View>
 
     )
 }
@@ -162,9 +163,9 @@ export const SmallCardList = ({ imageSource, title }) => {
         //     </View>
         // </LinearGradient>
 
-        <LinearGradient
-            colors={['#00A298', '#0155A0']}
-            start={{ x: 0.0, y: 1.0 }} end={{ x: 1.0, y: 1.0 }}
+        <View
+            // colors={['#00A298', '#0155A0']}
+            // start={{ x: 0.0, y: 1.0 }} end={{ x: 1.0, y: 1.0 }}
             style={{
 
                 shadowColor: "#329BFF",
@@ -172,14 +173,14 @@ export const SmallCardList = ({ imageSource, title }) => {
             }}
         >
 
-            <View style={{ width: "100%", height: "100%", backgroundColor: "#202020", borderRadius: 20, alignItems: "center", justifyContent: "center" }}>
+            <View style={{ width: "100%", height: "100%",backgroundColor: COLORS.appLightColor, borderRadius: 20, alignItems: "center", justifyContent: "center" }}>
 
                 <Image resizeMode="contain" style={[{ width: normalize(40), height: normalize(40) }]} source={imageSource} />
                 <Text style={[globalStyles.title, { lineHeight: 30 }]}>{title}</Text>
 
             </View>
 
-        </LinearGradient>
+        </View>
 
     )
 }

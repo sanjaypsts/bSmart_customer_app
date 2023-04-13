@@ -69,24 +69,26 @@ import { normalize, wH, wW } from './helper/size';
 
 export const MenuBotton = ({ }) => {
   return (
-    <View style={styles.bottonStyle}>
-      <Icon name="menu" size={normalize(25)} color="white" />
-    </View>
+    <Image resizeMode='contain' source={IMAGES.Menu} style={{ width:normalize(25), height:normalize(25), borderRadius: 10 }} />
+
+    // <View style={styles.bottonStyle}>
+      // <Icon name="menu" size={normalize(30)} color="white" />
+    // </View>
   )
 }
 
 export const NotificationBotton = ({ }) => {
   return (
-    <View style={styles.bottonStyle}>
+    // <View style={styles.bottonStyle}>
       <Ionicons name="notifications-outline" size={normalize(25)} color="white" />
-    </View>
+    // </View>
   )
 }
 export const BackBotton = ({ }) => {
   return (
-    <View style={styles.bottonStyle}>
-      <Ionicons name="md-chevron-back" size={normalize(25)} color="white" />
-    </View>
+    // <View style={styles.bottonStyle}>
+      <Ionicons name="md-chevron-back" size={normalize(30)} color="white" />
+    // </View>
   )
 }
 
@@ -115,14 +117,14 @@ export const FilterBotton = ({ backgroundColor}) => {
 
 // DrawerBottom
 
-export const HomeBotton = ({ imageSource, title,iconColor }) => {
+export const HomeBotton = ({ imageSource, title,iconColor,backgroundColor }) => {
   return (
-    <View style={styles.bottomIcon}>
+    <View style={[styles.bottomIcon,{backgroundColor:backgroundColor,borderRadius:60}]}>
       <Image  resizeMode="contain"   tintColor={iconColor} style={[{ width: normalize(20), height: normalize(20), }]} source={imageSource} />
 
 
       {/* <Ionicons name="notifications-outline" size={normalize(25)} color="white" /> */}
-      <Text style={{ color: iconColor }} >{title}</Text>
+      {/* <Text style={{ color: iconColor }} >{title}</Text> */}
     </View>
   )
 }
@@ -149,7 +151,7 @@ const styles = StyleSheet.create({
   },
   bottomIcon: {
 
-    padding: 10, borderRadius: 10, justifyContent: "center", alignItems: 'center'
+    padding: 15, borderRadius: 10, justifyContent: "center", alignItems: 'center'
 
   }
 

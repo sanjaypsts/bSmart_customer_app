@@ -49,45 +49,45 @@ export const CreditsModal = (props) => {
 
                 <CartBox>
                     <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 8 }}>
-                        <Text style={{ color: "white", fontWeight: "500", fontSize: normalize(16), }}>{"Subtotal"}</Text>
-                        <Text style={{ color: "white", fontWeight: "500", fontSize: normalize(16), }}>S$ 0</Text>
+                        <Text style={{ color:  COLORS.appOppsiteTextColor, fontWeight: "500", fontSize: normalize(16), }}>{"Subtotal"}</Text>
+                        <Text style={{ color:  COLORS.appOppsiteTextColor, fontWeight: "500", fontSize: normalize(16), }}>S$ 0</Text>
                     </View>
 
                     <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 5 }}>
                         <View style={{ flexDirection: "row", alignItems: "center" }}>
                             <Image resizeMode='contain' source={IMAGES.Receipt_text} style={{ width: 18, height: 18, borderRadius: 10 }} />
-                            <Text style={{ color: COLORS.appTextColor, fontWeight: "400", fontSize: normalize(16), }}> Tax</Text>
+                            <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "400", fontSize: normalize(16), }}> Tax</Text>
                         </View>
-                        <Text style={{ color: COLORS.appTextColor, fontWeight: "400", fontSize: normalize(16), }}>S$ 0</Text>
+                        <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "400", fontSize: normalize(16), }}>S$ 0</Text>
                     </View>
 
                     <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 5 }}>
                         <View style={{ flexDirection: "row", alignItems: "center" }}>
                             <Image resizeMode='contain' source={IMAGES.truck} style={{ width: 18, height: 18, borderRadius: 10 }} />
-                            <Text style={{ color: COLORS.appTextColor, fontWeight: "400", fontSize: normalize(16), }}> Delivery</Text>
+                            <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "400", fontSize: normalize(16), }}> Delivery</Text>
                         </View>
-                        <Text style={{ color: COLORS.appTextColor, fontWeight: "400", fontSize: normalize(16), }}>S$ 0</Text>
+                        <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "400", fontSize: normalize(16), }}>S$ 0</Text>
                     </View>
                     <View style={{ backgroundColor: "white", height: 0.5, width: "100%", marginVertical: 10 }}></View>
                     <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 5 }}>
-                        <Text style={{ color: "white", fontWeight: "500", fontSize: normalize(16), }}>{"Grand total"}</Text>
-                        <Text style={{ color: "white", fontWeight: "500", fontSize: normalize(16), }}>S$ 0</Text>
+                        <Text style={{ color:  COLORS.appOppsiteTextColor, fontWeight: "500", fontSize: normalize(16), }}>{"Grand total"}</Text>
+                        <Text style={{ color:  COLORS.appOppsiteTextColor, fontWeight: "500", fontSize: normalize(16), }}>S$ 0</Text>
                     </View>
 
                     <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 5 }}>
                         <View style={{ flexDirection: "row", alignItems: "center" }}>
                             <Image resizeMode='contain' source={IMAGES.Receipt_text} style={{ width: 18, height: 18, borderRadius: 10 }} />
-                            <Text style={{ color: COLORS.appTextColor, fontWeight: "400", fontSize: normalize(16), }}> Paid</Text>
+                            <Text style={{ color:  COLORS.appOppsiteTextColor, fontWeight: "400", fontSize: normalize(16), }}> Paid</Text>
                         </View>
-                        <Text style={{ color: COLORS.appTextColor, fontWeight: "400", fontSize: normalize(16), }}>S$ 0</Text>
+                        <Text style={{ color:  COLORS.appOppsiteTextColor, fontWeight: "400", fontSize: normalize(16), }}>S$ 0</Text>
                     </View>
 
                     <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 5 }}>
                         <View style={{ flexDirection: "row", alignItems: "center" }}>
                             <Image resizeMode='contain' source={IMAGES.Receipt_text} style={{ width: 18, height: 18, borderRadius: 10 }} />
-                            <Text style={{ color: COLORS.appTextColor, fontWeight: "400", fontSize: normalize(16), }}> Remaining Credit</Text>
+                            <Text style={{ color:  COLORS.appOppsiteTextColor, fontWeight: "400", fontSize: normalize(16), }}> Remaining Credit</Text>
                         </View>
-                        <Text style={{ color: COLORS.appTextColor, fontWeight: "400", fontSize: normalize(16), }}>S$ 0</Text>
+                        <Text style={{ color:  COLORS.appOppsiteTextColor, fontWeight: "400", fontSize: normalize(16), }}>S$ 0</Text>
                     </View>
 
 
@@ -95,7 +95,7 @@ export const CreditsModal = (props) => {
 
                 <View style={{ marginBottom: 120 }}></View>
 
-                <View style={{ position: "absolute", flexDirection: "row", bottom: 0, alignItems: 'center', width: wW, backgroundColor: "#35373D", height: 100, justifyContent: "space-around", borderTopWidth: 1, borderTopColor: "grey" }}>
+                <View style={{ position: "absolute", flexDirection: "row", bottom: 0, alignItems: 'center', width: wW, backgroundColor: COLORS.appLightColor, height: 100, justifyContent: "space-around", borderTopWidth: 1, borderTopColor: "grey" }}>
                 <Image resizeMode='contain' source={IMAGES.PayWith} style={{ width: 100, height: 80, borderRadius: 10 }} />
 
                     <TouchableOpacity style={{ width: 100, borderRadius: 20 }} onPress={() => { }}>

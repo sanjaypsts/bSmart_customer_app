@@ -23,7 +23,7 @@ export const LoginInput = (props) => {
         updateMasterState(updatedValue);
     };
 
-    const lineColor = err == undefined || err == '' || err == null ? ['#01E3AD', '#01289D'] : [COLORS.ErrorMsg, COLORS.ErrorMsg]
+    const lineColor = err == undefined || err == '' || err == null ? ['#01E3AD', '#01E3AD'] : [COLORS.ErrorMsg, COLORS.ErrorMsg]
     return (
 
         <View style={{}}>

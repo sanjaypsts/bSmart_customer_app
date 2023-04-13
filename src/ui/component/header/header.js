@@ -31,7 +31,7 @@ const DrawerHeader = ({}) => {
                         animationOut="fadeOut"
 
                     />
-                    <AppLogo width={normalize(50)} height={normalize(50)} />
+                    <AppLogo width={normalize(40)} height={normalize(50)} />
                     {/* <Ionicons name="notifications-outline" size={wW / 18} /> */}
                     <TouchableOpacity onPress={() => { navigation.push('Notification')}}>
                         <NotificationBotton />

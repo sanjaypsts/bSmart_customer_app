@@ -6,6 +6,7 @@ import BackBottonHeader from '../../component/header/dashboardHeader'
 import { useState } from 'react'
 import { CartBox, Divider, MiniCartBox, globalStyles } from '../../helper/globalStyle'
 import { CreditsModal } from './creditsHelper'
+import { COLORS } from '../../helper/color'
 
 
 const Credits = ({ navigation }) => {
@@ -50,7 +51,7 @@ const Credits = ({ navigation }) => {
                 </View>
                 <View style={{ height: 1, backgroundColor: "#8E8E8E", width: "100%", marginVertical: 10 }}></View>
                 <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
-                    <Text style={[globalStyles.order_title, { color: 'white' }]}>06 Dec 2022 at 10:40AM</Text>
+                    <Text style={[globalStyles.order_title, { color: COLORS.appOppsiteTextColor }]}>06 Dec 2022 at 10:40AM</Text>
 
                     <TouchableOpacity onPress={() => setmodalvisible(true)}>
                         <MiniCartBox>

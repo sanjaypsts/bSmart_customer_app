@@ -11,6 +11,7 @@ import { normalize } from '../helper/size'
 import LoadingModal from './loading'
 import NoDataFound from '../errorHandle/noDataFound'
 import Toast from 'react-native-simple-toast';
+import { COLORS } from '../helper/color'
 
 
 const Notification = ({ navigation }) => {
@@ -65,7 +66,7 @@ const Notification = ({ navigation }) => {
 
     return (
       <View style={{ flexDirection: 'row', marginHorizontal: 10, marginVertical: 10 }}>
-        <View style={{ width: 50, height: 50, justifyContent: 'center', alignItems: 'center', backgroundColor: "#424445", borderRadius: 30 }}>
+        <View style={{ width: 50, height: 50, justifyContent: 'center', alignItems: 'center', backgroundColor: COLORS.appLightColor, borderRadius: 30 }}>
           {item.type == 'OTP' ? <OTPNotification width={normalize(20)} height={normalize(20)} /> : <OrderNotification width={normalize(20)} height={normalize(20)} />}
         </View>
         <View style={{ marginHorizontal: 5 }}>

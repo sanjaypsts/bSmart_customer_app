@@ -114,7 +114,7 @@ const Cart = ({ navigation }) => {
 
 
 
-    apicallHeaderPost({ 'customer_id': USER_DATA.customer_unique_id }, 'getCartDetail', loginData.data.token)
+    apicallHeaderPost({ 'customer_id': loginData.data.customer_shipping_address_alias_id.customer_unique_id /* USER_DATA.customer_unique_id */ }, 'getCartDetail', loginData.data.token)
       .then(response => {
         setloading(false)
         if (response.status == 200 && response.data.status == true || response.data.status == 'true') {
@@ -128,7 +128,7 @@ const Cart = ({ navigation }) => {
           setSubtotal(total_Price)
           setGrandtotal(total_Price_with_Tax)
           settotalTax(total_Price_with_Tax - total_Price - response.data.data.delivery_charge)
-
+          setloading(false)
         } else {
 
         }
@@ -256,7 +256,7 @@ const Cart = ({ navigation }) => {
           <TouchableOpacity onPress={() => { navigation.push('SingleCategory') }} style={{ flexDirection: 'row', alignItems: "center", width: "100%", justifyContent: "space-between" }}>
             <View style={{ flexDirection: 'row', alignItems: "center", }}>
               <Image resizeMode="contain" source={IMAGES.Shopping_cart} style={{ width: 30, height: 30, borderRadius: 10 }} />
-              <Text style={{ color: "white" }}>  Add more products</Text>
+              <Text style={{ color: COLORS.appOppsiteTextColor }}>  Add more products</Text>
             </View>
 
             <View>
@@ -272,29 +272,29 @@ const Cart = ({ navigation }) => {
 
         <CartBox>
           <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 8 }}>
-            <Text style={{ color: "white", fontWeight: "500", fontSize: normalize(16), }}>{"Subtotal"}</Text>
-            <Text style={{ color: "white", fontWeight: "500", fontSize: normalize(16), }}>S$ {Subtotal.toFixed(2)}</Text>
+            <Text style={[globalStyles.cart_heading1,{  }]}>{"Subtotal"}</Text>
+            <Text style={[globalStyles.cart_heading1,{  }]}>S$ {Subtotal.toFixed(2)}</Text>
           </View>
 
           <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 5 }}>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <Image resizeMode='contain' source={IMAGES.Receipt_text} style={{ width: 18, height: 18, borderRadius: 10 }} />
-              <Text style={{ color: COLORS.appTextColor, fontWeight: "400", fontSize: normalize(16), }}> Tax</Text>
+              <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "400", fontSize: normalize(16), }}> Tax</Text>
             </View>
-            <Text style={{ color: COLORS.appTextColor, fontWeight: "400", fontSize: normalize(16), }}>S$ {totalTax.toFixed(2)}</Text>
+            <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "400", fontSize: normalize(16), }}>S$ {totalTax.toFixed(2)}</Text>
           </View>
 
           <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 5 }}>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <Image resizeMode='contain' source={IMAGES.truck} style={{ width: 18, height: 18, borderRadius: 10 }} />
-              <Text style={{ color: COLORS.appTextColor, fontWeight: "400", fontSize: normalize(16), }}> Delivery</Text>
+              <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "400", fontSize: normalize(16), }}> Delivery</Text>
             </View>
-            <Text style={{ color: COLORS.appTextColor, fontWeight: "400", fontSize: normalize(16), }}>S$ {deliveryAmt.toFixed(2)}</Text>
+            <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "400", fontSize: normalize(16), }}>S$ {deliveryAmt.toFixed(2)}</Text>
           </View>
           <View style={{ backgroundColor: "white", height: 0.5, width: "100%", marginVertical: 10 }}></View>
           <View style={{ flexDirection: "row", justifyContent: "space-between", }}>
-            <Text style={{ color: "white", fontWeight: "500", fontSize: normalize(16), }}>{"Grand total"}</Text>
-            <Text style={{ color: "white", fontWeight: "500", fontSize: normalize(16), }}>S$ {Grandtotal.toFixed(2)}</Text>
+            <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "500", fontSize: normalize(16), }}>{"Grand total"}</Text>
+            <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "500", fontSize: normalize(16), }}>S$ {Grandtotal.toFixed(2)}</Text>
           </View>
         </CartBox>
 
@@ -312,14 +312,14 @@ const Cart = ({ navigation }) => {
                 <View>
                   {
                     SelectName != undefined && SelectName != null && SelectName != "" &&
-                    <Text style={{ color: "white", fontWeight: "500", fontSize: normalize(16), }}>{SelectName}</Text>
+                    <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "500", fontSize: normalize(16), }}>{SelectName}</Text>
                   }
-                  <Text style={{ color: "white", fontWeight: "500", fontSize: normalize(16), }}>{SelectMobileNumber}</Text>
+                  <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "500", fontSize: normalize(16), }}>{SelectMobileNumber}</Text>
                 </View>
               </View>
 
               <View>
-                <Ionicons name="chevron-forward" size={normalize(25)} color="white" />
+                <Ionicons name="chevron-forward" size={normalize(25)} color={COLORS.appOppsiteTextColor} />
               </View>
             </View>
           </CartBox>
@@ -356,8 +356,8 @@ const Cart = ({ navigation }) => {
         <CartBox>
           <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
             <View>
-              <Text style={{ color: "white", fontWeight: "500", fontSize: normalize(16), }}>{"Cash"}</Text>
-              <Text style={{ color: "white", fontWeight: "500", fontSize: normalize(16), }}>Balance Credit: S$ {(Balance_Credit).toFixed(2)}</Text>
+              <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "500", fontSize: normalize(16), }}>{"Cash"}</Text>
+              <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "500", fontSize: normalize(16), }}>Balance Credit: S$ {(Balance_Credit).toFixed(2)}</Text>
             </View>
             <View>
               {/* <Ionicons name="chevron-forward" size={normalize(25)} color="white" /> */}

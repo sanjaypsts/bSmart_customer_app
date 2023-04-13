@@ -14,6 +14,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import apicallHeaderPost from '../../../stateManage/apicallHeaderPost';
 import LoadingModal from '../../component/loading';
+import { useTranslation } from 'react-i18next';
 
 
 
@@ -57,7 +58,7 @@ export const ItemCartBox = (props) =>{
            
             setloading(false)
             if (response.status == 200 && response.data.status == true || response.data.status == 'true') {
-                console.log("Add")
+       
                 updatequantity(response.data.data.data_list.quantity)
 
            
@@ -77,6 +78,7 @@ export const ItemCartBox = (props) =>{
             }
         })
     }
+    const { t, i18n } = useTranslation();
 
   return (
 <>
@@ -88,7 +90,7 @@ export const ItemCartBox = (props) =>{
     <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 5, alignItems: "center",width:"100%" }}>
         <View style={{width:'70%'}}>
           <Text style={globalStyles.cart_heading1}>{title}</Text>
-           <Text style={globalStyles.cart_title}>{weight}</Text>
+           <Text style={globalStyles.cart_title2}>{weight}</Text>
          <Text style={globalStyles.cart_title2}>S$ {(price).toFixed(2)} </Text>
      </View>
      <View style={{width:'30%',alignItems:"flex-end"}} >
@@ -98,7 +100,7 @@ export const ItemCartBox = (props) =>{
     {/* Add btn */}
 
 
-     <View style={{ height: 35, borderColor: "white", borderWidth: 1, width: 90, backgroundColor: "#666C72", flexDirection: "row", alignItems: "center", justifyContent: 'space-between', padding: 5, borderRadius: 50, }}>
+     <View style={{ height: 35, borderColor: "white", borderWidth: 1, width: 90, backgroundColor:COLORS.appColor, flexDirection: "row", alignItems: "center", justifyContent: 'space-between', padding: 5, borderRadius: 50, }}>
 
 
         <LoadingModal loading={loading} setloading={setloading} />

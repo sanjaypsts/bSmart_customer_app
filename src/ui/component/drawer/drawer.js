@@ -18,6 +18,7 @@ import { DrawerListButton } from './drawerHelper';
 import { useNavigation } from '@react-navigation/native';
 import { Relogin } from '../../../stateManage/auth/actions';
 import RNRestart from 'react-native-restart';
+import { COLORS } from '../../helper/color';
 
 // import { LogoutScreen } from '../../screen/auth/logout';
 
@@ -52,7 +53,7 @@ const Drawer = ({}) => {
               <View
                 style={{
                   height: wH, width: wW / 1.4,
-                  backgroundColor: "#202020", right: wW / 20, borderBottomRightRadius: 20, borderTopEndRadius: 20,
+                  backgroundColor: COLORS.appColor, right: wW / 20, borderBottomRightRadius: 20, borderTopEndRadius: 20,
                   padding: wW / 20
                 }}>
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
