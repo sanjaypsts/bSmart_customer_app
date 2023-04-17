@@ -24,6 +24,7 @@
         "login_instead": "Login Instead",
         "thanks": "Thanks!",
         "thanks_descripton": "Admin will contact you soon regarding account creation"
+        
     },
     "category": {
         "category": "Category",
@@ -31,27 +32,43 @@
         "search_products": "Search Products",
         "add": "ADD"
     },
-    "cart":{
-        "cart":"Cart"
+    "credit": {
+        "CreditScreen": "CreditScreen",
+        "credit_balance": "Credit Balance",
+        "dollor":"S$",
+        "order":"Order",
+        "total_bill":"Total Bill",
+        "Paid":"Paid",
+        "PO":"PO",
+        "Invoice":"Invoice",
 
+        "delivery":"Delivery",
+        "purchase_order":"Purchase order",
+        "Quantity":"Quantity",
+        "Subtotal":"Subtotal",
+        "Tax":"Tax",
+        "Grand_total":"Grand total",
+        "Remaining_Credit":"Remaining Credit"
+    
 
     },
-    "Notifications":{
-        "notifications":"Notifications",
-        "newer":"Newer",
-        "older":"Older"
+    "cart": {
+        "cart": "Cart"
     },
-    "Address":{
-        "Address":"Addresses",
-        "view_addresses":"VIEW ADDRESSES",
-        "billing_address":"Billing Address",
-        "shipping_address":"Shipping Address",
-        "edit":"Edit",
-        "contact":"Contact",
-        "view_contacts":"VIEW CONTACTS",
-        "edit_address":"Edit Address",
-        "edit_shipping_address":"EDIT SHIPPING ADDRESS"
-
+    "Notifications": {
+        "notifications": "Notifications",
+        "newer": "Newer",
+        "older": "Older"
+    },
+    "Address": {
+        "Address": "Addresses",
+        "view_addresses": "VIEW ADDRESSES",
+        "billing_address": "Billing Address",
+        "shipping_address": "Shipping Address",
+        "edit": "Edit",
+        "contact": "Contact",
+        "view_contacts": "VIEW CONTACTS",
+        "edit_address": "Edit Address",
+        "edit_shipping_address": "EDIT SHIPPING ADDRESS"
     }
-
 }

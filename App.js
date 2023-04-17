@@ -1,32 +1,31 @@
-import { StatusBar, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import MainLogin from './src/ui/screen/auth/mainLogin'
-import { store, persistor } from './src/stateManage/store'
-import { Provider } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react'
-import Splashscreen from './src/ui/splashscreen';
-import Errorhandling from './src/ui/errorHandle/errorhandling';
-import { COLORS } from './src/ui/helper/color';
- 
 
-const App = () => { 
+import { StyleSheet, Text, View } from 'react-native'
+import React from 'react'
+
+import Splashscreen from './src/ui/component/splashScreen'
+import ErrorHandle from './src/ui/ErrorHandling/error'
+import Background from './src/ui/helper/background'
+import { Provider } from 'react-redux'
+import { PersistGate } from 'redux-persist/integration/react'
+import { store, persistor } from './src/Data/store'
+
+
+const App = () => {
   try {
+
     return (
       <Provider store={store}>
-        <PersistGate  loading={<Text>{/* Lo ading... */}</Text>} persistor={persistor}>
-          <View style={{ flex: 1, }}>
-            <StatusBar animated={true} backgroundColor={COLORS.appColor} barStyle={COLORS.barStyle} />
+        <PersistGate loading={<Text>{/* Lo ading... */}</Text>} persistor={persistor}>
+          <Background withoutpadding={true}>
 
             <Splashscreen />
-
-          </View>
+          </Background>
         </PersistGate>
       </Provider>
-
     )
-  } catch {
-    <Errorhandling/>
 
+  } catch (error) {
+    <ErrorHandle error_message={error} />
   }
 }
 
