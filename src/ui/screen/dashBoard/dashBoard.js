@@ -9,7 +9,7 @@ import Category from '../category/category'
 import DrawerHeader from '../../component/header/header'
 import Orders from '../orders/orders'
 import { useEffect } from 'react'
-import { CONTACT_SET, CUSTOMER_PROFILE_SET, Product_Count_SET } from '../../../stateManage/userDetails/actions'
+import { ADDRESS_SET, CONTACT_SET, CUSTOMER_PROFILE_SET, Product_Count_SET } from '../../../stateManage/userDetails/actions'
 import { useDispatch, useSelector } from 'react-redux'
 import { Category_SET } from '../../../stateManage/category/actions'
 
@@ -64,6 +64,9 @@ const DashBoard = ({ route, navigation }) => {
 
 
     useEffect(() => {
+    dispatch(ADDRESS_SET({ customer_unique_id: loginData.data.customer_shipping_address_alias_id.id }, "mgetParticularCustomershippingAddressDetails", loginData.data.token))
+
+        dispatch(CONTACT_SET({customer_unique_id:loginData.data.customer_shipping_address_alias_id.id},"mgetParticularCustomerContactDetails", loginData.data.token))
 
         dispatch(CUSTOMER_PROFILE_SET({ "customer_unique_id": " " }, "customerProfile", loginData.data.token))
 

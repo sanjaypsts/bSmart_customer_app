@@ -3,6 +3,7 @@ import { Text, ImageBackground, View, ActivityIndicator, StatusBar } from "react
 import { IMAGES } from "../globalImage";
 import { COLORS } from "../helper/color";
 import { globalPaddingHorizontal, wH, wW } from "../helper/size";
+import LinearGradient from "react-native-linear-gradient";
 
 
 
@@ -11,9 +12,12 @@ const BackGround = ({ children, splashScreen, imageSource }) => {
     return (
         <View>
             <StatusBar animated={true} backgroundColor={COLORS.appColor} barStyle={COLORS.barStyle} />
-            <ImageBackground style={[!splashScreen && globalPaddingHorizontal, { width: wW, height: wH, }]} source={IMAGES.BackGround} >
+            <LinearGradient colors={['#03234C',"#054565", '#06AAA8']} style={[!splashScreen && globalPaddingHorizontal, { width: wW, height: wH, }]} >
                 {children}
-            </ImageBackground>
+            </LinearGradient>
+            {/* <ImageBackground style={[!splashScreen && globalPaddingHorizontal, { width: wW, height: wH, }]} source={IMAGES.BackGround} >
+                {children}
+            </ImageBackground> */}
         </View>
 
     )

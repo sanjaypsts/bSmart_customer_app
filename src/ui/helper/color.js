@@ -1,5 +1,5 @@
 const COLORS = {
-     transParent:'rgba(52, 52, 52, 0.8)',
+     transParent:'rgba(52, 52, 52, 0.2)',
      appColor:"#03234C",
      appLightColor:"#E9FBFF",
      barStyle:'light-content',

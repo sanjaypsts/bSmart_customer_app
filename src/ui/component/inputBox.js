@@ -13,7 +13,7 @@ import { normalize } from '../helper/size';
 
 export const CustumTextInput = (props) => {
     
-    const {  title, value,  } = props
+    const {  title, value, textLength, keyBoardType,   } = props
 
 
     const onChangeText = (updatedValue) => {
@@ -33,10 +33,11 @@ export const CustumTextInput = (props) => {
                     <TextInput
                         placeholder={title}
                         value={value}
-                        maxLength={125}
+                        maxLength={textLength}
+                        keyboardType={keyBoardType}
                         style={[globalStyles.inputText]}
                         placeholderTextColor={"#606563"}
-                        // onChangeText={onChangeText}
+                        onChangeText={onChangeText}
                   
                     />
 

@@ -15,15 +15,16 @@ import { globalStyles, GradiateTexte } from '../../helper/globalStyle';
 
 export const LoginInput = (props) => {
     const [passwordVisible, setPasswordVisible] = useState(true);
-    const { imageSource, title, value, textLength, keyBoardType, err, passwordEye } = props
-
+    const { imageSource, title, value, textLength, keyBoardType, err, errorMessage, passwordEye } = props
 
     const onChangeText = (updatedValue) => {
         const { updateMasterState } = props;
         updateMasterState(updatedValue);
+
     };
 
     const lineColor = err == undefined || err == '' || err == null ? ['#01E3AD', '#01E3AD'] : [COLORS.ErrorMsg, COLORS.ErrorMsg]
+
     return (
 
         <View style={{}}>
@@ -32,6 +33,12 @@ export const LoginInput = (props) => {
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
 
                     <Image resizeMode='contain' style={[{ width: normalize(25), height: normalize(25), }]} source={imageSource} />
+
+                    {title == 'Contact Number' &&
+                        <Text style={{ color: COLORS.appTextColor, fontSize: normalize(16), marginLeft: 5, fontFamily: "RedHatDisplay-Regular", }}>+ 65</Text>
+                    }
+
+
                     <TextInput
                         placeholder={title}
                         value={value}
@@ -41,6 +48,7 @@ export const LoginInput = (props) => {
                         style={globalStyles.logininputText}
                         placeholderTextColor={"#606563"}
                         onChangeText={onChangeText}
+
                     // onChangeText={(text) => setPassword(text)}
                     />
 
@@ -50,7 +58,7 @@ export const LoginInput = (props) => {
 
                 {passwordEye &&
                     <View style={{ right: 30 }}>
-                        {!passwordVisible ?
+                        {passwordVisible ?
                             <TouchableOpacity onPress={() => setPasswordVisible(!passwordVisible)}>
                                 <Ionicons name="eye-off-outline" size={normalize(20)} color="white" />
                             </TouchableOpacity>
@@ -86,8 +94,8 @@ export const LoginInput = (props) => {
 
             </LinearGradient>
 
-            {err &&
-                <Text style={{ alignSelf: "flex-end", color: COLORS.ErrorMsg, fontSize: normalize(16), fontFamily: "RedHatDisplay-Regular" }}>{err}</Text>
+            {err && errorMessage != undefined &&
+                <Text style={{ alignSelf: "flex-end", color: COLORS.ErrorMsg, fontSize: normalize(16), fontFamily: "RedHatDisplay-Regular" }}>{errorMessage}</Text>
 
             }
 

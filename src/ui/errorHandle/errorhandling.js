@@ -1,11 +1,12 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import BackGround from '../component/backgroundImage'
 
 const Errorhandling = () => {
   return (
-    <View>
+    <BackGround> 
       <Text>errorhandling</Text>
-    </View>
+      </BackGround> 
   )
 }
 

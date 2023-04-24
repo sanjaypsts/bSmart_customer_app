@@ -62,6 +62,7 @@ import DrawerBottom from './component/bottom';
 import { IMAGES } from './globalImage';
 import Feather from 'react-native-vector-icons/Feather';
 import { normalize, wH, wW } from './helper/size';
+import LinearGradient from 'react-native-linear-gradient';
 
 
 // header icons
@@ -118,14 +119,20 @@ export const FilterBotton = ({ backgroundColor}) => {
 // DrawerBottom
 
 export const HomeBotton = ({ imageSource, title,iconColor,backgroundColor }) => {
+  const lineColor = backgroundColor == undefined || backgroundColor == '#E9FBFF' || backgroundColor == null ? ['#E9FBFF', '#E9FBFF'] : ['#03234C',"#054565", '#06AAA8']
+
   return (
-    <View style={[styles.bottomIcon,{backgroundColor:backgroundColor,borderRadius:60}]}>
-      <Image  resizeMode="contain"   tintColor={iconColor} style={[{ width: normalize(20), height: normalize(20), }]} source={imageSource} />
+
+    <LinearGradient colors={lineColor} style={[styles.bottomIcon,{backgroundColor:backgroundColor,borderRadius:60}]} >
+  <Image  resizeMode="contain"   tintColor={iconColor} style={[{ width: normalize(20), height: normalize(20), }]} source={imageSource} />
+</LinearGradient>
+    // <View style={[styles.bottomIcon,{backgroundColor:backgroundColor,borderRadius:60}]}>
+    //   <Image  resizeMode="contain"   tintColor={iconColor} style={[{ width: normalize(20), height: normalize(20), }]} source={imageSource} />
 
 
-      {/* <Ionicons name="notifications-outline" size={normalize(25)} color="white" /> */}
-      {/* <Text style={{ color: iconColor }} >{title}</Text> */}
-    </View>
+    //   {/* <Ionicons name="notifications-outline" size={normalize(25)} color="white" /> */}
+    //   {/* <Text style={{ color: iconColor }} >{title}</Text> */}
+    // </View>
   )
 }
 

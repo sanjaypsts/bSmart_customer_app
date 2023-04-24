@@ -22,11 +22,14 @@ const Category = (props) => {
 
     const dispatch = useDispatch()
 
-    useFocusEffect(
-        React.useCallback(() => {
-            getData()
-        }, [])
-    );
+    // useFocusEffect(
+    //     React.useCallback(() => {
+    //         getData()
+    //     }, [])
+    // );
+    useEffect(() => {
+        getData()
+    }, [])
 
 
     // useFocusEffect(

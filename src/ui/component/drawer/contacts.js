@@ -23,11 +23,17 @@ const Contact = ({ navigation }) => {
   const { USER_DATA } = useSelector(state => state.userdatareducer);
 
   const [Data, setData] = useState([]);
+
   const [loading, setloading] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [Selecteditnumber, setSelecteditnumber] = useState("");
+  const [SelecteditName, setSelecteditName] = useState("");
+  const [Selecteditid, setSelecteditid] = useState("");
+
 
   const [SelectMobileNumber, setSelectMobileNumber] = useState(0);
+
+
 
 
   const dispatch = useDispatch()
@@ -40,7 +46,7 @@ const Contact = ({ navigation }) => {
 
   useEffect(() => {
 
-    getData()
+    // getData()
 
   }, [])
 
@@ -49,13 +55,13 @@ const Contact = ({ navigation }) => {
   const getData = () => {
 
     setloading(true)
-    dispatch(CONTACT_SET({customer_unique_id:loginData.data.customer_shipping_address_alias_id.customer_unique_id},"mgetParticularCustomerContactDetails", loginData.data.token))
+    dispatch(CONTACT_SET({ customer_unique_id: loginData.data.customer_shipping_address_alias_id.id }, "mgetParticularCustomerContactDetails", loginData.data.token))
     setloading(false)
 
   }
 
 
-  const setLocal = async (mobileNumber,name) => {
+  const setLocal = async (mobileNumber, name) => {
     await storeContactNumber(mobileNumber)
     await storeName(name)
 
@@ -69,7 +75,38 @@ const Contact = ({ navigation }) => {
 
   }
 
+  const updateContact = () => {
+    setloading(true)
+    let formData = new FormData();
+    formData.append('customer_unique_id', loginData.data.customer_shipping_address_alias_id.id)
+    formData.append('contact_name', SelecteditName);
+    formData.append('contact_number', Selecteditnumber);
+    formData.append('id', Selecteditid);
+    console.log(formData)
+    apicallHeaderPost(formData, 'mupdateCustomerContactDetailsUsingId', loginData.data.token)
+      .then(response => {
+        console.log(response)
 
+        setloading(false)
+        if (response.status == 200 && response.status == 201 && response.data.status == true || response.data.status == 'true') {
+          setEditMode(false)
+          getData()
+        } else {
+
+        }
+
+      }).catch(err => {
+        setloading(false)
+
+        console.log(err.response.data)
+
+
+        if (err) {
+
+        }
+      })
+
+  }
 
 
 
@@ -81,7 +118,7 @@ const Contact = ({ navigation }) => {
   try {
     return (
       <BackGround>
-        <LoadingModal loading={contact_Data.loading} setloading={setloading} />
+        <LoadingModal loading={loading} setloading={setloading} />
 
         <BackBottonHeader updateSingleCategory={() => { navigation.goBack(null) }} />
 
@@ -89,39 +126,38 @@ const Contact = ({ navigation }) => {
         {editMode ?
           // edit mode
           <>
-            <Text style={globalStyles.appTitle}>{t('Address.edit_address')}</Text>
+            <Text style={globalStyles.appTitle}>{'Contacts'}</Text>
 
-            <Divider title={t('Address.edit_shipping_address')} />
+            <Divider title={'Edit CONTACTS' } />
             <CartBox>
-              {Data && Data.length > 0 &&
-                Data.map((i, index) => (
-                  <>
-                    {Selecteditnumber == i.contact_number &&
-                      <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
-                        <View>
-                          <Text style={globalStyles.edit_heading}>{"Contact Name"}</Text>
-                          <CustumTextInput title={"Contact Name"} value={i.contact_name} />
-                          <Text style={[globalStyles.edit_heading, { marginTop: 15 }]}>{"Contact Number"}</Text>
-                          <CustumTextInput title={"Contact Number"} value={i.contact_number} />
-                        </View>
-                      </View>
-                    }
-                  </>
-                ))}
+
+              <>
+
+                <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+                  <View>
+                    <Text style={globalStyles.edit_heading}>{"Contact Name"}</Text>
+                    <CustumTextInput title={"Contact Name"} value={SelecteditName} textLength={50} keyBoardType={"default"} updateMasterState={(value) => (setSelecteditName(value))} />
+                    <Text style={[globalStyles.edit_heading, { marginTop: 15 }]}>{"Contact Number"}</Text>
+                    <CustumTextInput title={"Contact Number"} value={Selecteditnumber} textLength={8} keyBoardType={"number-pad"} updateMasterState={(value) => (setSelecteditnumber(value))} />
+                  </View>
+                </View>
+
+              </>
+
 
               <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: 30 }}>
                 <TouchableOpacity onPress={() => { setEditMode(false); }} style={{ flexDirection: "row", justifyContent: "center" }}>
-                  <MiniCartBox>
+                  <MiniCartBox bg_color={'#480607'}>
                     <AntDesign name="close" size={normalize(16)} color="white" />
-                    <Text style={globalStyles.title}> Cancel</Text>
+                    <Text style={[globalStyles.title, { color: "white" }]}> Cancel</Text>
 
                   </MiniCartBox>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={{ flexDirection: "row", justifyContent: "center" }}>
-                  <MiniCartBox>
+                <TouchableOpacity onPress={() => updateContact()} style={{ flexDirection: "row", justifyContent: "center" }}>
+                  <MiniCartBox bg_color="#00416A">
                     <Feather name="check" size={normalize(15)} color="white" />
-                    <Text style={globalStyles.title}>  Save</Text>
+                    <Text style={[globalStyles.title, { color: "white" }]}>  Save  </Text>
 
                   </MiniCartBox>
                 </TouchableOpacity>
@@ -136,10 +172,10 @@ const Contact = ({ navigation }) => {
             <CartBox>
               {Data && Data.length > 0 &&
                 Data.map((i, index) => (
-                  <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 20, }}>
+                  <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", }}>
 
                     <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center", }}>
-                      <TouchableOpacity onPress={() => { setLocal(i.contact_number,i.contact_name) }} style={{ marginRight: 20 }}>
+                      <TouchableOpacity onPress={() => { setLocal(i.contact_number, i.contact_name) }} style={{ marginRight: 20 }}>
                         {i.contact_number == SelectMobileNumber ?
                           <CheckedBox /> : <UnCheckedBox />
                         }
@@ -153,10 +189,10 @@ const Contact = ({ navigation }) => {
 
 
 
-                    <TouchableOpacity onPress={() => { setEditMode(true) ; setSelecteditnumber(i.contact_number)}} style={{ flexDirection: "row", justifyContent: "center" }}>
-                      <MiniCartBox>
+                    <TouchableOpacity onPress={() => { setEditMode(true); setSelecteditnumber(i.contact_number); setSelecteditName(i.contact_name);setSelecteditid(i.id) }} style={{ flexDirection: "row", justifyContent: "center" }}>
+                      <MiniCartBox >
                         <Feather name="edit-3" size={normalize(15)} color="white" />
-                        <Text style={globalStyles.title}>   Edit</Text>
+                        <Text style={[globalStyles.title, { color: "white" }]}>   Edit</Text>
 
                       </MiniCartBox>
                     </TouchableOpacity>

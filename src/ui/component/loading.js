@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import Modal from "react-native-modal";
 import { normalize, wH } from '../helper/size';
 import Lottie from 'lottie-react-native';
+import { COLORS } from '../helper/color';
 
 const LoadingModal = ({ loading, setloading }) => {
 
@@ -12,11 +13,11 @@ const LoadingModal = ({ loading, setloading }) => {
                 isVisible={loading}
                 deviceHeight={wH}
                 // statusBarTranslucent={true}
-                style={{ justifyContent: 'center', alignItems: "center" }}
+                style={{ justifyContent: 'center', alignItems: "center", }}
             >
                 <View style={{
-
-                    backgroundColor: "white", width: 120, height: 120, justifyContent: "space-evenly", alignItems: "center", borderRadius: 20
+  
+                  width: 120, height: 120, justifyContent: "space-evenly", alignItems: "center", borderRadius: 20
                     // borderTopLeftRadius: 20,
                     // borderTopEndRadius: 20,
                     // flexDirection: 'row',

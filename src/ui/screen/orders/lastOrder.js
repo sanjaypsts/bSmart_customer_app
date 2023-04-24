@@ -75,7 +75,7 @@ const LastOrder = ({ navigation }) => {
         batch_id: "",
         quantity: item.quantity,
         unit_id: item.unit_id,
-        unit_price: item.standard_price,
+        unit_price: item.per_unit_price,
         total_amount: item.total_amount,
         gross_amount: item.gross_amount,
         tax_id: item.tax_id,
@@ -84,7 +84,7 @@ const LastOrder = ({ navigation }) => {
     });
 
     formData.append('order_details', JSON.stringify(ModifyReciveData));
-    formData.append('sub_total', Subtotal);
+    formData.append('sub_total',Subtotal);
     formData.append('tax', totalTax);
     formData.append('order_total', Grandtotal);
     formData.append('order_notes', "test");
@@ -114,7 +114,7 @@ const LastOrder = ({ navigation }) => {
 
 
         if (err) {
-
+console.log(err.response.data)
           const data = [err.response.data.data]
 
 
@@ -122,7 +122,7 @@ const LastOrder = ({ navigation }) => {
           for (var i = 0; i < 1; i++) {
             for (var key in data[i]) {
               console.log(data[i][key]);
-              Toast.showWithGravity(data[i][key], Toast.LONG, Toast.BOTTOM);
+              // Toast.showWithGravity(data[i][key], Toast.LONG, Toast.BOTTOM);
             }
           }
         }
@@ -148,7 +148,7 @@ const LastOrder = ({ navigation }) => {
           {SingleCategoryData && SingleCategoryData.length > 0 &&
             SingleCategoryData.map((i, index) => (
               <View key={index} >
-                <HorizontalSingleCategoryCard imageSource={i.image_url} title={i.product_name} price={i.per_unit_price} weight={i.unit_name} quantity={i.quantity} product_id={i.product_id} updateMasterState={(text) => { console.log("single") }} />
+                <HorizontalSingleCategoryCard imageSource={i.image_url} title={i.product_name} price={i.per_unit_price} weight={i.unit_name} quantity={i.quantity} product_id={i.product_id} updateMasterState={(text) => { getData() }} />
               </View>
             ))}
         </ScrollView>

@@ -70,6 +70,8 @@ import { Relogin } from '../../../stateManage/auth/actions';
 import apicall from '../../../stateManage/apicall';
 import { useTranslation } from "react-i18next";
 import { globalStyles, GradiateText, SubmitBotton } from '../../helper/globalStyle';
+import BackBottonHeader from '../../component/header/dashboardHeader';
+import DynamicAppLogo from '../../AppLogo';
 
 const Login = ({ navigation }) => {
     const dispatch = useDispatch()
@@ -80,6 +82,11 @@ const Login = ({ navigation }) => {
     const [email, setEmail] = useState('');
     const [contactNumber, setContactNumber] = useState('');
     const [error, seterrorMessage] = useState('');
+    const [nameError, setnameError] = useState('');
+    const [emailError, setemailError] = useState("");
+    const [phoneError, setphoneError] = useState("");
+
+
     const [loading, setLoading] = useState(false);
 
 
@@ -95,16 +102,23 @@ const Login = ({ navigation }) => {
                 setLoading(false)
                 if (response.status == 200 && response.data.status == true || response.data.status == 'true') {
         
-                    // navigation.push('Success')
+                    navigation.push('Success')
                 } 
             }).catch(err => {
                 setLoading(false)
              
                 if (err.response.status == 400) {
-                    seterrorMessage(err.response.data.message)
+                    seterrorMessage(true)
                 }
                 if (err) {
 
+                    seterrorMessage(true)
+                    const data = [err.response.data.data]
+                 
+                    setnameError(data[0].customer_name)
+
+                    setemailError(data[0].customer_email)
+                    setphoneError(data[0].office_contact_number)
                 }
             })
 
@@ -120,9 +134,11 @@ const Login = ({ navigation }) => {
                 style={styles.container}>
 
                 <BackGround>
-
+                <BackBottonHeader logoHide ={true} updateSingleCategory={(text) => {  navigation.push('Login') }} />
                     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-                        <AppLogo width={normalize(100)} height={normalize(100)} />
+            <DynamicAppLogo style={{ width: normalize(100), height: normalize(100),  }} imageStyle={{ borderRadius: 10 }} />
+
+                        {/* <AppLogo width={normalize(100)} height={normalize(100)} /> */}
 
                         {/* create Account title */}
                         <Text style={globalStyles.loginHeading}><Text>{t('login.create_account')}</Text></Text>
@@ -131,13 +147,13 @@ const Login = ({ navigation }) => {
 
                         {/* input */}
                         <View style={{ width: "100%", marginVertical: 30, }} >
-                            <LoginInput imageSource={IMAGES.emailIcon} title={t('login.name')} value={name} textLength={50} keyBoardType={"default"} updateMasterState={(text) => { setName(text); seterrorMessage("") }} err={error} />
+                            <LoginInput imageSource={IMAGES.emailIcon} title={t('login.name')} value={name} textLength={50} keyBoardType={"default"} updateMasterState={(text) => { setName(text); seterrorMessage(false);setnameError("") }} err={error} errorMessage={nameError} />
                             <View style={{ marginVertical: 5 }}></View>
 
-                            <LoginInput imageSource={IMAGES.Sms_tracking} title={t('login.email_address')} value={email} textLength={50} keyBoardType={"email-address"} updateMasterState={(text) => { setEmail(text); seterrorMessage("") }} err={error} />
+                            <LoginInput imageSource={IMAGES.Sms_tracking} title={t('login.email_address')} value={email} textLength={50} keyBoardType={"email-address"} updateMasterState={(text) => { setEmail(text); seterrorMessage(false);setemailError("") }} err={error} errorMessage={emailError} />
                             <View style={{ marginVertical: 5 }}></View>
 
-                            <LoginInput imageSource={IMAGES.Contact} title={t('login.contact_number')} value={contactNumber} textLength={8} keyBoardType={"number-pad"}  updateMasterState={(text) => { setContactNumber(text); seterrorMessage("") }} err={error} />
+                            <LoginInput imageSource={IMAGES.Contact} title={t('login.contact_number')} value={contactNumber} textLength={8} keyBoardType={"number-pad"}  updateMasterState={(text) => { setContactNumber(text); seterrorMessage(false);setphoneError("") }} err={error} errorMessage={phoneError} />
                             <View style={{ marginBottom: 8 }}></View>
 
                         </View>
@@ -181,7 +197,7 @@ const Login = ({ navigation }) => {
         )
     } catch (err) {
    
- 
+
         <Errorhandling />
     }
 }

@@ -1,8 +1,8 @@
 
-import { StyleSheet, Text, View, Animated } from 'react-native'
+import { StyleSheet, Text, View, Animated, Image } from 'react-native'
 import React, { useRef, useEffect } from 'react';
 import { AppLogo, PowerdBy } from './globalSvg';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { SplashBackGround } from './component/backgroundImage';
 import { normalize, wW } from './helper/size';
 import { globalStyles } from './helper/globalStyle';
@@ -10,6 +10,9 @@ import MainLogin from './screen/auth/mainLogin';
 import AppNavigation from './navigation/navigation';
 import { useTranslation } from "react-i18next";
 import Errorhandling from './errorHandle/errorhandling';
+import { UPLOAD_IMAGE_PATH } from '../../config';
+import DynamicAppLogo from './AppLogo';
+import { App_Logo_Set } from '../stateManage/userDetails/actions';
 
 
 
@@ -41,13 +44,21 @@ const FadeInView = (props) => {
   );
 }
 
-const Splashscreen = () => {
+const Splashscreen = ({data}) => {
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(App_Logo_Set(data))
+
+  }, [])
+  
+ 
   const [isVisible, setIsVisible] = React.useState(true);
 
   React.useEffect(() => {
     setTimeout(function () {
       setIsVisible(false)
-    }, 2000);
+    }, 5000);
   }, [])
 
 
@@ -60,7 +71,10 @@ const Splashscreen = () => {
       <View></View>
 
       <View style={{ alignItems: 'center' }}>
-        <AppLogo width={normalize(130)} height={normalize(130)} />
+      {/* <Image resizeMode="contain" source={{ uri: `${UPLOAD_IMAGE_PATH + data.logourl}` }}   style={{width:130,height:130}}  /> */}
+      <DynamicAppLogo style={{ width: normalize(130), height: normalize(130) }} imageStyle={{ borderRadius: 10 }} />
+
+        {/* <AppLogo width={normalize(130)} height={normalize(130)} /> */}
         <Text style={globalStyles.SplashHeading}>{t('splashScreen.splash')}</Text>
 
       </View>
@@ -77,7 +91,7 @@ const Splashscreen = () => {
 
       <SplashBackGround >
 
-        {
+        { 
           isVisible ? Splash_Screen :
             loginData.status == true || loginData.status == 'true' ? <AppNavigation /> : <MainLogin />
 

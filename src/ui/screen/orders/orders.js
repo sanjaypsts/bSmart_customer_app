@@ -41,43 +41,36 @@ const Orders = ({ }) => {
 
         const Data = Order_Data.Data
 
-
         const newPurchase = Data.filter(function (item) {
             return item.status_name == "Incoming";
         }).map(function (item) {
       
-            return { ...item, bgColor: "#FFFFB1", TextColor: "#EE9A00" };
+            return { ...item, bgColor: "#FFC40C", TextColor:"#FFFFE0"   };
         });
         setPurchase_Order([...newPurchase]);
-
-
+    
+    
         const newCurrent = Data.filter(function (item) {
             return item.status_name == "Dispatch";
         }).map(function (item) {
-
-            return { ...item, bgColor: "#D2F8D2", TextColor: "#041904" };
+    
+            return { ...item, bgColor:  "#007F66", TextColor: "#D2F8D2" };
         });
         setCurrent_Orders([...newCurrent]);
-
-
+    
+    
         const newPrevious = Data.filter(function (item) {
             return item.status_name == "Cancelled";
         }).map(function (item) {
-
-            return { ...item, bgColor: "#FFD8D8", TextColor: "red" };
+    
+            return { ...item, bgColor: "#65000B", TextColor: "#FFD8D8" };
         });
         setPrevious_Orders([...newPrevious]);
-
+    
 
     }, [Order_Data])
 
 
-    useEffect(() => {
-
-        const Data = Order_Data.Data
-
-
-    }, [])
 
     const getData = () => {
         setloading(true)
@@ -85,7 +78,7 @@ const Orders = ({ }) => {
         setPurchase_Order([]);
         setCurrent_Orders([])
         let formData = new FormData();
-        formData.append('customer_id', loginData.data.customer_shipping_address_alias_id.customer_unique_id);
+        formData.append('customer_id', loginData.data.customer_shipping_address_alias_id.id);
         formData.append('sorting', JSON.stringify({ "id": "desc" }));
         dispatch(Order_SET(formData,"mpreviousOrderDetailsByCustomerId",loginData.data.token))
         setloading(false)
@@ -101,7 +94,18 @@ const Orders = ({ }) => {
                 <CartBox>
                     <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 5, alignItems: "center" }}>
                         <Text style={globalStyles.order_heading1}>Order :  {item.bill_no}</Text>
-                        <View style={{ backgroundColor: item.bgColor, padding: 1, padding: 5, borderRadius: 20 }}>
+                        <View style={{ backgroundColor: item.bgColor, padding: 1, padding: 5, borderRadius: 5,
+                                shadowColor: "#000",
+                         
+                                shadowOffset: {
+                                    width: 0,
+                                    height: 7,
+                                },
+                                shadowOpacity: 0.43,
+                                shadowRadius: 9.51,
+                    
+                                elevation: 15,
+                        }}>
                             <Text style={[globalStyles.order_title, { color: item.TextColor, }]}> • {item.status_name}</Text>
                         </View>
                     </View>
@@ -115,7 +119,7 @@ const Orders = ({ }) => {
 
                     <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
                         <Text style={globalStyles.order_title2}>{moment(item.created_at).format(Dateformat)}</Text>
-                        <Entypo name="chevron-right" size={normalize(20)} color="white" />
+                        <Entypo name="chevron-right" size={normalize(20)} color="black" />
 
 
                     </View>
@@ -152,6 +156,7 @@ const Orders = ({ }) => {
                     data={Purchase_Order}
                     onRefresh={onRefresh}
                     refreshing={false}
+                    showsVerticalScrollIndicator={false}
                     renderItem={(item) => renderData(item)}
                 />
 
@@ -160,6 +165,7 @@ const Orders = ({ }) => {
                 <FlatList
                     data={Current_Orders}
                     onRefresh={onRefresh}
+                    showsVerticalScrollIndicator={false}
                     refreshing={false}
                     renderItem={(item) => renderData(item)}
                 />

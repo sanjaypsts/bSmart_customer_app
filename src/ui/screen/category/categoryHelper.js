@@ -25,11 +25,10 @@ export const CategoryCard = ({ imageSource, title }) => {
 
 
     return (
-        <View style={{
-            alignItems: "center", backgroundColor: COLORS.appLightColor, width: 115, alignSelf: "flex-start",
-            shadowColor: "#000", borderColor:COLORS.appOppsiteTextColor, borderWidth: 1, marginTop: 10, padding: 5,/* marginHorizontal:2, */
-            borderRadius: 20,
-            shadowOffset: {
+
+        <View style={{ width: normalize(100), backgroundColor: "#F0F0F0", borderRadius: 10, alignItems: "center",marginBottom:10,
+        shadowColor: "#000",
+                shadowOffset: {
                 width: 0,
                 height: 7,
             },
@@ -38,15 +37,35 @@ export const CategoryCard = ({ imageSource, title }) => {
 
             elevation: 15,
         }}>
-            {/* <Image resizeMode='contain' source={{ uri: UPLOAD_IMAGE_PATH + imageSource }} style={{ width: normalize(90), height: normalize(90), borderRadius: 20 }} /> */}
-
-            <Imagewithloader imageurl={{ uri: `${UPLOAD_IMAGE_PATH + imageSource}` }} style={{width: normalize(90), height: normalize(90),}} imageStyle={{borderRadius: 20}}/>
-
+            <Imagewithloader imageurl={{ uri: `${UPLOAD_IMAGE_PATH + imageSource}` }} style={{ width: normalize(90), height: normalize(90), marginVertical: 5 }} imageStyle={{ borderRadius: 10 }} />
             <View style={{ height: 40, alignItems: "center", justifyContent: "center" }} >
 
                 <Text numberOfLines={2} style={globalStyles.categoryProductText}>{title}</Text>
             </View>
+
         </View>
+        // <View style={{
+        //     alignItems: "center", backgroundColor: COLORS.appLightColor, width: 115, alignSelf: "flex-start",
+        //     shadowColor: "#000", borderColor: COLORS.appOppsiteTextColor, borderWidth: 1, marginTop: 10, padding: 5,/* marginHorizontal:2, */
+        //     borderRadius: 20,
+        //     shadowOffset: {
+        //         width: 0,
+        //         height: 7,
+        //     },
+        //     shadowOpacity: 0.43,
+        //     shadowRadius: 9.51,
+
+        //     elevation: 15,
+        // }}>
+
+
+        //     <Imagewithloader imageurl={{ uri: `${UPLOAD_IMAGE_PATH + imageSource}` }} style={{ width: normalize(90), height: normalize(90), }} imageStyle={{ borderRadius: 20 }} />
+
+        //     <View style={{ height: 40, alignItems: "center", justifyContent: "center" }} >
+
+        //         <Text numberOfLines={2} style={globalStyles.categoryProductText}>{title}</Text>
+        //     </View>
+        // </View>
     )
 }
 
@@ -117,7 +136,7 @@ export const Search = ({ title }) => {
 
 export const HorizontalSingleCategoryCard = (props) => {
 
-    const { imageSource, title, price, weight, quantity, product_id } = props
+    const { imageSource, title, price, weight, quantity, product_id, show_price } = props
 
 
     const onChangenewCount = (newCount) => {
@@ -147,13 +166,13 @@ export const HorizontalSingleCategoryCard = (props) => {
                         :
                         <Image resizeMode="contain" source={{ uri: UPLOAD_IMAGE_PATH + imageSource }} style={{ width: normalize(70), height: normalize(70), borderRadius: 20, marginRight: 10 }} />
                     } */}
-            <Imagewithloader imageurl={{ uri: `${UPLOAD_IMAGE_PATH + imageSource}` }} style={{width: normalize(70), height: normalize(70),marginRight: 10}} imageStyle={{borderRadius: 20}}/>
+                    <Imagewithloader imageurl={{ uri: `${UPLOAD_IMAGE_PATH + imageSource}` }} style={{ width: normalize(70), height: normalize(70), marginRight: 10 }} imageStyle={{ borderRadius: 20 }} />
 
 
 
                     <View>
 
-                        <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "700", fontSize: normalize(13), }}>{title}</Text>
+                        <Text numberOfLines={1} style={{ color: COLORS.appOppsiteTextColor, fontWeight: "700", fontSize: normalize(13), }}>{title}</Text>
                         <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "700", fontSize: normalize(5), }}></Text>
 
                         <Text style={{ color: COLORS.appOppsiteTextColor }}>{weight}</Text>
@@ -162,12 +181,16 @@ export const HorizontalSingleCategoryCard = (props) => {
                 </View>
 
                 <View style={{ flexDirection: "row", alignItems: "center", alignSelf: "flex-end" }}>
-                    <Text style={{ color: COLORS.appOppsiteTextColor }}>S${price.toFixed(2)}   </Text>
+                    {show_price == 1 &&
+                        < Text style={{ color: COLORS.appOppsiteTextColor }}>S${price.toFixed(2)}   </Text>
+                    }
+
+
                     <AddBotton quantity={quantity} product_id={product_id} updatequantity={(curentQty) => { onChangenewCount(curentQty) }} />
                 </View>
             </View>
 
-        </View>
+        </View >
     )
 }
 
@@ -196,15 +219,15 @@ export const AddBotton = (props) => {
 
 
     const setLocal = async (count) => {
-        
-        dispatch(Product_Count_SET({"total_Product_count": count}))
+
+        dispatch(Product_Count_SET({ "total_Product_count": count }))
         typeof (count)
         console.log(count)
         await storeCartCount(JSON.stringify(count))
 
     }
     const AddCategory = (params) => {
-  
+
         setQuantity(params)
 
 
@@ -220,12 +243,12 @@ export const AddBotton = (props) => {
                 setloading(false)
                 if (response.status == 200 && response.data.status == true || response.data.status == 'true') {
                     console.log("Add")
-                    const data = response.data.data.data_list.quantity
+                    const data = response.data.data.data_list.quantity == undefined ? 0 : response.data.data.data_list.quantity
                     // updatequantity(response.data.data.data_list.quantity)
-                    console.log(response.data.data.data_list.quantity)
+                    // console.log("bsjhdubcsdjub",response.data.data.data_list.quantity)
                     updatequantity(data)
 
-                    setQuantity(response.data.data.data_list.quantity)
+                    setQuantity(data)
 
                     setLocal(response.data.data.data_total_count)
                 } else {
@@ -248,6 +271,8 @@ export const AddBotton = (props) => {
 
 
 
+
+
     return (
 
         <View style={{ height: 35, borderColor: "white", borderWidth: 1, width: 90, backgroundColor: COLORS.appColor, flexDirection: "row", alignItems: "center", justifyContent: 'space-between', padding: 5, borderRadius: 50, }}>
@@ -264,9 +289,13 @@ export const AddBotton = (props) => {
                 }
             </View>
 
-            {quantity1 <= 0 ?
+            {quantity1 <= 0 && quantity1 != undefined ?
                 <Text style={{ color: "white", fontSize: normalize(15) }}>{t('category.add')}</Text>
+
                 :
+
+
+
                 <Text style={{ color: "white", fontSize: normalize(15) }}>{quantity1}</Text>
 
             }

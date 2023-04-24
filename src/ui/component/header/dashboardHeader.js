@@ -3,11 +3,12 @@ import React, { useState } from 'react'
 import { normalize, wW } from '../../helper/size';
 import { BackBotton, LanguageBotton, NotificationBotton } from '../../custumsIcons';
 import { AppLogo } from '../../globalSvg';
+import DynamicAppLogo from '../../AppLogo';
 
 
 const BackBottonHeader = (props) => {
     const [modalVisible, setModalVisible] = useState(false);
-    const { langBtnDisable } = props;
+    const { langBtnDisable,logoHide } = props;
 
     const onChangeChild = (updatedValue) => {
         const { updateSingleCategory, } = props;
@@ -28,8 +29,11 @@ const BackBottonHeader = (props) => {
 
 
                     <View style={{width:"100%" ,alignItems:"center",}}>
-                        <AppLogo width={normalize(40)} height={normalize(50)} />
+                    {!logoHide && 
+            <DynamicAppLogo style={{ width: normalize(40), height: normalize(40) }} imageStyle={{ borderRadius: 10 }} />
 
+                        // <AppLogo width={normalize(40)} height={normalize(50)} />
+                    }
                     </View>
 
 

@@ -15,10 +15,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import LoadingModal from '../../component/loading'
 import { useFocusEffect } from '@react-navigation/native';
-import { getContactName, getContactNumber } from '../../../stateManage/asynstorage/asyncStore'
+import { getContactName, getContactNumber, storeContactNumber, storeName } from '../../../stateManage/asynstorage/asyncStore'
 import { ADDRESS_SET } from '../../../stateManage/userDetails/actions'
 import { Category_SET } from '../../../stateManage/category/actions'
 import Toast from 'react-native-simple-toast';
+import Record from '../../helper/Record'
 
 const Cart = ({ navigation }) => {
   const { t, i18n } = useTranslation();
@@ -40,6 +41,7 @@ const Cart = ({ navigation }) => {
 
   const [SelectMobileNumber, setSelectMobileNumber] = useState("Select Contact");
   const [SelectName, setSelectName] = useState("");
+  const [showPrice, setshowPrice] = useState(false);
 
   const dispatch = useDispatch()
 
@@ -58,22 +60,24 @@ const Cart = ({ navigation }) => {
 
   useFocusEffect(
     React.useCallback(() => {
+   
+  
       setloading(true)
       setSubtotal(0)
       setGrandtotal(0)
       settotalTax(0)
       setData([])
       getData()
-      GetLocalData()
 
+      
     }, [])
   );
 
 
   useEffect(() => {
 
-    dispatch(ADDRESS_SET({ customer_unique_id: loginData.data.customer_shipping_address_alias_id.customer_unique_id }, "mgetParticularCustomershippingAddressDetails", loginData.data.token))
-
+    // dispatch(ADDRESS_SET({ customer_unique_id: loginData.data.customer_shipping_address_alias_id.customer_unique_id }, "mgetParticularCustomershippingAddressDetails", loginData.data.token))
+    setLocal()
 
   }, [])
 
@@ -84,6 +88,17 @@ const Cart = ({ navigation }) => {
 
   })
 
+
+
+  const setLocal = async () => {
+    // console.log(contact_Data[0])
+    // setSelectMobileNumber(contact_Data[0].contact_number)
+    // setSelectName(contact_Data[0].contact_name)
+    await storeContactNumber(contact_Data[0].contact_number)
+    await storeName(contact_Data[0].contact_name)
+    GetLocalData()
+    // setSelectMobileNumber(mobileNumber)
+  }
 
 
   const GetLocalData = async () => {
@@ -110,11 +125,9 @@ const Cart = ({ navigation }) => {
 
   const getData = () => {
 
+    setloading(true)
 
-
-
-
-    apicallHeaderPost({ 'customer_id': loginData.data.customer_shipping_address_alias_id.customer_unique_id /* USER_DATA.customer_unique_id */ }, 'getCartDetail', loginData.data.token)
+    apicallHeaderPost({ 'customer_id': loginData.data.customer_shipping_address_alias_id.id /* USER_DATA.customer_unique_id */ }, 'getCartDetail', loginData.data.token)
       .then(response => {
         setloading(false)
         if (response.status == 200 && response.data.status == true || response.data.status == 'true') {
@@ -129,6 +142,7 @@ const Cart = ({ navigation }) => {
           setGrandtotal(total_Price_with_Tax)
           settotalTax(total_Price_with_Tax - total_Price - response.data.data.delivery_charge)
           setloading(false)
+          setshowPrice(response.data.data.show_price)
         } else {
 
         }
@@ -160,14 +174,13 @@ const Cart = ({ navigation }) => {
         batch_id: "",
         quantity: item.quantity,
         unit_id: item.unit_id,
-        unit_price: item.standard_price,
-        total_amount: item.total_price_with_tax,
-        gross_amount: item.total_price_without_tax,
+        unit_price: item.standard_price.toFixed(2),
+        total_amount: item.total_price_with_tax.toFixed(2),
+        gross_amount: item.total_price_without_tax.toFixed(2),
         tax_id: item.tax_id,
         tax_amount: (item.total_price_with_tax - item.total_price_without_tax)
       }
     });
-
 
 
 
@@ -176,9 +189,9 @@ const Cart = ({ navigation }) => {
 
 
     formData.append('order_details', JSON.stringify(ModifyReciveData));
-    formData.append('sub_total', Subtotal);
-    formData.append('tax', totalTax);
-    formData.append('order_total', Grandtotal);
+    formData.append('sub_total', Subtotal.toFixed(2));
+    formData.append('tax', totalTax.toFixed(2));
+    formData.append('order_total', Grandtotal.toFixed(2));
     formData.append('order_notes', "test");
     formData.append('ordered_via', "Mobile");
     formData.append('delivery_notes_voice', "");
@@ -186,7 +199,6 @@ const Cart = ({ navigation }) => {
 
     formData.append('mobile_number', SelectMobileNumber);
     formData.append('payment_date', "2001-01-01");
-
 
 
 
@@ -206,11 +218,10 @@ const Cart = ({ navigation }) => {
 
 
         if (err) {
-   
+
           const data = [err.response.data.data]
 
 
-     
           for (var i = 0; i < 1; i++) {
             for (var key in data[i]) {
               // console.log(data[i][key]);
@@ -239,7 +250,7 @@ const Cart = ({ navigation }) => {
 
   return (
     <BackGround>
-      <LoadingModal loading={loading} setloading={setloading} />
+      <LoadingModal loading={loading} />
 
       <BackBottonHeader updateSingleCategory={() => { navigation.push("DashBoard") }} />
       <Text style={globalStyles.appTitle}>{t('cart.cart')}</Text>
@@ -251,7 +262,7 @@ const Cart = ({ navigation }) => {
         <CartBox>
           {Data && Data.length > 0 &&
             Data.map((i, index) => (
-              <ItemCartBox title={i.product_name} price={i.standard_price} weight={i.unit_name} quantity={i.quantity} product_id={i.product_id} totalPrice={i.total_price_with_tax} updatequantity={(data) => getData()} />
+              <ItemCartBox title={i.product_name} price={i.standard_price} weight={i.unit_name} quantity={i.quantity} product_id={i.product_id} totalPrice={i.total_price_with_tax} show_price={showPrice} updatequantity={(data) => getData()} />
             ))}
           <TouchableOpacity onPress={() => { navigation.push('SingleCategory') }} style={{ flexDirection: 'row', alignItems: "center", width: "100%", justifyContent: "space-between" }}>
             <View style={{ flexDirection: 'row', alignItems: "center", }}>
@@ -267,37 +278,39 @@ const Cart = ({ navigation }) => {
         </CartBox>
 
 
+        {showPrice == 1 &&
+          <>
+            <CartDivider imageSource={IMAGES.billImage} title={'SUMMARY '} />
 
-        <CartDivider imageSource={IMAGES.billImage} title={'SUMMARY '} />
+            <CartBox>
+              <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 8 }}>
+                <Text style={[globalStyles.cart_heading1, {}]}>{"Subtotal"}</Text>
+                <Text style={[globalStyles.cart_heading1, {}]}>S$ {Subtotal.toFixed(2)}</Text>
+              </View>
 
-        <CartBox>
-          <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 8 }}>
-            <Text style={[globalStyles.cart_heading1,{  }]}>{"Subtotal"}</Text>
-            <Text style={[globalStyles.cart_heading1,{  }]}>S$ {Subtotal.toFixed(2)}</Text>
-          </View>
+              <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 5 }}>
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <Image resizeMode='contain' source={IMAGES.Receipt_text} style={{ width: 18, height: 18, borderRadius: 10 }} />
+                  <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "400", fontSize: normalize(16), }}> Tax</Text>
+                </View>
+                <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "400", fontSize: normalize(16), }}>S$ {totalTax.toFixed(2)}</Text>
+              </View>
 
-          <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 5 }}>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Image resizeMode='contain' source={IMAGES.Receipt_text} style={{ width: 18, height: 18, borderRadius: 10 }} />
-              <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "400", fontSize: normalize(16), }}> Tax</Text>
-            </View>
-            <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "400", fontSize: normalize(16), }}>S$ {totalTax.toFixed(2)}</Text>
-          </View>
-
-          <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 5 }}>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Image resizeMode='contain' source={IMAGES.truck} style={{ width: 18, height: 18, borderRadius: 10 }} />
-              <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "400", fontSize: normalize(16), }}> Delivery</Text>
-            </View>
-            <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "400", fontSize: normalize(16), }}>S$ {deliveryAmt.toFixed(2)}</Text>
-          </View>
-          <View style={{ backgroundColor: "white", height: 0.5, width: "100%", marginVertical: 10 }}></View>
-          <View style={{ flexDirection: "row", justifyContent: "space-between", }}>
-            <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "500", fontSize: normalize(16), }}>{"Grand total"}</Text>
-            <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "500", fontSize: normalize(16), }}>S$ {Grandtotal.toFixed(2)}</Text>
-          </View>
-        </CartBox>
-
+              <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 5 }}>
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <Image resizeMode='contain' source={IMAGES.truck} style={{ width: 18, height: 18, borderRadius: 10 }} />
+                  <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "400", fontSize: normalize(16), }}> Delivery</Text>
+                </View>
+                <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "400", fontSize: normalize(16), }}>S$ {deliveryAmt.toFixed(2)}</Text>
+              </View>
+              <View style={{ backgroundColor: "white", height: 0.5, width: "100%", marginVertical: 10 }}></View>
+              <View style={{ flexDirection: "row", justifyContent: "space-between", }}>
+                <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "500", fontSize: normalize(16), }}>{"Grand total"}</Text>
+                <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "500", fontSize: normalize(16), }}>S$ {Grandtotal.toFixed(2)}</Text>
+              </View>
+            </CartBox>
+          </>
+        }
         <CartDivider imageSource={IMAGES.personalcard} title={'CONTACT '} />
 
 
@@ -314,7 +327,12 @@ const Cart = ({ navigation }) => {
                     SelectName != undefined && SelectName != null && SelectName != "" &&
                     <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "500", fontSize: normalize(16), }}>{SelectName}</Text>
                   }
-                  <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "500", fontSize: normalize(16), }}>{SelectMobileNumber}</Text>
+                  {
+                    SelectName != undefined && SelectName != null && SelectName != "" &&
+
+                    <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "500", fontSize: normalize(16), }}>+ 65 {SelectMobileNumber}</Text>
+
+                  }
                 </View>
               </View>
 
@@ -349,22 +367,24 @@ const Cart = ({ navigation }) => {
             ))}
         </CartBox> */}
 
+        {showPrice == 1 &&
+          <>
 
+            <CartDivider imageSource={IMAGES.cardtick} title={'PAYMENT MODE '} />
 
-        <CartDivider imageSource={IMAGES.cardtick} title={'PAYMENT MODE '} />
+            <CartBox>
+              <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+                <View>
+                  <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "500", fontSize: normalize(16), }}>{"Cash"}</Text>
+                  <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "500", fontSize: normalize(16), }}>Balance Credit: S$ {(Balance_Credit).toFixed(2)}</Text>
+                </View>
+                <View>
+                  {/* <Ionicons name="chevron-forward" size={normalize(25)} color="white" /> */}
+                </View>
 
-        <CartBox>
-          <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
-            <View>
-              <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "500", fontSize: normalize(16), }}>{"Cash"}</Text>
-              <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "500", fontSize: normalize(16), }}>Balance Credit: S$ {(Balance_Credit).toFixed(2)}</Text>
-            </View>
-            <View>
-              {/* <Ionicons name="chevron-forward" size={normalize(25)} color="white" /> */}
-            </View>
-
-          </View>
-        </CartBox>
+              </View>
+            </CartBox>
+          </>}
 
 
         <CartDivider title={'SHIPPING ADDRESS '} />
@@ -390,7 +410,7 @@ const Cart = ({ navigation }) => {
         </CartBox>
 
 
-
+        <Record />
 
         <View style={{ height: 100, width: wW, justifyContent: "center", right: wW / 20, }}>
 

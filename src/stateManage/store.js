@@ -6,7 +6,7 @@ import {categoryReducer} from './category/reducer';
 import {orderReducer} from './order/reducer';
 import {cartReducer} from './cart/reducer';
 
-import {userDetailsReducer,addressReducer,userdatareducer,ProductCountReducer} from './userDetails/reducer';
+import {userDetailsReducer,addressReducer,userdatareducer,ProductCountReducer,appDatareducer} from './userDetails/reducer';
 
 
 
@@ -24,6 +24,7 @@ const rootReducer = combineReducers({
   addressReducer,
   userdatareducer,
   ProductCountReducer,
+  appDatareducer,
   orderReducer,
   cartReducer
 
@@ -33,4 +34,4 @@ const persistedReducer = persistReducer(persistConfig,rootReducer)
 export const store = createStore(persistedReducer,applyMiddleware(thunkMiddleware))
 export const persistor = persistStore(store)
 
-console.log(store.getState())
+// console.log(store.getState())

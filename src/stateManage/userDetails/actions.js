@@ -5,7 +5,29 @@ export const SET_CONTACT_DATA = 'SET_CONTACT_DATA';
 export const SET_ADDRESS_DATA = 'SET_ADDRESS_DATA';
 export const SET_CUSTOMER_DATA = 'SET_CUSTOMER_DATA';
 export const SET_PRODUCT_COUNT = 'SET_PRODUCT_COUNT';
+export const SET_LOGO_DATA = 'SET_LOGO_DATA';
 
+
+
+
+
+export const App_Logo_Set = (data) => {
+
+  try {
+    return async dispatch => {
+    
+
+ 
+            dispatch({
+              type: SET_LOGO_DATA,
+              payload: data,
+            });
+   
+    };
+  } catch (error) {
+
+  }
+};
 
 
 

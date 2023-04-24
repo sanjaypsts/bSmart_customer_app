@@ -30,6 +30,9 @@ const SingleCategory = ({ route, navigation }) => {
 
 
   const [TotalProduct, setTotalProduct] = useState("");
+
+  const [showPrice,setshowPrice ] = useState(false);
+
   const routedata = route.params
 
   const { USER_DATA } = useSelector(state => state.userdatareducer);
@@ -52,7 +55,7 @@ const SingleCategory = ({ route, navigation }) => {
         getData(routedata.id)
         setcurrentCategory(routedata.id)
       } else {
-      
+
         try {
           {
             category_Data.status && category_Data.Data[0].id != undefined &&
@@ -113,9 +116,8 @@ const SingleCategory = ({ route, navigation }) => {
         setloading(false)
         if (response.status == 200 && response.data.status == true || response.data.status == 'true') {
           setSingleCategoryData(response.data.data.data_list)
-          console.log(response.data.data.data_total_count, "bsduvbsudvb")
           setTotalProduct(response.data.data.data_total_cart_count)
-
+          setshowPrice(response.data.data.show_price)
         } else {
 
         }
@@ -145,20 +147,22 @@ const SingleCategory = ({ route, navigation }) => {
             {categoryData && categoryData.length > 0 &&
               categoryData.map((i, index) => (
                 <TouchableOpacity key={index} onPress={() => { getData(i.id), setcurrentCategory(i.id) }}  >
-                  <SmallCategoryCard title={i.category_name} currentCategory={i.id != currentCategory ? COLORS.appLightColor : "#333333" } TextcurrentCategory={i.id == currentCategory ?  COLORS.appLightColor : "#333333"} />
+                  <SmallCategoryCard title={i.category_name} currentCategory={i.id != currentCategory ? COLORS.appLightColor : "#333333"} TextcurrentCategory={i.id == currentCategory ? COLORS.appLightColor : "#333333"} />
                 </TouchableOpacity>
               ))}
           </ScrollView>
         </View>
 
 
-        <ScrollView  >
+        <ScrollView showsVerticalScrollIndicator={false} >
           {SingleCategoryData && SingleCategoryData.length > 0 &&
             SingleCategoryData.map((i, index) => (
               <View key={index} >
-                <HorizontalSingleCategoryCard imageSource={i.image_url} title={i.product_name} price={i.standard_price} weight={i.unit_name} quantity={i.quantity} product_id={i.id} updateMasterState={(text) => { console.log("single") }} />
+                <HorizontalSingleCategoryCard imageSource={i.image_url} title={i.product_name} price={i.standard_price} weight={i.unit_name} quantity={i.quantity} product_id={i.id} show_price={showPrice} updateMasterState={(text) => { console.log("single") }} />
               </View>
             ))}
+          <View style={{ marginBottom: 120 }}></View>
+
         </ScrollView>
 
 
@@ -182,7 +186,6 @@ const SingleCategory = ({ route, navigation }) => {
           </TouchableOpacity>
 
         </View>
-
       </BackGround>
     )
 

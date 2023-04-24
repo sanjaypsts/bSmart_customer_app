@@ -38,7 +38,7 @@ export const CartDivider = ({ imageSource, title }) => {
 
 
 export const ItemCartBox = (props) =>{
-    const { title, price, weight, quantity, product_id,totalPrice,updatequantity} = props
+    const { title, price, weight, quantity, product_id,totalPrice,show_price,updatequantity} = props
     const [loading, setloading] = useState(false);
     const { loginData } = useSelector(state => state.loginReducer);
     // const [quantity1, setQuantity] = useState(quantity);
@@ -91,7 +91,7 @@ export const ItemCartBox = (props) =>{
         <View style={{width:'70%'}}>
           <Text style={globalStyles.cart_heading1}>{title}</Text>
            <Text style={globalStyles.cart_title2}>{weight}</Text>
-         <Text style={globalStyles.cart_title2}>S$ {(price).toFixed(2)} </Text>
+        {show_price == 1 && <Text style={globalStyles.cart_title2}>S$ {(price).toFixed(2)} </Text>}
      </View>
      <View style={{width:'30%',alignItems:"flex-end"}} >
 
@@ -126,7 +126,7 @@ export const ItemCartBox = (props) =>{
 
 {/* end Add btn */}
 
-     <Text style={[globalStyles.cart_title2,]}>S$ {(totalPrice).toFixed(2) }</Text>
+{show_price == 1 &&   <Text style={[globalStyles.cart_title2,]}>S$ {(totalPrice).toFixed(2) }</Text>}
      </View>
    </View>
    <View style={{ height: 1, backgroundColor: "#8E8E8E", marginVertical:10 }}></View>

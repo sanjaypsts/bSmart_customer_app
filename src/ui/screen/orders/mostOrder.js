@@ -40,7 +40,7 @@ const MostOrder = ({navigation}) => {
     setloading(true)
     console.log("csdijcnhsd")
 
-    apicallHeaderPost({customer_id:1},'mlastOrderBasedCustomerId',loginData.data.token)
+    apicallHeaderPost({customer_id:loginData.data.customer_shipping_address_alias_id.id,limit:30 },'mmostOrderBasedCustomerId',loginData.data.token)
       .then(response => {
         setloading(false)
         if (response.status == 200 && response.data.status == true || response.data.status == 'true') {
@@ -69,7 +69,7 @@ try{
         <BackBottonHeader updateSingleCategory={() => {  navigation.goBack(null) }} />
         <Text style={globalStyles.appTitle}>{"Most Ordered"}</Text>
 
-        <Text style={[globalStyles.heading,{marginTop:15}]}>{"1 items"}</Text>
+        {/* <Text style={[globalStyles.heading,{marginTop:15}]}>{"1 items"}</Text> */}
 
         <ScrollView  >
           {SingleCategoryData && SingleCategoryData.length > 0 &&

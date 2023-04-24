@@ -1,5 +1,5 @@
 
-import { SET_CONTACT_DATA, SET_ADDRESS_DATA, SET_CUSTOMER_DATA, SET_PRODUCT_COUNT } from './actions';
+import { SET_CONTACT_DATA, SET_ADDRESS_DATA, SET_CUSTOMER_DATA, SET_PRODUCT_COUNT, SET_LOGO_DATA } from './actions';
 const initialState = {
   contact_Data: {
     loading: false,
@@ -94,6 +94,33 @@ export const ProductCountReducer = (state = productinitialState, action) => {
     case SET_PRODUCT_COUNT:
       const data = action.payload
       return {  TotalCount : data};
+    default:
+      return state;
+  }
+};
+
+
+
+
+
+const Appdetails = {
+
+  
+  appdata: {
+   
+
+
+  },
+}
+
+
+export const appDatareducer = (state = Appdetails, action) => {
+  switch (action.type) {
+
+
+    case SET_LOGO_DATA:
+
+      return {  appdata : action.payload};
     default:
       return state;
   }

@@ -9,3 +9,6 @@ import OrderNotification from '../assets/svg/box-tick.svg'
 export {
   AppLogo,PowerdBy,SplashBg,OTPNotification,OrderNotification
 }
+
+
+

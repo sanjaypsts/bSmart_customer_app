@@ -19,6 +19,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Relogin } from '../../../stateManage/auth/actions';
 import RNRestart from 'react-native-restart';
 import { COLORS } from '../../helper/color';
+import DynamicAppLogo from '../../AppLogo';
 
 // import { LogoutScreen } from '../../screen/auth/logout';
 
@@ -57,11 +58,13 @@ const Drawer = ({}) => {
                   padding: wW / 20
                 }}>
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
-                  <AppLogo width={normalize(50)} height={normalize(50)} />
+            <DynamicAppLogo style={{ width: normalize(50), height: normalize(50) }} imageStyle={{ borderRadius: 10 }} />
+
+                  {/* <AppLogo width={normalize(50)} height={normalize(50)} /> */}
 
                   <View style={{ marginLeft: 10 }}>
-                    <Text style={[globalStyles.loginHeading, { marginTop: 0 }]}>Customer</Text>
-                    <Text style={{ fontSize: normalize(15), color: "#CCCCCC", fontFamily: "RedHatDisplay-Regular" }}>customermail@xyz.com</Text>
+                    <Text style={[globalStyles.loginHeading, { marginTop: 0 }]}>{loginData.data.customer_shipping_address_alias_id.alias_name}</Text>
+                    <Text style={{ fontSize: normalize(15), color: "#CCCCCC", fontFamily: "RedHatDisplay-Regular" }}>{loginData.data.customer_shipping_address_alias_id.login_email}</Text>
                   </View>
                 </View>
                 <View style={{ height: 2, backgroundColor: "#727272", marginVertical: 20 }}></View>

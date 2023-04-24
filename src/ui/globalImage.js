@@ -24,6 +24,8 @@ const IMAGES = {
 
 
   BackGround: require('../assets/image/bg.png'),
+  HomeBackGround: require('../assets/image/bg2.jpg'),
+
   splashScreen: require('../assets/image/Splash.png'),
 
   AppLogo: require('../assets/app_logo.png'),
@@ -73,3 +75,5 @@ const IMAGES = {
 export {
   IMAGES
 }
+
+

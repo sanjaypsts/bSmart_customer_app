@@ -12,6 +12,8 @@ import { Relogin } from '../../../stateManage/auth/actions';
 import apicall from '../../../stateManage/apicall';
 import { globalStyles, GradiateText, SubmitBotton } from '../../helper/globalStyle';
 import { useTranslation } from 'react-i18next';
+import BackBottonHeader from '../../component/header/dashboardHeader';
+import DynamicAppLogo from '../../AppLogo';
 
 const ForgetPassword = ({ navigation }) => {
     const dispatch = useDispatch()
@@ -56,12 +58,14 @@ const ForgetPassword = ({ navigation }) => {
                 behavior={Platform.OS === 'ios' ? 'padding' : 'position'}
                 style={styles.container}>
                 <BackGround>
+                <BackBottonHeader logoHide ={true} updateSingleCategory={(text) => {  navigation.push('Login') }} />
 
 
                     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
 
+                    <DynamicAppLogo style={{ width: normalize(120), height: normalize(120)}} imageStyle={{ borderRadius: 10 }} />
 
-                        <AppLogo width={normalize(120)} height={normalize(120)} />
+                        {/* <AppLogo width={normalize(120)} height={normalize(120)} /> */}
                           {/* Forget Password title */}
                           <Text style={globalStyles.loginHeading}><Text>{t('login.forgot_password')}</Text></Text>
                         <Text style={globalStyles.loginTitle}><Text>{t('login.forgot_password_descripton')}</Text></Text>

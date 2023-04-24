@@ -23,7 +23,7 @@ export const globalStyles = StyleSheet.create({
            , width: wW, /* borderRadius: wW / 10, */
         borderTopLeftRadius: wW / 12,
         borderTopRightRadius: wW / 12,
-        padding: wW / 20
+        paddingVertical: wW / 20
     },
 
 
@@ -40,7 +40,7 @@ export const globalStyles = StyleSheet.create({
         color: COLORS.appTextColor, fontSize: normalize(16), marginLeft: 5, fontFamily: "RedHatDisplay-Regular", flex: 1, marginRight: 30
     },
     inputText: {
-        color: COLORS.appTextColor, fontSize: normalize(16), borderBottomColor: "grey", borderBottomWidth: 2, fontFamily: "RedHatDisplay-Regular", width: "100%", height: 50
+        color: COLORS.appOppsiteTextColor, fontSize: normalize(16), borderBottomColor: "grey", borderBottomWidth: 2, fontFamily: "RedHatDisplay-Regular", width: "100%", height: 50
     },
 
 
@@ -50,7 +50,7 @@ export const globalStyles = StyleSheet.create({
 
     // Apptitle
     appTitle: {
-        color: COLORS.appTextColor, fontSize: normalize(25), fontFamily: "RedHatDisplay-Medium"
+        color: COLORS.appTextColor, fontSize: normalize(20), fontFamily: "RedHatDisplay-Medium"
     },
     appSubtitle: {
         color: COLORS.appTextColor, fontSize: normalize(15), fontFamily: "RedHatDisplay-Regular",
@@ -71,11 +71,11 @@ export const globalStyles = StyleSheet.create({
 
     // edit contant title
     edit_heading: {
-        color: COLORS.appTextColor, fontSize: normalize(15), fontFamily: "RedHatDisplay-Medium",
+        color:  COLORS.appOppsiteTextColor,  fontSize: normalize(15), fontFamily: "RedHatDisplay-Medium",
 
     },
     edit_title: {
-        color: COLORS.appTextColor, fontSize: normalize(15), fontFamily: "RedHatDisplay-Regular"
+        color:  COLORS.appOppsiteTextColor,  fontSize: normalize(15), fontFamily: "RedHatDisplay-Regular"
 
     },
 
@@ -110,7 +110,7 @@ export const globalStyles = StyleSheet.create({
 
     },
     cart_title: {
-        color: "#CCCCCC", fontSize: normalize(15), fontFamily: "RedHatDisplay-SemiBold",
+        color:  COLORS.appOppsiteTextColor, fontSize: normalize(15), fontFamily: "RedHatDisplay-SemiBold",
 
     },
     cart_title2: {
@@ -156,7 +156,7 @@ export const GradientGenerate = ({ colors, ...rest }) => {
         </MaskedView>
     );
 };
-
+    
 
 export const GradiateText = ({ title }) => {
     return (
@@ -190,7 +190,7 @@ export const Divider = ({ imageSource, title }) => {
 export const CartBox = ({ children }) => {
     return (
         <View style={{
-            backgroundColor: COLORS.appLightColor, padding: 15, borderRadius: 15, borderColor: "#CCCCCC", borderWidth: 1,
+            backgroundColor: COLORS.appLightColor, padding: 15, borderRadius: 12, borderColor: "#CCCCCC", borderWidth: 1,
 
         }}
         >
@@ -201,10 +201,10 @@ export const CartBox = ({ children }) => {
     )
 }
 
-export const MiniCartBox = ({ children }) => {
+export const MiniCartBox = ({ children,bg_color }) => {
     return (
         <View style={{
-            backgroundColor: "#656A71", padding: 10, borderRadius: 8, borderColor: "#CCCCCC", borderWidth: 1, flexDirection: "row", justifyContent: "center", alignItems: "center"
+            backgroundColor:bg_color ? bg_color : "#656A71", padding: 10, borderRadius: 8, borderColor: "#CCCCCC", borderWidth: 1, flexDirection: "row", justifyContent: "center", alignItems: "center"
 
         }}
         >
@@ -214,6 +214,9 @@ export const MiniCartBox = ({ children }) => {
 
     )
 }
+
+
+
 
 
 
@@ -256,7 +259,7 @@ export const SubmitBotton = ({ title, loadingStaus }) => {
 export const CheckedBox = ({ }) => {
     return (
         <View style={{
-            backgroundColor: "#1B2F48", padding: 10, borderRadius: 20, borderColor: "blue", borderWidth: 1, flexDirection: "row", justifyContent: "center", alignItems: "center"
+            backgroundColor: "#1B2F48", padding: 10, borderRadius: 20, borderColor: "black", borderWidth: 1, flexDirection: "row", justifyContent: "center", alignItems: "center"
 
         }}
         >
@@ -294,16 +297,19 @@ export const CustumModal = ({ children }) => {
     return (
 
         <View style={{ maxHeight: wH - 100 }}>
-            <ScrollView bounces={false} >
-
-                <View style={[globalStyles.modalStyle,]}>
-                    <View style={{ justifyContent: "center", width: wW, alignItems: 'center' }}>
+              <View style={[globalStyles.modalStyle,]}>
+                       <View style={{ justifyContent: "center", width: wW, alignItems: 'center' }}>
                         <View style={{ width: normalize(72), backgroundColor:  "#202020", height: 5, marginVertical: 8, borderRadius: 10 }}></View>
                     </View>
+            <ScrollView bounces={false} style={{paddingHorizontal:wW/20}} >
+
+              
+         
                     {children}
-                </View>
+           
 
             </ScrollView>
+            </View>
         </View>
 
 

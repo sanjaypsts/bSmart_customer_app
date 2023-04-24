@@ -12,6 +12,7 @@ import { Relogin } from '../../../stateManage/auth/actions';
 import apicall from '../../../stateManage/apicall';
 import { useTranslation } from "react-i18next";
 import { globalStyles, GradiateText, SubmitBotton } from '../../helper/globalStyle';
+import DynamicAppLogo from '../../AppLogo';
 
 
 
@@ -20,8 +21,19 @@ const Login = ({ navigation }) => {
     const dispatch = useDispatch()
     const [username, setUsername] = useState('cuswms@gmail.com');
     const [password, setPassword] = useState('Admin123@');
-    const [error, seterrorMessage] = useState('');
+    // const [username, setUsername] = useState('');
+    // const [password, setPassword] = useState('');
+    const [error, seterrorMessage] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [emailError, setemailError] = useState("");
+    const [passwordError, setpasswordError] = useState("");
+
+
+        
+
+
+
+    
 
 
     // const [InputData, setInputData] = useState([
@@ -69,7 +81,20 @@ const Login = ({ navigation }) => {
                 if (err.response.status == 401) {
                 }
                 if (err) {
-                    seterrorMessage(err.response.data.message)
+                    seterrorMessage(true)
+                    const data = [err.response.data.data]
+                 
+
+                    setemailError(data[0].login_email)
+                    setpasswordError(data[0].password)
+                    // for (var i = 0; i < 1; i++) {
+                    //     for (var key in data[i]) {
+                          
+                    //         // seterrData(data)
+                  
+                    //       // Toast.showWithGravity(data[i][key], Toast.LONG, Toast.BOTTOM);
+                    //     }
+                    //   }
 
                 }
             })
@@ -87,19 +112,20 @@ const Login = ({ navigation }) => {
                 style={styles.container}>
                 <BackGround>
                     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                    <DynamicAppLogo style={{ width: normalize(120), height: normalize(120) }} imageStyle={{ borderRadius: 10 }} />
 
-                        <AppLogo width={normalize(120)} height={normalize(120)} />
+                        {/* <AppLogo width={normalize(120)} height={normalize(120)} /> */}
 
                         {/* welcome title */}
                         <Text style={globalStyles.loginHeading}>{t('login.welcome')}</Text>
                         <Text style={globalStyles.loginTitle}>{t('login.login_descripton')}</Text>
-
+   
 
                         {/* input box */}
                         <View style={{ width: "100%", marginVertical: 30 }} >
-                            <LoginInput imageSource={IMAGES.emailIcon} title={t('login.email')} value={username} textLength={50} keyBoardType={"email-address"} updateMasterState={(text) => { setUsername(text); seterrorMessage("") }} err={error} />
+                            <LoginInput imageSource={IMAGES.emailIcon} title={t('login.email')} value={username} textLength={50} keyBoardType={"email-address"} updateMasterState={(text) => { setUsername(text); seterrorMessage(false); setemailError("") }} err={error} errorMessage={emailError}  />
                             <View style={{ marginVertical: 5 }}></View>
-                            <LoginInput imageSource={IMAGES.PassIcon} title={t('login.password')} value={password} textLength={50} keyBoardType={"default"} updateMasterState={(text) => { setPassword(text); seterrorMessage("") }} err={error} passwordEye={true} />
+                            <LoginInput imageSource={IMAGES.PassIcon} title={t('login.password')} value={password} textLength={50} keyBoardType={"default"} updateMasterState={(text) => { setPassword(text); seterrorMessage(false); setpasswordError("") }} err={error} errorMessage={passwordError}  passwordEye={true} />
                         </View>
 
                         {/* ForgetPassword */}
