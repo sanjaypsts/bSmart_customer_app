@@ -12,7 +12,7 @@ const BackGround = ({ children, splashScreen, imageSource }) => {
     return (
         <View>
             <StatusBar animated={true} backgroundColor={COLORS.appColor} barStyle={COLORS.barStyle} />
-            <LinearGradient colors={['#03234C',"#054565", '#06AAA8']} style={[!splashScreen && globalPaddingHorizontal, { width: wW, height: wH, }]} >
+            <LinearGradient colors={[COLORS.imageBgCOLOR,COLORS.imageBgCOLOR2,COLORS.imageBgCOLOR3,]} style={[!splashScreen && globalPaddingHorizontal, { width: wW, height: wH, }]} >
                 {children}
             </LinearGradient>
             {/* <ImageBackground style={[!splashScreen && globalPaddingHorizontal, { width: wW, height: wH, }]} source={IMAGES.BackGround} >
@@ -21,7 +21,7 @@ const BackGround = ({ children, splashScreen, imageSource }) => {
         </View>
 
     )
-
+ 
 }
 export default BackGround
 

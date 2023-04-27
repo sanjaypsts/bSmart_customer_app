@@ -46,7 +46,7 @@ export const LoginInput = (props) => {
                         keyboardType={keyBoardType}
                         secureTextEntry={passwordEye && passwordVisible}
                         style={globalStyles.logininputText}
-                        placeholderTextColor={"#606563"}
+                        placeholderTextColor={"#C0C0C0"}
                         onChangeText={onChangeText}
 
                     // onChangeText={(text) => setPassword(text)}

@@ -19,7 +19,7 @@ export const Single_Category_SET = (data,url,value) => {
 
       apicallHeaderPost(data,url,value)
         .then(response => {
-          console.log("haii",response.data)
+         
           if (response.status == 200 && response.data.status == true || response.data.status == 'true') {
             dispatch({
               type: SET_SINGLE_CATEGORY_DATA,

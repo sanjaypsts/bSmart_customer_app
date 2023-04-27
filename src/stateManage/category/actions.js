@@ -8,11 +8,11 @@ export const Category_SET = (url, value) => {
 
   try {
     return async dispatch => {
-      dispatch({
-        type: SET_CATEGORY_DATA,
-        payload: { loading: true, status: false,ErrorData:[],Data:[] },
+      // dispatch({
+      //   type: SET_CATEGORY_DATA,
+      //   payload: { loading: true, status: false,ErrorData:[],Data:[] },
 
-      });
+      // });
 
       apicallHeader(url, value)
         .then(response => {

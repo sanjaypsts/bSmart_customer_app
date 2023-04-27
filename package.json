@@ -28,6 +28,7 @@
     "react-native": "0.70.7",
     "react-native-audio-record": "^0.2.2",
     "react-native-audio-recorder-player": "^3.5.3",
+    "react-native-document-picker": "^8.2.0",
     "react-native-gesture-handler": "^2.9.0",
     "react-native-global-modal-2": "^1.2.0",
     "react-native-linear-gradient": "^2.6.2",

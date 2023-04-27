@@ -39,7 +39,11 @@ const Credits = ({ navigation }) => {
 
         setloading(true)
 
-        apicallHeaderPost({ 'customer_id': loginData.data.customer_shipping_address_alias_id.id }, 'mgetCustomerPaymentBillUsingCustomerShippingAliasId', loginData.data.token)
+        let formData = new FormData();
+        formData.append('customer_id', loginData.data.customer_shipping_address_alias_id.id);
+        formData.append('sorting', JSON.stringify({ "id": "desc" }));
+
+        apicallHeaderPost(formData,'mgetCustomerPaymentBillUsingCustomerShippingAliasId', loginData.data.token)
             .then(response => {
 
 

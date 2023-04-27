@@ -39,7 +39,7 @@ const DashBoard = ({ route, navigation }) => {
 
 
 //     useEffect(() => {
-//   console.log("contact_Data",contact_Data)
+
 //     }, [])
 
 

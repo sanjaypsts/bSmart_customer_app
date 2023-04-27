@@ -32,7 +32,6 @@ export const CreditsModal = (props) => {
         apicallHeaderPost({ 'order_id': value }, 'downloadInvoice', loginData.data.token)
             .then(response => {
 
-                console.log(response)
 
                 setloading(false)
                 if (response.status == 200 && response.data.status == true || response.data.status == 'true') {

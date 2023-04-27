@@ -106,7 +106,7 @@ export default Address = ({ navigation }) => {
 
     apicallHeaderPost(formData,'mupdateCustomerShippingAddressDetailsUsingId',loginData.data.token)
       .then(response => {
-        console.log(response)
+
 
         setloading(false)
         if (response.status == 200 && response.status == 201 && response.data.status == true || response.data.status == 'true') {
@@ -119,7 +119,6 @@ export default Address = ({ navigation }) => {
       }).catch(err => {
         setloading(false)
 
-        console.log(err.response.data)
 
 
         if (err) {
@@ -228,27 +227,20 @@ export default Address = ({ navigation }) => {
           :
 
           <>
-       
             <CartBox>
+        <Text style={[globalStyles.heading,{marginBottom:10}]}>{"Shipping Address"}</Text>
+
               {address_Data && address_Data.length > 0 &&
                 address_Data.map((i, index) => (
-                  <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", }}>
 
-                    <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center", }}>
-                 
-
-                      <View>
-                      <Text style={globalStyles.heading}>{"Shipping Address"}</Text>
-                      <Text></Text>
-                      <Text style={globalStyles.title}>{i.shipping_block_number} {i.shipping_street_drive_number}</Text>
-                      <Text style={globalStyles.title}>{i.shipping_unit_number} - {i.shipping_postal_code}</Text>
-                  
-                    </View>
+                  <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-evenly", width: "100%" }}>
+                    <View style={{justifyContent: "center", width: "80%" }}>
+                    <Text style={globalStyles.title}>{i.shipping_block_number} {i.shipping_street_drive_number}</Text>
+                    <Text style={globalStyles.title}>{i.shipping_unit_number} - {i.shipping_postal_code}</Text>
                     </View>
 
 
-
-                    <TouchableOpacity onPress={() => { setEditMode(true);setshipping_block_number(i.shipping_block_number);setshipping_street_drive_number(i.shipping_street_drive_number);setshipping_unit_number(i.shipping_unit_number);setshipping_postal_code(JSON.stringify(i.shipping_postal_code));setSelecteditid(i.id) }} style={{ flexDirection: "row", justifyContent: "center" }}>
+                    <TouchableOpacity onPress={() => { setEditMode(true);setshipping_block_number(i.shipping_block_number);setshipping_street_drive_number(i.shipping_street_drive_number);setshipping_unit_number(i.shipping_unit_number);setshipping_postal_code(JSON.stringify(i.shipping_postal_code));setSelecteditid(i.id) }}  style={{ flexDirection: "row", justifyContent: "center", width: "20%", }}>
                       <MiniCartBox >
                         <Feather name="edit-3" size={normalize(15)} color="white" />
                         <Text style={[globalStyles.title, { color: "white" }]}>   Edit</Text>
@@ -256,8 +248,35 @@ export default Address = ({ navigation }) => {
                       </MiniCartBox>
                     </TouchableOpacity>
 
-
                   </View>
+
+
+                  // <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", }}>
+
+                  //   <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center", }}>
+                 
+
+                  //     <View>
+                  //     <Text style={globalStyles.heading}>{"Shipping Address"}</Text>
+                  //     <Text></Text>
+                  //     <Text style={globalStyles.title}>{i.shipping_block_number} {i.shipping_street_drive_number}</Text>
+                  //     <Text style={globalStyles.title}>{i.shipping_unit_number} - {i.shipping_postal_code}</Text>
+                  
+                  //   </View>
+                  //   </View>
+
+
+
+                  //   <TouchableOpacity onPress={() => { setEditMode(true);setshipping_block_number(i.shipping_block_number);setshipping_street_drive_number(i.shipping_street_drive_number);setshipping_unit_number(i.shipping_unit_number);setshipping_postal_code(JSON.stringify(i.shipping_postal_code));setSelecteditid(i.id) }} style={{ flexDirection: "row", justifyContent: "center" }}>
+                  //     <MiniCartBox >
+                  //       <Feather name="edit-3" size={normalize(15)} color="white" />
+                  //       <Text style={[globalStyles.title, { color: "white" }]}>   Edit</Text>
+
+                  //     </MiniCartBox>
+                  //   </TouchableOpacity>
+
+
+                  // </View>
                 ))}
             </CartBox>
           </>

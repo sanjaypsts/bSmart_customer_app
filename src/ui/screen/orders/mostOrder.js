@@ -38,13 +38,13 @@ const MostOrder = ({navigation}) => {
   const getData = () => {
     setSingleCategoryData([])
     setloading(true)
-    console.log("csdijcnhsd")
+  
 
     apicallHeaderPost({customer_id:loginData.data.customer_shipping_address_alias_id.id,limit:30 },'mmostOrderBasedCustomerId',loginData.data.token)
       .then(response => {
         setloading(false)
         if (response.status == 200 && response.data.status == true || response.data.status == 'true') {
-          console.log("csdijcnhsd",response.data.data.order_details)
+
           setSingleCategoryData(response.data.data.order_details)
         } else {
         }

@@ -53,7 +53,7 @@ const Category = (props) => {
     const getData = () => {
         setloading(true)
 
-        setCategoryData([])
+ 
         dispatch(Category_SET("mgetCategoryDetails",loginData.data.token))
      
     }
@@ -70,7 +70,7 @@ const Category = (props) => {
 
         return (
             <View>
-                 <LoadingModal loading={category_Data.loading} setloading={setloading} />
+                 <LoadingModal loading={loading} setloading={setloading} />
                 {/* <SingleCategory isVisible={singleCategoryVisible} id={singleCategoryId} categoryData={categoryData} updateCategory={() => { setsingleCategoryVisible(false) }} /> */}
                 <View style={{ flexDirection: 'row', justifyContent: "space-between", alignItems: "center", marginVertical: normalize(20), }}>
                     <Text style={globalStyles.appTitle}>{t('category.category')}</Text>

@@ -7,7 +7,7 @@ import { normalize, wW } from "../helper/size";
 
 const Imagewithloader=(props)=>{
     const {imageurl,styles,...restOfProps}=props
-    //console.log(imageurl)
+
     const [imageloading,setimageloading]=useState(false)
    // const [currentdate, setcurrentdate] = useState(new Date())
     return (

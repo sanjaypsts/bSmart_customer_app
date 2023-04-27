@@ -15,6 +15,7 @@ import Toast from 'react-native-simple-toast';
 import { Category_SET } from '../../../stateManage/category/actions'
 import Imagewithloader from '../../component/imageloading'
 import { UPLOAD_IMAGE_PATH } from '../../../../config'
+import { COLORS } from '../../helper/color'
 
 const Home = () => {
     const dispatch = useDispatch()
@@ -58,7 +59,7 @@ const Home = () => {
 
 
     const getData = () => {
-        console.log('mgetSliderDetails')
+
         apicallHeader('mgetSliderDetails', loginData.data.token)
             .then(response => {
 
@@ -121,13 +122,13 @@ const Home = () => {
             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                 {categoryData && categoryData.length > 0 &&
                     categoryData.map((i, index) => (
-                        <TouchableOpacity style={{  width: normalize(80), height: normalize(80), 
-                            backgroundColor: "red", marginHorizontal: 5,
+                        <TouchableOpacity style={{  width: normalize(95), height: normalize(95), 
+                            backgroundColor:COLORS.appLightColor, marginHorizontal: 5,
                              borderRadius: 10,borderColor:"white",borderWidth:1,justifyContent:"center",alignItems:"center",
                              elevation:100, shadowColor: "white",
 
                         }} key={index} >
-                            <Imagewithloader imageurl={{ uri: `${UPLOAD_IMAGE_PATH + i.image_url}` }} style={{ width: normalize(78), height: normalize(78), }} imageStyle={{ borderRadius: 10 }} />
+                            <Imagewithloader imageurl={{ uri: `${UPLOAD_IMAGE_PATH + i.image_url}` }} style={{ width: normalize(93), height: normalize(93), }} imageStyle={{ borderRadius: 10 }} />
 
                         </TouchableOpacity>
                     ))}

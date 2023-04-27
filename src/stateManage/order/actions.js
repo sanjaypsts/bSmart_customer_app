@@ -8,10 +8,10 @@ export const Order_SET = (data,url, value) => {
 
   try {
     return async dispatch => {
-      dispatch({
-        type: SET_ORDER_DATA,
-        payload: { loading: true,status: false,Data:[],ErrorData:[], showPrice:0  },
-      });
+      // dispatch({
+      //   type: SET_ORDER_DATA,
+      //   payload: { loading: true,status: false,Data:[],ErrorData:[], showPrice:0  },
+      // });
 
       apicallHeaderPost(data,url, value)
         .then(response => {

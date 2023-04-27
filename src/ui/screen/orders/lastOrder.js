@@ -38,9 +38,9 @@ const LastOrder = ({ navigation }) => {
   const getData = () => {
     setSingleCategoryData([])
     setloading(true)
-    console.log("csdijcnhsd")
 
-    apicallHeaderPost({ customer_id: 1 }, 'mlastOrderBasedCustomerId', loginData.data.token)
+
+    apicallHeaderPost({ customer_id:loginData.data.customer_shipping_address_alias_id.id  }, 'mlastOrderBasedCustomerId', loginData.data.token)
       .then(response => {
         setloading(false)
         if (response.status == 200 && response.data.status == true || response.data.status == 'true') {
@@ -114,14 +114,14 @@ const LastOrder = ({ navigation }) => {
 
 
         if (err) {
-console.log(err.response.data)
+
           const data = [err.response.data.data]
 
 
 
           for (var i = 0; i < 1; i++) {
             for (var key in data[i]) {
-              console.log(data[i][key]);
+           
               // Toast.showWithGravity(data[i][key], Toast.LONG, Toast.BOTTOM);
             }
           }

@@ -15,7 +15,7 @@ import { COLORS } from '../../helper/color';
 export const DrawerListButton = ({ imageSource, title }) => {
     return (
         <LinearGradient
-            colors={['#00A298', '#0155A0']}
+            colors={[COLORS.imageBgCOLOR,COLORS.imageBgCOLOR2,COLORS.imageBgCOLOR3]}
             start={{ x: 0.0, y: 1.0 }} end={{ x: 1.0, y: 1.0 }}
             style={{
                flexDirection: "row", alignItems: "center", justifyContent: "center",

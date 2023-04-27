@@ -63,6 +63,7 @@ import { IMAGES } from './globalImage';
 import Feather from 'react-native-vector-icons/Feather';
 import { normalize, wH, wW } from './helper/size';
 import LinearGradient from 'react-native-linear-gradient';
+import { COLORS } from './helper/color';
 
 
 // header icons
@@ -104,7 +105,7 @@ export const LanguageBotton = ({ }) => {
 export const FilterBotton = ({ backgroundColor}) => {
   return (
     <View style={[styles.bottonStyle,{backgroundColor:backgroundColor,paddingHorizontal:20}]}>
-           <Feather name="filter" size={normalize(20)} color="white" />
+           <Feather name="filter" size={normalize(20)} color={COLORS.appOppsiteTextColor} />
     </View>
   )
 }
@@ -154,7 +155,7 @@ export const CartBotton = ({ }) => {
 const styles = StyleSheet.create({
 
   bottonStyle: {
-    backgroundColor: "#444748", padding: 12, borderRadius: 15, justifyContent: "center", alignItems: 'center'
+    backgroundColor: "#444748", padding: 12, borderRadius: 5, justifyContent: "center", alignItems: 'center'
   },
   bottomIcon: {
 

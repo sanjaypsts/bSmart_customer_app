@@ -82,10 +82,10 @@ const Contact = ({ navigation }) => {
     formData.append('contact_name', SelecteditName);
     formData.append('contact_number', Selecteditnumber);
     formData.append('id', Selecteditid);
-    console.log(formData)
+ 
     apicallHeaderPost(formData, 'mupdateCustomerContactDetailsUsingId', loginData.data.token)
       .then(response => {
-        console.log(response)
+   
 
         setloading(false)
         if (response.status == 200 && response.status == 201 && response.data.status == true || response.data.status == 'true') {
@@ -98,7 +98,7 @@ const Contact = ({ navigation }) => {
       }).catch(err => {
         setloading(false)
 
-        console.log(err.response.data)
+
 
 
         if (err) {
@@ -128,7 +128,7 @@ const Contact = ({ navigation }) => {
           <>
             <Text style={globalStyles.appTitle}>{'Contacts'}</Text>
 
-            <Divider title={'Edit CONTACTS' } />
+            <Divider title={'Edit CONTACTS'} />
             <CartBox>
 
               <>
@@ -169,6 +169,44 @@ const Contact = ({ navigation }) => {
           <>
             <Text style={globalStyles.appTitle}>{t('Address.contact')}</Text>
             <Divider title={t('Address.view_contacts')} />
+            {Data && Data.length > 0 &&
+              Data.map((i, index) => (
+                <CartBox>
+
+                  <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-evenly", width: "100%" }}>
+                    <View style={{ flexDirection: "row", alignItems: "center", width: "80%" }}>
+
+
+                      <TouchableOpacity onPress={() => { setLocal(i.contact_number, i.contact_name) }} style={{ width: normalize(20), height: normalize(20) }}>
+
+
+                        {i.contact_number == SelectMobileNumber ?
+                          <CheckedBox /> : <UnCheckedBox />
+                        }
+                      </TouchableOpacity>
+
+                      <View style={{ marginHorizontal: 20 }}>
+                        <Text style={globalStyles.heading}>{i.contact_name}</Text>
+                        <Text style={globalStyles.title}>+65 {i.contact_number}</Text>
+                      </View>
+                    </View>
+
+
+                    <TouchableOpacity onPress={() => { setEditMode(true); setSelecteditnumber(i.contact_number); setSelecteditName(i.contact_name); setSelecteditid(i.id) }} style={{ flexDirection: "row", justifyContent: "center", width: "20%", }}>
+                      <MiniCartBox >
+                        <Feather name="edit-3" size={normalize(15)} color="white" />
+                        <Text style={[globalStyles.title, { color: "white" }]}>   Edit</Text>
+
+                      </MiniCartBox>
+                    </TouchableOpacity>
+
+                  </View>
+
+                </CartBox>
+              ))}
+
+            {/* <Text style={globalStyles.appTitle}>{t('Address.contact')}</Text>
+            <Divider title={t('Address.view_contacts')} />
             <CartBox>
               {Data && Data.length > 0 &&
                 Data.map((i, index) => (
@@ -200,7 +238,7 @@ const Contact = ({ navigation }) => {
 
                   </View>
                 ))}
-            </CartBox>
+            </CartBox> */}
           </>
         }
 

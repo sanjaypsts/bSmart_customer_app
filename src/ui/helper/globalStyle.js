@@ -323,8 +323,7 @@ export const CustumModal = ({ children }) => {
 
 
 export const BottomGradiate = ({ children,Sendcolor }) => {
-    console.log(Sendcolor)
-
+ 
     return (
 
         <View style={{  backgroundColor:Sendcolor ? "Blue" : "red",borderRadius:100 }}>

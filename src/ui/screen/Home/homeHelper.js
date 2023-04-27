@@ -142,8 +142,8 @@ export const SmallCardList = ({ imageSource, title }) => {
         // </View>
 
             <View style={{backgroundColor: COLORS.appLightColor, borderRadius: 10, alignItems: "center", justifyContent: "center" ,flexDirection:"row",paddingHorizontal:10,paddingVertical:5}}>
-                <Image resizeMode="contain" style={[{ width: normalize(20), height: normalize(20) }]} source={imageSource} />
-                <Text style={[globalStyles.title, { lineHeight: 30 }]}> {title}</Text>
+                <Image resizeMode="contain" style={[{ width: normalize(18), height: normalize(18) }]} source={imageSource} />
+                <Text style={[globalStyles.title, { lineHeight: 30, fontSize: normalize(12) }]}> {title}</Text>
             </View>
    
 

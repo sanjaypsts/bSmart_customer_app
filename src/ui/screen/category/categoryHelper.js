@@ -15,6 +15,7 @@ import { IMAGES } from '../../globalImage';
 import { storeCartCount } from '../../../stateManage/asynstorage/asyncStore';
 import { Product_Count_SET } from '../../../stateManage/userDetails/actions';
 import Imagewithloader from '../../component/imageloading';
+import LinearGradient from 'react-native-linear-gradient';
 
 
 
@@ -73,22 +74,36 @@ export const CategoryCard = ({ imageSource, title }) => {
 
 export const SmallCategoryCard = ({ title, currentCategory, TextcurrentCategory }) => {
     return (
-        <View style={{
-            alignItems: "center", backgroundColor: currentCategory, justifyContent: "center", height: 50, width: 110, paddingHorizontal: 5, marginRight: 8,
-            shadowColor: "#000",
-            borderRadius: 10,
-            shadowOffset: {
+
+        <LinearGradient colors={[currentCategory,currentCategory]} style={[ { elevation: 50,shadowColor: TextcurrentCategory,height: 50, width: 110, borderRadius: 8,justifyContent: "center",alignItems:"center" ,borderColor:TextcurrentCategory,borderWidth:1,
+                   paddingHorizontal: 5, marginRight: 8,
+        shadowOffset: {
                 width: 0,
                 height: 7,
             },
             shadowOpacity: 0.43,
             shadowRadius: 9.51,
+        
+        
+        }]} >
+   <Text style={[globalStyles.appSubtitle, { color: TextcurrentCategory }]}>{title}</Text>
+    </LinearGradient>
+        // <View style={{
+        //     alignItems: "center", backgroundColor: currentCategory, justifyContent: "center", height: 50, width: 110, paddingHorizontal: 5, marginRight: 8,
+        //     shadowColor: "#000",
+        //     borderRadius: 10,
+        //     shadowOffset: {
+        //         width: 0,
+        //         height: 7,
+        //     },
+        //     shadowOpacity: 0.43,
+        //     shadowRadius: 9.51,
 
-            elevation: 15,
-        }}>
+        //     elevation: 15,
+        // }}>
 
-            <Text style={[globalStyles.appSubtitle, { color: TextcurrentCategory }]}>{title}</Text>
-        </View>
+        //     <Text style={[globalStyles.appSubtitle, { color: TextcurrentCategory }]}>{title}</Text>
+        // </View>
     )
 }
 
@@ -98,11 +113,11 @@ export const Search = ({ title }) => {
     const { t, i18n } = useTranslation();
 
     return (
-        <View style={{ flexDirection: "row", width: "100%", marginVertical: 15, justifyContent: "space-between" }}>
+        <View style={{ flexDirection: "row", width: "100%", marginVertical: 10, justifyContent: "space-between" }}>
             <View style={{
-                backgroundColor: "#333333", alignItems: "center", height: 60, flexDirection: "row", paddingLeft: 15, width: "80%",
+                backgroundColor: COLORS.appTextColor, alignItems: "center", height: 50, flexDirection: "row", paddingLeft: 15, width: "80%",
                 shadowColor: "#000",
-                borderRadius: 15,
+                borderRadius: 5,
                 shadowOffset: {
                     width: 0,
                     height: 7,
@@ -112,7 +127,7 @@ export const Search = ({ title }) => {
 
                 elevation: 15,
             }}>
-                <Ionicons name="search" size={normalize(25)} color="white" />
+                <Ionicons name="search" size={normalize(20)} color={COLORS.appOppsiteTextColor} />
                 <TextInput
                     placeholder={t('category.search_products')}
                     // value={'value'}
@@ -124,7 +139,7 @@ export const Search = ({ title }) => {
 
 
             </View>
-            <FilterBotton backgroundColor={"#333333"} />
+            <FilterBotton backgroundColor={COLORS.appTextColor} />
 
         </View>
     )
@@ -140,7 +155,7 @@ export const HorizontalSingleCategoryCard = (props) => {
 
 
     const onChangenewCount = (newCount) => {
-        console.log(newCount)
+
         // const { updateMasterState } = props;
         // updateMasterState(updatedValue);
     };
@@ -222,7 +237,7 @@ export const AddBotton = (props) => {
 
         dispatch(Product_Count_SET({ "total_Product_count": count }))
         typeof (count)
-        console.log(count)
+
         await storeCartCount(JSON.stringify(count))
 
     }
@@ -233,7 +248,7 @@ export const AddBotton = (props) => {
 
         setloading(true)
         let formData = new FormData();
-        formData.append('customer_id', 1);
+        formData.append('customer_id', loginData.data.customer_shipping_address_alias_id.id);
         formData.append('product_id', product_id);
         formData.append('quantity', params);
 
@@ -256,7 +271,7 @@ export const AddBotton = (props) => {
                 }
 
             }).catch(err => {
-                console.log("err", err.response.data)
+             
                 setloading(false)
 
 

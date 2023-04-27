@@ -52,7 +52,7 @@ export const CONTACT_SET = (data,url, value) => {
           } else {
           }
         }).catch(err => {
-          console.lo0g(err.response.data)
+    
           if (err) {
    
           }
@@ -106,7 +106,7 @@ export const ADDRESS_SET = (data,url,value) => {
 
 
 export const CUSTOMER_PROFILE_SET = (data,url,value) => {
-  console.log(data,url,value)
+
  
 
   try {
@@ -118,7 +118,7 @@ export const CUSTOMER_PROFILE_SET = (data,url,value) => {
 
       apicallHeaderPost(data,url,value)
         .then(response => {
-        console.log(response.status)
+       
           if (response.status == 200 && response.data.status == true || response.data.status == 'true') {
             dispatch({
               type: SET_CUSTOMER_DATA,
@@ -127,7 +127,7 @@ export const CUSTOMER_PROFILE_SET = (data,url,value) => {
           } else {
           }
         }).catch(err => {
-          console.log(err)
+
           if (err) {
             
           }

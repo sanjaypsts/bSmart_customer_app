@@ -67,7 +67,7 @@ export const ItemCartBox = (props) =>{
             }
 
         }).catch(err => {
-            console.log("err")
+
             setloading(false)
 
 
@@ -187,24 +187,24 @@ export const ItemCartBox = (props) =>{
 
 //     const { quantity, product_id, updatequantity } = props
 
-//     console.log(quantity, product_id,"quantity, product_id, updatequantity")
+
 //     const [quantity1, setQuantity] = useState(quantity);
 //     const [totalquantity, settotalquantity] = useState("");
 //     const { loginData } = useSelector(state => state.loginReducer);
 //     const [loading, setloading] = useState(false);
  
 //     const AddCategory = (params) => {
-//    console.log("demo")
+
 //         let formData = new FormData();
 //         formData.append('customer_id', 1);
 //         formData.append('product_id', product_id);
 //         formData.append('quantity',params);
 //         apicallHeaderPost(formData, 'addCartDetail',loginData.data.token)
 //         .then(response => {
-//             console.log("demo",response)
+
 //             setloading(false)
 //             if (response.status == 200 && response.data.status == true || response.data.status == 'true') {
-//                 console.log("Add")
+
 //                 updatequantity(response.data.data.data_list.quantity)
 //                 setQuantity(response.data.data.data_list.quantity)
            

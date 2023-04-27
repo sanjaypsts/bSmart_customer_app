@@ -91,7 +91,7 @@ const Cart = ({ navigation }) => {
 
 
   const setLocal = async () => {
-    // console.log(contact_Data[0])
+   
     // setSelectMobileNumber(contact_Data[0].contact_number)
     // setSelectName(contact_Data[0].contact_name)
     await storeContactNumber(contact_Data[0].contact_number)
@@ -186,7 +186,11 @@ const Cart = ({ navigation }) => {
 
     // const data = [{ "product_id": 6, "batch_id": "", "quantity": "1", "unit_id": 6, "unit_price": "5.00", "total_amount": "5.00", "gross_amount": "4.63", "tax_id": 2, "tax_amount": "0.37" }]
 
+    const path = `file:////data/user/0/com.bsmart/cache/hello.mp3`
+    // const path = `./audio.mp3`
 
+    let uriParts = path.split('.');
+    let fileType = uriParts[uriParts.length - 1];
 
     formData.append('order_details', JSON.stringify(ModifyReciveData));
     formData.append('sub_total', Subtotal.toFixed(2));
@@ -194,21 +198,28 @@ const Cart = ({ navigation }) => {
     formData.append('order_total', Grandtotal.toFixed(2));
     formData.append('order_notes', "test");
     formData.append('ordered_via', "Mobile");
-    formData.append('delivery_notes_voice', "");
+    // formData.append('delivery_notes_voice', "");
+    formData.append('delivery_notes_voice',{
+      uri: path,
+     
+      type: 'audio/mp3', name: 'recorded_audio.mp3',fileName: 'recorded_audio.mp3',
+    })
     formData.append('payment_mode_id', 1);
 
     formData.append('mobile_number', SelectMobileNumber);
     formData.append('payment_date', "2001-01-01");
 
-
-
-
+console.log(formData,"formData")
+return
     apicallHeaderPost(formData, 'mcreateOrderDetails', loginData.data.token)
       .then(response => {
+        console.log('err,response',response)
+
         setloading(false)
         if (response.status == 200 && response.status == 201 && response.data.status == true || response.data.status == 'true') {
           navigation.push('PaymentSuccess')
         } else {
+          console.log(response)
 
         }
 
@@ -219,16 +230,19 @@ const Cart = ({ navigation }) => {
 
         if (err) {
 
-          const data = [err.response.data.data]
+          console.log(err)
+          // Toast.showWithGravity(err.response.data.message, Toast.LONG, Toast.BOTTOM);
+          // const data = [err.response.data.data]
 
+          // console.log(data[i][key]);
 
-          for (var i = 0; i < 1; i++) {
-            for (var key in data[i]) {
-              // console.log(data[i][key]);
-              Toast.showWithGravity(data[i][key], Toast.LONG, Toast.BOTTOM);
+          // for (var i = 0; i < 1; i++) {
+          //   for (var key in data[i]) {
+          //     console.log(data[i][key]);
+          //     // Toast.showWithGravity(data[i][key], Toast.LONG, Toast.BOTTOM);
 
-            }
-          }
+          //   }
+          // }
 
 
 

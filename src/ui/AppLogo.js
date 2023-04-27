@@ -24,7 +24,7 @@ const DynamicAppLogo=(props)=>{
   const { appdata } = useSelector(state => state.appDatareducer);
 
     const {styles,...restOfProps}=props
-    //console.log(
+
     const [imageloading,setimageloading]=useState(false)
    // const [currentdate, setcurrentdate] = useState(new Date())
     return (

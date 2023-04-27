@@ -90,7 +90,7 @@ const SingleCategory = ({ route, navigation }) => {
 
   const GetLocal = async () => {
     const getTotalCount = await getCartCount();
-    console.log("getTotalCount", getTotalCount)
+
     setTotalProduct(getTotalCount)
   }
 
@@ -147,7 +147,7 @@ const SingleCategory = ({ route, navigation }) => {
             {categoryData && categoryData.length > 0 &&
               categoryData.map((i, index) => (
                 <TouchableOpacity key={index} onPress={() => { getData(i.id), setcurrentCategory(i.id) }}  >
-                  <SmallCategoryCard title={i.category_name} currentCategory={i.id != currentCategory ? COLORS.appLightColor : "#333333"} TextcurrentCategory={i.id == currentCategory ? COLORS.appLightColor : "#333333"} />
+                  <SmallCategoryCard title={i.category_name} currentCategory={i.id != currentCategory ? COLORS.transParent : COLORS.imageBgCOLOR3} TextcurrentCategory={i.id == currentCategory ? COLORS.appLightColor : COLORS.appLightColor} />
                 </TouchableOpacity>
               ))}
           </ScrollView>
