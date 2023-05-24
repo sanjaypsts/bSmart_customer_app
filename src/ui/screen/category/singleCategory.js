@@ -29,7 +29,7 @@ const SingleCategory = ({ route, navigation }) => {
   const [currentCategory, setcurrentCategory] = useState("");
 
 
-  const [TotalProduct, setTotalProduct] = useState("");
+  const [TotalProduct, setTotalProduct] = useState(0);
 
   const [showPrice,setshowPrice ] = useState(false);
 
@@ -52,14 +52,14 @@ const SingleCategory = ({ route, navigation }) => {
 
 
 
-        getData(routedata.id)
+        getData(routedata.id,"")
         setcurrentCategory(routedata.id)
       } else {
 
         try {
           {
             category_Data.status && category_Data.Data[0].id != undefined &&
-              getData(category_Data.Data[0].id)
+              getData(category_Data.Data[0].id,"")
             setcurrentCategory(category_Data.Data[0].id)
           }
         }
@@ -100,7 +100,8 @@ const SingleCategory = ({ route, navigation }) => {
 
 
 
-  const getData = (category_unique_id) => {
+  const getData = (category_unique_id,search_value) => {
+    console.log(search_value)
     setSingleCategoryData([])
 
     setloading(true)
@@ -109,6 +110,8 @@ const SingleCategory = ({ route, navigation }) => {
     formData.append('limit', 50);
     formData.append('page_number', 1);
     formData.append('sorting', JSON.stringify({ "id": "asc" }));
+    formData.append('search_data', search_value);
+
     apicallHeaderPost(formData/* {'category_unique_id':id,'limit':3,'page_number':1,'sorting':{"id":"asc"}} */, 'mfilterProductDetailsUsingCategoryId', loginData.data.token)
       .then(response => {
 
@@ -141,26 +144,41 @@ const SingleCategory = ({ route, navigation }) => {
       <BackGround>
         <LoadingModal loading={loading} setloading={setloading} />
         <BackBottonHeader updateSingleCategory={(text) => { onChangeChild(false) }} />
-        <Search />
+        <Search  updateMasterState={(text) => { getData(currentCategory,text) }}/>
         <View style={{ flexDirection: "row" }}>
           <ScrollView showsHorizontalScrollIndicator={false} horizontal={true} >
             {categoryData && categoryData.length > 0 &&
               categoryData.map((i, index) => (
-                <TouchableOpacity key={index} onPress={() => { getData(i.id), setcurrentCategory(i.id) }}  >
+                <TouchableOpacity key={index} onPress={() => { getData(i.id,""), setcurrentCategory(i.id) }}  >
                   <SmallCategoryCard title={i.category_name} currentCategory={i.id != currentCategory ? COLORS.transParent : COLORS.imageBgCOLOR3} TextcurrentCategory={i.id == currentCategory ? COLORS.appLightColor : COLORS.appLightColor} />
                 </TouchableOpacity>
               ))}
           </ScrollView>
         </View>
 
+        {/* <View style={{marginTop:20,flexDirection:"row",justifyContent:"space-between",alignItems:"center"}}>
+          <Text style={globalStyles.appSubtitle}>Delivery Window</Text>
+          <TouchableOpacity onPress={() => getData(currentCategory,'')} ><Text style={globalStyles.appSubtitle}>Reset  </Text></TouchableOpacity>
+        </View> */}
+
 
         <ScrollView showsVerticalScrollIndicator={false} >
-          {SingleCategoryData && SingleCategoryData.length > 0 &&
+          {SingleCategoryData && SingleCategoryData.length > 0 ?
             SingleCategoryData.map((i, index) => (
               <View key={index} >
                 <HorizontalSingleCategoryCard imageSource={i.image_url} title={i.product_name} price={i.standard_price} weight={i.unit_name} quantity={i.quantity} product_id={i.id} show_price={showPrice} updateMasterState={(text) => { console.log("single") }} />
               </View>
-            ))}
+            )):
+            (!loading &&
+              <View style={{flex:1,height:"100%",justifyContent:"center",alignItems:"center",height:wH/2}}>
+
+              <Text style={{color:"white",fontSize:normalize(15)}}>Data not found</Text>
+            </View>
+            )
+     
+          
+          
+          }
           <View style={{ marginBottom: 120 }}></View>
 
         </ScrollView>

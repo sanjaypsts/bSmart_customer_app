@@ -22,13 +22,13 @@ import { useTranslation } from 'react-i18next';
 export const CartDivider = ({ imageSource, title }) => {
     return (
         <View style={{ flexDirection: "row", marginVertical: 10, justifyContent: "space-around", alignItems: "center", paddingHorizontal: 20 }}>
-            <View style={{ height: 1, backgroundColor: "#8E8E8E", width: "30%" }}></View>
+            <View style={{ height: 1, backgroundColor: "#8E8E8E", flex:1}}></View>
             <View style={{ flexDirection: 'row', alignItems: "center", justifyContent: "center" }}>
                 <Image source={imageSource} style={{ width: 20, height: 20, borderRadius: 10 }} />
-                <Text style={[globalStyles.cart_title,{  letterSpacing: 5 }]}> {title}</Text>
+                <Text style={[globalStyles.cart_title,{  letterSpacing: 5,color:"#8E8E8E" }]}> {title} </Text>
 
             </View>
-            <View style={{ height: 1, backgroundColor: "#8E8E8E", width: "30%" }}></View>
+            <View style={{ height: 1, backgroundColor: "#8E8E8E", flex:1 }}></View>
 
         </View>
 
@@ -50,7 +50,7 @@ export const ItemCartBox = (props) =>{
         setloading(true)
 
         let formData = new FormData();
-        formData.append('customer_id', 1);
+        formData.append('customer_id',  loginData.data.customer_shipping_address_alias_id.id);
         formData.append('product_id', product_id);
         formData.append('quantity',params);
         apicallHeaderPost(formData, 'addCartDetail',loginData.data.token)

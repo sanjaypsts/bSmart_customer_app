@@ -4,7 +4,7 @@ import BackGround from '../../component/backgroundImage'
 import LoadingModal from '../../component/loading'
 import BackBottonHeader from '../../component/header/dashboardHeader'
 import { useState } from 'react'
-import { CartBox, Dateformat, Divider, MiniCartBox, globalStyles } from '../../helper/globalStyle'
+import { CartBox, Dateformat, Divider, MiniCartBox, TimeFormat, globalStyles } from '../../helper/globalStyle'
 import { CreditsModal } from './creditsHelper'
 import { COLORS } from '../../helper/color'
 import { useSelector } from 'react-redux'
@@ -131,8 +131,8 @@ const Credits = ({ navigation }) => {
                                 </View>
                                 <View style={{ height: 1, backgroundColor: "#8E8E8E", width: "100%", marginVertical: 10 }}></View>
                                 <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
-                                    <Text style={[globalStyles.order_title, { color: COLORS.appOppsiteTextColor }]}>{moment(item.invoice_date).format(Dateformat)}</Text>
-
+                                    {/* <Text style={[globalStyles.order_title, { color: COLORS.appOppsiteTextColor }]}>{moment(item.invoice_date).format(Dateformat)}</Text> */}
+                                    <TimeFormat title={item.invoice_date} style={[globalStyles.order_title, { color: COLORS.appOppsiteTextColor }]}/>
                                     <TouchableOpacity onPress={() => ModalPop(item)}>
                                         <MiniCartBox>
                                             <Text style={[globalStyles.order_title, { color: 'white' }]}>PO</Text>
@@ -159,7 +159,8 @@ const Credits = ({ navigation }) => {
                                 <View style={{ height: 1, backgroundColor: "#8E8E8E", width: "100%", marginVertical: 10 }}></View>
 
                                 <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
-                                    <Text style={[globalStyles.order_title, { color: COLORS.appOppsiteTextColor }]}>{moment(item.invoice_date).format(Dateformat)}</Text>
+                                    {/* <Text style={[globalStyles.order_title, { color: COLORS.appOppsiteTextColor }]}>{moment(item.invoice_date).format(Dateformat)}</Text> */}
+                                    <TimeFormat title={item.invoice_date} style={[globalStyles.order_title, { color: COLORS.appOppsiteTextColor }]}/>
 
                                     <TouchableOpacity onPress={() => ModalPop(item)}>
                                         <MiniCartBox>

@@ -27,9 +27,10 @@ export const CategoryCard = ({ imageSource, title }) => {
 
     return (
 
-        <View style={{ width: normalize(100), backgroundColor: "#F0F0F0", borderRadius: 10, alignItems: "center",marginBottom:10,
-        shadowColor: "#000",
-                shadowOffset: {
+        <View style={{
+            width: normalize(100), backgroundColor: "#F0F0F0", borderRadius: 10, alignItems: "center", marginBottom: 10,
+            shadowColor: "#000",
+            shadowOffset: {
                 width: 0,
                 height: 7,
             },
@@ -75,19 +76,20 @@ export const CategoryCard = ({ imageSource, title }) => {
 export const SmallCategoryCard = ({ title, currentCategory, TextcurrentCategory }) => {
     return (
 
-        <LinearGradient colors={[currentCategory,currentCategory]} style={[ { elevation: 50,shadowColor: TextcurrentCategory,height: 50, width: 110, borderRadius: 8,justifyContent: "center",alignItems:"center" ,borderColor:TextcurrentCategory,borderWidth:1,
-                   paddingHorizontal: 5, marginRight: 8,
-        shadowOffset: {
+        <LinearGradient colors={[currentCategory, currentCategory]} style={[{
+            elevation: 50, shadowColor: TextcurrentCategory, height: 50, width: 110, borderRadius: 8, justifyContent: "center", alignItems: "center", borderColor: TextcurrentCategory, borderWidth: 1,
+            paddingHorizontal: 5, marginRight: 8,
+            shadowOffset: {
                 width: 0,
                 height: 7,
             },
             shadowOpacity: 0.43,
             shadowRadius: 9.51,
-        
-        
+
+
         }]} >
-   <Text style={[globalStyles.appSubtitle, { color: TextcurrentCategory }]}>{title}</Text>
-    </LinearGradient>
+            <Text style={[globalStyles.appSubtitle, { color: TextcurrentCategory }]}>{title}</Text>
+        </LinearGradient>
         // <View style={{
         //     alignItems: "center", backgroundColor: currentCategory, justifyContent: "center", height: 50, width: 110, paddingHorizontal: 5, marginRight: 8,
         //     shadowColor: "#000",
@@ -109,8 +111,16 @@ export const SmallCategoryCard = ({ title, currentCategory, TextcurrentCategory 
 
 
 
-export const Search = ({ title }) => {
+export const Search = (props) => {
     const { t, i18n } = useTranslation();
+    const [searchData, setsearchData] = useState('');
+
+    const onChangeText = (value) => {
+        setsearchData(value)
+        const { updateMasterState } = props;
+        updateMasterState(value);
+
+    };
 
     return (
         <View style={{ flexDirection: "row", width: "100%", marginVertical: 10, justifyContent: "space-between" }}>
@@ -131,12 +141,20 @@ export const Search = ({ title }) => {
                 <TextInput
                     placeholder={t('category.search_products')}
                     // value={'value'}
+                    maxLength={50}
                     style={globalStyles.logininputText}
                     placeholderTextColor={"#8E8F8F"}
-                // onChangeText={onChangeText}
-                // onChangeText={(text) => setPassword(text)}
+                    // onChangeText={onChangeText}
+                  
+                    onChangeText={(text) => onChangeText(text)}
                 />
+                {/* {searchData.length >= 1 &&
 
+
+                    <TouchableOpacity onPress={onChangeText} >
+                        <Text style={{ color: "blue" }}>Search  </Text>
+                    </TouchableOpacity>
+                } */}
 
             </View>
             <FilterBotton backgroundColor={COLORS.appTextColor} />
@@ -271,7 +289,7 @@ export const AddBotton = (props) => {
                 }
 
             }).catch(err => {
-             
+
                 setloading(false)
 
 

@@ -79,11 +79,18 @@ const Home = () => {
             })
     }
 
+    const single_category = (id) => {
+        // props.singleCategory(id, categoryData);
+
+        navigation.push('SingleCategory',{id})
+    }
+
+
 
     return (
 
         <>
-            <Text style={[globalStyles.appTitle, { marginBottom: 10 }]}>Welcome {loginData.data.customer_contact_number.contact_name}</Text>
+            <Text style={[globalStyles.appTitle, { marginBottom: 10 }]}>Welcome {loginData.data.customer_shipping_address_alias_id.alias_name}</Text>
 
             <View style={{ width: "100%", alignItems: "center", justifyContent: "center" }}>
                 {Data.length > 0 &&
@@ -93,6 +100,7 @@ const Home = () => {
             </View>
 
             <PlaceOrderHorizontalCard />
+            
             {/* <Order_Products /> */}
 
 
@@ -122,7 +130,7 @@ const Home = () => {
             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                 {categoryData && categoryData.length > 0 &&
                     categoryData.map((i, index) => (
-                        <TouchableOpacity style={{  width: normalize(95), height: normalize(95), 
+                        <TouchableOpacity  onPress={() => single_category(i.id)} style={{  width: normalize(95), height: normalize(95), 
                             backgroundColor:COLORS.appLightColor, marginHorizontal: 5,
                              borderRadius: 10,borderColor:"white",borderWidth:1,justifyContent:"center",alignItems:"center",
                              elevation:100, shadowColor: "white",
@@ -132,7 +140,6 @@ const Home = () => {
 
                         </TouchableOpacity>
                     ))}
-
             </ScrollView>
 
           

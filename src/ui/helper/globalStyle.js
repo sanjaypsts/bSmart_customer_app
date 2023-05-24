@@ -4,6 +4,7 @@ import { normalize, wH, wW } from "./size";
 
 import LinearGradient from 'react-native-linear-gradient'
 import MaskedView from '@react-native-masked-view/masked-view';
+import moment from "moment";
 
 export const Dateformat = 'DD MMM Y • h:mm a';
 
@@ -37,7 +38,7 @@ export const globalStyles = StyleSheet.create({
         fontSize: normalize(15), marginTop: normalize(5), paddingHorizontal: wW / 20, textAlign: "center", color: "#CCCCCC", fontFamily: "RedHatDisplay-Regular"
     },
     logininputText: {
-        color: COLORS.appTextColor, fontSize: normalize(16), marginLeft: 5, fontFamily: "RedHatDisplay-Regular", flex: 1, marginRight: 30
+        color: COLORS.appTextColor, fontSize: normalize(16), marginLeft: 5, fontFamily: "RedHatDisplay-Regular", flex: 1, 
     },
     inputText: {
         color: COLORS.appOppsiteTextColor, fontSize: normalize(16), borderBottomColor: "grey", borderBottomWidth: 2, fontFamily: "RedHatDisplay-Regular", width: "100%", height: 50
@@ -331,3 +332,38 @@ export const BottomGradiate = ({ children,Sendcolor }) => {
         </View>
     )
 }
+
+
+
+
+
+// export const TimeFormat = async (value) => {
+//     try {
+   
+//         return (
+//             // {moment.utc(item.created_at).local().format(Dateformat)}
+//             <Text style={globalStyles.order_title2}>hvhgf</Text>
+//         )
+//     } catch (e) {
+//       // saving error
+//     }
+//   }
+
+
+export function TimeFormat({children,title,style}) {
+
+    return (
+      <View >
+        <Text
+          style={[
+            style
+          ]}>
+            {moment.utc(title).local().format(Dateformat)}
+
+        </Text>
+
+      </View>
+    );
+  }
+  
+  
