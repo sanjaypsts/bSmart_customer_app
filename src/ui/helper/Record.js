@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { CartBox, globalStyles } from './globalStyle'
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -12,13 +12,13 @@ import { useState } from 'react';
 
 
 
-import AudioRecorderPlayer, { 
+import AudioRecorderPlayer, {
   AVEncoderAudioQualityIOSType,
-  AVEncodingOption, 
+  AVEncodingOption,
   AudioEncoderAndroidType,
   AudioSet,
-  AudioSourceAndroidType, 
- } from 'react-native-audio-recorder-player';
+  AudioSourceAndroidType,
+} from 'react-native-audio-recorder-player';
 import RNFetchBlob from 'rn-fetch-blob';
 
 const audioRecorderPlayer = new AudioRecorderPlayer();
@@ -26,7 +26,15 @@ const audioRecorderPlayer = new AudioRecorderPlayer();
 
 
 
-const Record = () => {
+const Record = (props) => {
+
+  const sendAudio = (value) => {
+    const { updateMasterState } = props;
+    updateMasterState(value);
+  };
+
+
+
   const [recordSecs, setrecordsec] = React.useState('');
   const [recordTime, setrecordTime] = React.useState(0);
   const [currentPositionSec, setcurrentPositionSec] = React.useState('')
@@ -36,7 +44,6 @@ const Record = () => {
 
 
   const [audiorecord, setaudiorecord] = React.useState(false)
-
   const [playStart, setplaystart] = React.useState(false)
   const [recordStart, setrecordstart] = React.useState(false)
 
@@ -47,15 +54,12 @@ const Record = () => {
 
 
   audioRecorderPlayer.setSubscriptionDuration(0.09);
-  const audioPath ='/path/to/audio/file';
 
   const onStartRecord = async () => {
-
-    const dirs = RNFetchBlob.fs.dirs;
-    const path = Platform.select({
-      ios: 'hello.m4a',
-      android: `${dirs.CacheDir}/hello.mp3`,
-    });
+    const path = Platform.OS === 'android'
+      ? '/storage/emulated/0/Download/audio.mp3'
+      : 'file:///var/mobile/Containers/Data/Application/<app-id>/Library/audio.mp3';
+    console.log(path)
     const audioSet = {
       AudioEncoderAndroid: AudioEncoderAndroidType.AAC,
       AudioSourceAndroid: AudioSourceAndroidType.MIC,
@@ -70,21 +74,12 @@ const Record = () => {
 
     audioRecorderPlayer.addRecordBackListener((e) => {
 
-
-
-
-
       const recordTime = audioRecorderPlayer.mmssss(Math.floor(e.currentPosition))
-
       setrecordsec(e.currentPosition)
       setrecordTime(recordTime)
-
-
       return;
 
     });
-
-
 
   };
 
@@ -94,21 +89,33 @@ const Record = () => {
   const onStopRecord = async () => {
 
     const result = await audioRecorderPlayer.stopRecorder();
-
     audioRecorderPlayer.removeRecordBackListener();
-
-
     setrecordsec(0)
 
-
-
-
+    sendAudio(result)
     console.log(result, "stop");
 
   };
 
+  
 
 
+
+  onDeleteRecord = async () => {
+   
+
+  
+    setaudiorecord(false)
+  
+    setcurrentPositionSec(0)
+    setcurrentDurationSec(0)
+    setplayTime(0)
+    setduration(0)
+    setrecordTime(0)
+
+    sendAudio(null)
+
+  };
 
 
 
@@ -116,14 +123,9 @@ const Record = () => {
   const onStartPlay = async () => {
 
     console.log('onStartPlay');
-
-    const dirs = RNFetchBlob.fs.dirs;
-    const path = Platform.select({
-      ios: 'hello.m4a',
-      android: `${dirs.CacheDir}/hello.mp3`,
-    });
-    //console.log('lol2')
-  
+    const path = Platform.OS === 'android'
+      ? '/storage/emulated/0/Download/audio.mp3'
+      : 'file:///var/mobile/Containers/Data/Application/<app-id>/Library/audio.mp3';
 
     const msg = await audioRecorderPlayer.startPlayer(path);
 
@@ -151,6 +153,7 @@ const Record = () => {
 
 
 
+
   const onPausePlay = async () => {
 
     const msg = await audioRecorderPlayer.pausePlayer();
@@ -163,10 +166,7 @@ const Record = () => {
   };
 
 
-
-
-
-
+  
 
   onStopPlay = async () => {
 
@@ -176,6 +176,13 @@ const Record = () => {
     audioRecorderPlayer.removePlayBackListener();
 
   };
+
+  
+
+
+
+
+
 
 
 
@@ -193,7 +200,7 @@ const Record = () => {
 
           <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-around", width: "50%" }}>
 
-            {!audiorecord?
+            {!audiorecord ?
               <Text style={[globalStyles.cart_heading1, {}]}>{recordTime}</Text>
               :
               <Text style={[globalStyles.cart_heading1, {}]}>{playTime} </Text>
@@ -236,7 +243,7 @@ const Record = () => {
                 }
 
 
-                <TouchableOpacity onPress={() =>  setaudiorecord(false)} style={{ backgroundColor: "white", width: 40, height: 40, borderRadius: 50, justifyContent: "center", alignItems: "center" }}>
+                <TouchableOpacity onPress={() => onDeleteRecord()} style={{ backgroundColor: "white", width: 40, height: 40, borderRadius: 50, justifyContent: "center", alignItems: "center" }}>
                   <MaterialCommunityIcons name="delete" size={normalize(25)} color="#FF5D5D" />
                 </TouchableOpacity>
 

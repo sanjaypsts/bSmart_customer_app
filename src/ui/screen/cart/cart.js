@@ -42,6 +42,7 @@ const Cart = ({ navigation }) => {
   const [SelectMobileNumber, setSelectMobileNumber] = useState("Select Contact");
   const [SelectName, setSelectName] = useState("");
   const [showPrice, setshowPrice] = useState(false);
+  const [AudioFIle, setAudioFIle] = useState(null);
 
   const dispatch = useDispatch()
 
@@ -60,8 +61,8 @@ const Cart = ({ navigation }) => {
 
   useFocusEffect(
     React.useCallback(() => {
-   
-  
+
+
       setloading(true)
       setSubtotal(0)
       setGrandtotal(0)
@@ -69,7 +70,7 @@ const Cart = ({ navigation }) => {
       setData([])
       getData()
 
-      
+
     }, [])
   );
 
@@ -82,7 +83,7 @@ const Cart = ({ navigation }) => {
   }, [])
 
   useEffect(() => {
-    dispatch(Category_SET("mgetCategoryDetails",loginData.data.token))
+    dispatch(Category_SET("mgetCategoryDetails", loginData.data.token))
 
 
 
@@ -91,7 +92,7 @@ const Cart = ({ navigation }) => {
 
 
   const setLocal = async () => {
-   
+
     // setSelectMobileNumber(contact_Data[0].contact_number)
     // setSelectName(contact_Data[0].contact_name)
     await storeContactNumber(contact_Data[0].contact_number)
@@ -162,6 +163,28 @@ const Cart = ({ navigation }) => {
   const Place_order = () => {
 
 
+
+    // const audioUri = 'file:////storage/emulated/0/Download/audio.mp3'
+    // const formData = new FormData();
+    // formData.append('file', {
+    //   uri: audioUri,
+    //   type: 'audio/mpeg',
+    //   name: 'audio.mp3',
+    // });
+    // console.log(formData)
+    // const response = await fetch('https://wms.demopsts.com/api/uploadFiles', {
+    //   method: 'POST',
+    //   headers: {
+
+    //     'Content-Type': 'multipart/form-data',
+    //   },
+    //   body: formData,
+    // });
+    // const data = await response.json();
+    // console.log(data) ;
+
+
+
     setloading(true)
     let formData = new FormData();
 
@@ -183,43 +206,48 @@ const Cart = ({ navigation }) => {
     });
 
 
+    console.log("AudioFIle", AudioFIle)
 
     // const data = [{ "product_id": 6, "batch_id": "", "quantity": "1", "unit_id": 6, "unit_price": "5.00", "total_amount": "5.00", "gross_amount": "4.63", "tax_id": 2, "tax_amount": "0.37" }]
 
-    const path = `file:////data/user/0/com.bsmart/cache/hello.mp3`
-    // const path = `./audio.mp3`
-
-    let uriParts = path.split('.');
-    let fileType = uriParts[uriParts.length - 1];
-
+    // const path = `file:////storage/emulated/0/Download/audio.mp3`
+    //     let uriParts = AudioFIle.split('.');
+    //     let fileType = uriParts[uriParts.length - 1];
     formData.append('order_details', JSON.stringify(ModifyReciveData));
     formData.append('sub_total', Subtotal.toFixed(2));
     formData.append('tax', totalTax.toFixed(2));
     formData.append('order_total', Grandtotal.toFixed(2));
-    formData.append('order_notes', "test");
+    formData.append('order_notes', "-");
     formData.append('ordered_via', "Mobile");
+
+    {
+      AudioFIle == null || AudioFIle == "" || AudioFIle == " " || AudioFIle == undefined ?
+      formData.append('delivery_notes_voice', "")
+      :
+      formData.append('delivery_notes_voice', {
+        uri: AudioFIle,
+
+        type: 'audio/mpeg', name: 'audio.mp3',
+      })
+
+    }
     // formData.append('delivery_notes_voice', "");
-    formData.append('delivery_notes_voice',{
-      uri: path,
-     
-      type: 'audio/mp3', name: 'recorded_audio.mp3',fileName: 'recorded_audio.mp3',
-    })
+
     formData.append('payment_mode_id', 1);
 
     formData.append('mobile_number', SelectMobileNumber);
     formData.append('payment_date', "2001-01-01");
 
-console.log(formData,"formData")
-return
+    console.log(formData, "AudioFIle")
+
     apicallHeaderPost(formData, 'mcreateOrderDetails', loginData.data.token)
       .then(response => {
-        console.log('err,response',response)
+        console.log('err,response', response)
 
         setloading(false)
         if (response.status == 200 && response.status == 201 && response.data.status == true || response.data.status == 'true') {
           navigation.push('PaymentSuccess')
         } else {
-          console.log(response)
 
         }
 
@@ -230,8 +258,12 @@ return
 
         if (err) {
 
-          console.log(err)
-          // Toast.showWithGravity(err.response.data.message, Toast.LONG, Toast.BOTTOM);
+         
+          {
+            err.response.data != undefined && err.response.data.message != undefined &&
+            Toast.showWithGravity(err.response.data.message, Toast.LONG, Toast.BOTTOM)
+
+          }
           // const data = [err.response.data.data]
 
           // console.log(data[i][key]);
@@ -410,7 +442,7 @@ return
                 <View>
                   <Text style={globalStyles.heading}>{"Shipping Address"}</Text>
                   <Text></Text>
-                  <Text style={globalStyles.title}>{i.shipping_block_number} {i.shipping_street_drive_number}</Text>
+                  <Text style={globalStyles.title}>{i.shipping_block_number} , {i.shipping_street_drive_number},</Text>
                   <Text style={globalStyles.title}>{i.shipping_unit_number} - {i.shipping_postal_code}</Text>
 
                 </View>
@@ -424,7 +456,7 @@ return
         </CartBox>
 
 
-        <Record />
+        <Record updateMasterState={(value) => { setAudioFIle(value) }} />
 
         <View style={{ height: 100, width: wW, justifyContent: "center", right: wW / 20, }}>
 

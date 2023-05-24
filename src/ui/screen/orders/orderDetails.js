@@ -2,7 +2,7 @@ import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'rea
 import React from 'react'
 import BackGround from '../../component/backgroundImage'
 import BackBottonHeader from '../../component/header/dashboardHeader'
-import { CartBox, Dateformat, globalStyles } from '../../helper/globalStyle'
+import { CartBox, Dateformat, TimeFormat, globalStyles } from '../../helper/globalStyle'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useEffect } from 'react'
@@ -10,6 +10,9 @@ import { normalize } from '../../helper/size'
 import { IMAGES } from '../../globalImage'
 import moment from 'moment'
 import { COLORS } from '../../helper/color'
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import AudioPlay from '../../helper/audioPlay'
+import { UPLOAD_IMAGE_PATH } from '../../../../config'
 
 const OrderDetails = ({ route, navigation }) => {
     const { Order_Data } = useSelector(state => state.orderReducer);
@@ -68,7 +71,7 @@ const OrderDetails = ({ route, navigation }) => {
             setorderDetailsData(data)
             setorderDetailsProduct(data.order_details)
             setorderTracker(data.order_status_details)
-       
+
         }
 
     }, [])
@@ -77,7 +80,7 @@ const OrderDetails = ({ route, navigation }) => {
         navigation.goBack(null)
     };
 
-
+    console.log(orderTracker)
     try {
         return (
             <BackGround>
@@ -85,7 +88,7 @@ const OrderDetails = ({ route, navigation }) => {
                 <Text style={globalStyles.appTitle}>{"Order Info"}</Text>
 
 
-                <ScrollView>
+                <ScrollView showsVerticalScrollIndicator={false}>
 
 
 
@@ -93,8 +96,10 @@ const OrderDetails = ({ route, navigation }) => {
                         <CartBox>
                             <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
                                 <View>
-                                    <Text style={globalStyles.order_heading1}>Order :{orderDetailsData.id}</Text>
-                                    <Text style={globalStyles.order_title2}>{moment(orderDetailsData.created_at).format(Dateformat)}</Text>
+                                    <Text style={globalStyles.order_heading1}>Order :{orderDetailsData.bill_no}</Text>
+                                    <TimeFormat title={orderDetailsData.created_at} style={globalStyles.order_title2} />
+
+                                    {/* <Text style={globalStyles.order_title2}>{moment(orderDetailsData.created_at).format(Dateformat)}</Text> */}
                                 </View>
                                 <Text style={[globalStyles.order_title]}>{orderDetailsData.status_name}</Text>
                             </View>
@@ -111,13 +116,13 @@ const OrderDetails = ({ route, navigation }) => {
                                 orderTracker.map((item, index) => (
                                     <View style={{ flexDirection: "row" }}>
                                         <View style={{ marginRight: 20, height: 90, alignItems: "stretch", }}>
-                                            <View style={{ width: 25, height: 25, backgroundColor: item.status == "true"  && item.status == true ? "#71D67A" : "grey", borderRadius: 20, }}><Text></Text></View>
-                                            {orderTracker.length != index + 1 && <View style={{ backgroundColor: item.status == "true"  && item.status == true ? "#71D67A" : "grey", width: 2, height: "90%", alignSelf: "center" }}></View>}
+                                            <View style={{ width: 25, height: 25, backgroundColor: item.status == "true" || item.status == true ? "#71D67A" : "grey", borderRadius: 20, justifyContent: "center", alignItems: "center" }}><Ionicons name="md-checkmark-sharp" size={normalize(15)} color={'grey'} /></View>
+                                            {orderTracker.length != index + 1 && <View style={{ backgroundColor: item.status == "true" || item.status == true ? "#71D67A" : "grey", width: 2, height: "90%", alignSelf: "center" }}></View>}
                                         </View>
                                         <View style={{ width: "80%" }} >
                                             <Text style={globalStyles.order_heading1}>{item.status_name}</Text>
                                             {item.status && <Text style={globalStyles.order_title2}>{item.date}</Text>}
-                                            {orderTracker.length != index + 1 &&  <View style={{ height: 1.5, backgroundColor: "#8E8E8E", width: "100%", marginTop: 10 }}></View>}
+                                            {orderTracker.length != index + 1 && <View style={{ height: 1.5, backgroundColor: "#8E8E8E", width: "100%", marginTop: 10 }}></View>}
                                         </View>
                                     </View>
                                 ))
@@ -140,13 +145,13 @@ const OrderDetails = ({ route, navigation }) => {
                                                 <Text style={globalStyles.order_title2}>Quantity: {i.quantity}</Text>
                                             </View>
                                             <View style={{ alignItems: "center", justifyContent: "center" }}>
-                                            {  Order_Data.showPrice == 1 && <Text numberOfLines={1} style={[globalStyles.order_heading1]}> S$ {i.per_unit_itemcost.toFixed(2)} </Text>}
+                                                {Order_Data.showPrice == 1 && <Text numberOfLines={1} style={[globalStyles.order_heading1]}> S$ {i.per_unit_itemcost.toFixed(2)} </Text>}
                                             </View>
                                         </View>
 
                                         {orderDetailsProduct.length != index + 1 &&
 
-                                        <View style={{ height: 1, backgroundColor: "#8E8E8E", marginVertical: 10 }}></View>
+                                            <View style={{ height: 1, backgroundColor: "#8E8E8E", marginVertical: 10 }}></View>
                                         }
 
                                     </>
@@ -160,13 +165,13 @@ const OrderDetails = ({ route, navigation }) => {
 
                             <CartBox>
                                 <View style={{ flexDirection: 'row', alignItems: "center", }}>
-                                    <Image source={IMAGES.personalcard} style={{ width: 20, height: 20, borderRadius: 10,tintColor:"black" }} />
+                                    <Image source={IMAGES.personalcard} style={{ width: 20, height: 20, borderRadius: 10, tintColor: "black" }} />
                                     <Text style={[globalStyles.cart_title, {}]}> {"Contact details"}</Text>
                                 </View>
                                 <View style={{ justifyContent: "center", }}>
                                     <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "400", fontSize: normalize(14), }}>{"Customer 4"}</Text>
 
-                                    <Text style={{ color:COLORS.appOppsiteTextColor, fontWeight: "400", fontSize: normalize(14), }}>+65 {orderDetailsData.mobile_number}</Text>
+                                    <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "400", fontSize: normalize(14), }}>+65 {orderDetailsData.mobile_number}</Text>
                                 </View>
                             </CartBox>
                         </View>
@@ -192,42 +197,50 @@ const OrderDetails = ({ route, navigation }) => {
 
 
 
+                    {Order_Data.showPrice == 1 &&
+                        <View style={{ width: "100%", flexDirection: "row", justifyContent: "space-between" }}>
 
-                    {  Order_Data.showPrice == 1 &&
-                    <View style={{ width: "100%", flexDirection: "row", justifyContent: "space-between" }}>
-
-                        <View style={{ width: "45%" }}>
-                            <CartBox>
-                                <View style={{ flexDirection: 'row', alignItems: "center", }}>
-                                    {/* <Image source={IMAGES.personalcard} style={{ width: 20, height: 20, borderRadius: 10,tintColor:"black" }} /> */}
-                                    <Text style={[globalStyles.cart_title, {}]}> {"Payment Mode"}</Text>
-                                </View>
-                                <View style={{ justifyContent: "center", }}>
-                                    <Text style={{color:"black", fontWeight: "500", fontSize: normalize(16), }}>{"Cash"}</Text>
+                            <View style={{ width: "45%" }}>
+                                <CartBox>
+                                    <View style={{ flexDirection: 'row', alignItems: "center", }}>
+                                        {/* <Image source={IMAGES.personalcard} style={{ width: 20, height: 20, borderRadius: 10,tintColor:"black" }} /> */}
+                                        <Text style={[globalStyles.cart_title, {}]}> {"Payment Mode"}</Text>
+                                    </View>
+                                    <View style={{ justifyContent: "center", }}>
+                                        <Text style={{ color: "black", fontWeight: "500", fontSize: normalize(16), }}>{"Cash"}</Text>
 
 
-                                </View>
-                            </CartBox>
+                                    </View>
+                                </CartBox>
 
+
+
+                            </View>
+                            <View style={{ width: "45%" }}>
+                                <CartBox>
+                                    <View style={{ flexDirection: 'row', alignItems: "center", }}>
+
+                                        <Text style={[globalStyles.cart_title, {}]}> {"Bill Total"}</Text>
+                                    </View>
+                                    <View style={{ justifyContent: "center", }}>
+                                        <Text style={{ color: "black", fontWeight: "500", fontSize: normalize(16), }}>S$ {orderDetailsData.sub_total.toFixed(2)}</Text>
+
+                                    </View>
+                                </CartBox>
+                            </View>
 
 
                         </View>
-                        <View style={{ width: "45%" }}>
-                            <CartBox>
-                                <View style={{ flexDirection: 'row', alignItems: "center", }}>
+                    }
 
-                                    <Text style={[globalStyles.cart_title, {}]}> {"Bill Total"}</Text>
-                                </View>
-                                <View style={{ justifyContent: "center", }}>
-                                    <Text style={{ color:"black", fontWeight: "500", fontSize: normalize(16), }}>S$ {orderDetailsData.sub_total.toFixed(2)}</Text>
 
-                                </View>
-                            </CartBox>
-                        </View>
-                    </View>
-    }
+                 {orderDetailsData.voice_file_url != null  &&
 
-                    <View style={{marginBottom:50}}></View>
+                    <AudioPlay value={UPLOAD_IMAGE_PATH+orderDetailsData.voice_file_url} />
+                 }
+
+
+                    <View style={{ marginBottom: 50 }}></View>
 
                 </ScrollView>
 

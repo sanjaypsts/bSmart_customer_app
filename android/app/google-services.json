@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "195661670569",
+    "project_id": "bsmart-76f3a",
+    "storage_bucket": "bsmart-76f3a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:195661670569:android:55d0f948ff8a2bd431e1b8",
+        "android_client_info": {
+          "package_name": "com.bsmart"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "195661670569-j4pj8tmt56qdctr03ih47o37qc1ff0m6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6cXnjfkfHJemZVWx1nLRssxEJ3xs6l-c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "195661670569-j4pj8tmt56qdctr03ih47o37qc1ff0m6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,6 +1,6 @@
 import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
-import { CartBox, Dateformat, Divider, globalStyles } from '../../helper/globalStyle'
+import { CartBox, Dateformat, Divider, TimeFormat, globalStyles } from '../../helper/globalStyle'
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 import { Order_SET } from '../../../stateManage/order/actions'
@@ -118,10 +118,10 @@ const Orders = ({ }) => {
                     <View style={{ height: 1, backgroundColor: "#8E8E8E", marginVertical: 10 }}></View>
 
                     <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
-                        <Text style={globalStyles.order_title2}>{moment(item.created_at).format(Dateformat)}</Text>
+                        <TimeFormat title={item.created_at} style={globalStyles.order_title2}/>
                         <Entypo name="chevron-right" size={normalize(20)} color="black" />
 
-
+                  
                     </View>
 
 

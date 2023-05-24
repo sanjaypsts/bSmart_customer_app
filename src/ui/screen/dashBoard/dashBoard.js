@@ -95,14 +95,14 @@ const DashBoard = ({ route, navigation }) => {
     return (
         <BackGround>
             <DrawerHeader />
-            <ScrollView style={{ marginHorizontal: 2 }}>
-                {intialBottom == "category" ?
 
+            <ScrollView style={{ marginHorizontal: 2,marginBottom:100 }}>
+                {intialBottom == "category" ?
                     <Category singleCategory={CategoryCallback} /> :
                     intialBottom == 'Orders' ? <Orders /> : <Home />
-
                 }
             </ScrollView>
+
             <View style={[globalPaddingHorizontal, { position: "absolute", bottom: 30, width: wW }]}>
                 <DrawerBottom parentCallback={handleCallback} />
             </View>
