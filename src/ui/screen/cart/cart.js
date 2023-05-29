@@ -43,6 +43,7 @@ const Cart = ({ navigation }) => {
   const [SelectName, setSelectName] = useState("");
   const [showPrice, setshowPrice] = useState(false);
   const [AudioFIle, setAudioFIle] = useState(null);
+  // const [AudioFIle, setAudioFIle] = useState(null);
 
   const dispatch = useDispatch()
 
@@ -71,6 +72,7 @@ const Cart = ({ navigation }) => {
       getData()
 
 
+
     }, [])
   );
 
@@ -84,6 +86,7 @@ const Cart = ({ navigation }) => {
 
   useEffect(() => {
     dispatch(Category_SET("mgetCategoryDetails", loginData.data.token))
+    dispatch(Category_SET("mgetCategoryDetails", loginData.data.token))
 
 
 
@@ -92,6 +95,7 @@ const Cart = ({ navigation }) => {
 
 
   const setLocal = async () => {
+
 
     // setSelectMobileNumber(contact_Data[0].contact_number)
     // setSelectName(contact_Data[0].contact_name)
@@ -185,6 +189,28 @@ const Cart = ({ navigation }) => {
 
 
 
+
+    // const audioUri = 'file:////storage/emulated/0/Download/audio.mp3'
+    // const formData = new FormData();
+    // formData.append('file', {
+    //   uri: audioUri,
+    //   type: 'audio/mpeg',
+    //   name: 'audio.mp3',
+    // });
+    // console.log(formData)
+    // const response = await fetch('https://wms.demopsts.com/api/uploadFiles', {
+    //   method: 'POST',
+    //   headers: {
+
+    //     'Content-Type': 'multipart/form-data',
+    //   },
+    //   body: formData,
+    // });
+    // const data = await response.json();
+    // console.log(data) ;
+
+
+
     setloading(true)
     let formData = new FormData();
 
@@ -207,9 +233,13 @@ const Cart = ({ navigation }) => {
 
 
     console.log("AudioFIle", AudioFIle)
+    console.log("AudioFIle", AudioFIle)
 
     // const data = [{ "product_id": 6, "batch_id": "", "quantity": "1", "unit_id": 6, "unit_price": "5.00", "total_amount": "5.00", "gross_amount": "4.63", "tax_id": 2, "tax_amount": "0.37" }]
 
+    // const path = `file:////storage/emulated/0/Download/audio.mp3`
+    //     let uriParts = AudioFIle.split('.');
+    //     let fileType = uriParts[uriParts.length - 1];
     // const path = `file:////storage/emulated/0/Download/audio.mp3`
     //     let uriParts = AudioFIle.split('.');
     //     let fileType = uriParts[uriParts.length - 1];
@@ -217,6 +247,7 @@ const Cart = ({ navigation }) => {
     formData.append('sub_total', Subtotal.toFixed(2));
     formData.append('tax', totalTax.toFixed(2));
     formData.append('order_total', Grandtotal.toFixed(2));
+    formData.append('order_notes', "-");
     formData.append('order_notes', "-");
     formData.append('ordered_via', "Mobile");
 
@@ -231,12 +262,27 @@ const Cart = ({ navigation }) => {
       })
 
     }
+
+    {
+      AudioFIle == null || AudioFIle == "" || AudioFIle == " " || AudioFIle == undefined ?
+      formData.append('delivery_notes_voice', "")
+      :
+      formData.append('delivery_notes_voice', {
+        uri: AudioFIle,
+
+        type: 'audio/mpeg', name: 'audio.mp3',
+      })
+
+    }
     // formData.append('delivery_notes_voice', "");
+
 
     formData.append('payment_mode_id', 1);
 
     formData.append('mobile_number', SelectMobileNumber);
     formData.append('payment_date', "2001-01-01");
+
+    console.log(formData, "AudioFIle")
 
     console.log(formData, "AudioFIle")
 
@@ -443,6 +489,7 @@ const Cart = ({ navigation }) => {
                   <Text style={globalStyles.heading}>{"Shipping Address"}</Text>
                   <Text></Text>
                   <Text style={globalStyles.title}>{i.shipping_block_number} , {i.shipping_street_drive_number},</Text>
+                  <Text style={globalStyles.title}>{i.shipping_block_number} , {i.shipping_street_drive_number},</Text>
                   <Text style={globalStyles.title}>{i.shipping_unit_number} - {i.shipping_postal_code}</Text>
 
                 </View>
@@ -456,6 +503,7 @@ const Cart = ({ navigation }) => {
         </CartBox>
 
 
+        <Record updateMasterState={(value) => { setAudioFIle(value) }} />
         <Record updateMasterState={(value) => { setAudioFIle(value) }} />
 
         <View style={{ height: 100, width: wW, justifyContent: "center", right: wW / 20, }}>
