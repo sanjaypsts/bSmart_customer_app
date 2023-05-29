@@ -242,7 +242,7 @@ const Cart = ({ navigation }) => {
 
     apicallHeaderPost(formData, 'mcreateOrderDetails', loginData.data.token)
       .then(response => {
-        console.log('err,response', response)
+        // console.log('err,response', response)
 
         setloading(false)
         if (response.status == 200 && response.status == 201 && response.data.status == true || response.data.status == 'true') {
@@ -258,7 +258,7 @@ const Cart = ({ navigation }) => {
 
         if (err) {
 
-         
+         console.log(err.response.data.message)
           {
             err.response.data != undefined && err.response.data.message != undefined &&
             Toast.showWithGravity(err.response.data.message, Toast.LONG, Toast.BOTTOM)

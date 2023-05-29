@@ -51,7 +51,7 @@ const Orders = ({ }) => {
     
     
         const newCurrent = Data.filter(function (item) {
-            return item.status_name == "Dispatch";
+            return item.status_name == "On-Transit" || item.status_name == "Dispatch";
         }).map(function (item) {
     
             return { ...item, bgColor:  "#007F66", TextColor: "#D2F8D2" };

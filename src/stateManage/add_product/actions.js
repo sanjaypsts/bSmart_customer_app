@@ -16,7 +16,7 @@ export const Single_Category_SET = (data,url,value) => {
         type: SET_SINGLE_CATEGORY_DATA,
         payload: {loading:true},
       });
-
+ 
       apicallHeaderPost(data,url,value)
         .then(response => {
          

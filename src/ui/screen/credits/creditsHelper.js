@@ -1,5 +1,5 @@
 import Modal from 'react-native-modal';
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, PermissionsAndroid, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { normalize, wH, wW } from '../../helper/size';
 import { CartBox, CustumModal, Dateformat, MiniCartBox, SubmitBotton, globalStyles } from '../../helper/globalStyle';
@@ -11,6 +11,10 @@ import { useEffect } from 'react';
 import moment from 'moment';
 import apicallHeaderPost from '../../../stateManage/apicallHeaderPost';
 import { useSelector } from 'react-redux';
+import ReactNativeBlobUtil from 'react-native-blob-util'
+import { UPLOAD_IMAGE_PATH } from '../../../../config';
+import { check, PERMISSIONS, RESULTS, request } from 'react-native-permissions';
+
 
 export const CreditsModal = (props) => {
     const { visible, modalData, show_price, UpdateVisible } = props
@@ -27,15 +31,63 @@ export const CreditsModal = (props) => {
     };
 
 
-    const InvoicePdfDownload = (value) => {
+    const Permission = async (value) => {
+        try {
 
-        apicallHeaderPost({ 'order_id': value }, 'downloadInvoice', loginData.data.token)
+            if (Platform.OS === "ios") {
+                await check(PERMISSIONS.IOS.PHOTO_LIBRARY_ADD_ONLY).then((result) => {
+                    if (result == 'granted') {
+                        InvoicePdfDownload(value)
+                    }
+                    else {
+                        request(PERMISSIONS.IOS.PHOTO_LIBRARY_ADD_ONLY).then((result) => {
+                            // console.log('gdfh',result)
+                            if (result == 'granted') {
+                                InvoicePdfDownload(value)
+                                //  console.log("ss")
+                            }
+                            else if (result == "limited") {
+                                InvoicePdfDownload(value)
+                            }
+                            else {
+                                alert("Access denied ")
+                            }
+                        });
+                    }
+                })
+  
+
+            }
+            else {
+                const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE);
+                if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                    InvoicePdfDownload(value)
+                } else {
+
+                   
+                }
+            }
+        }
+        catch (err) {
+            console.warn(err);
+        }
+    }
+
+    const InvoicePdfDownload = (value) => {
+        console.log(value)
+
+        apicallHeaderPost({ 'order_id': value }, 'mdownloadBillPdf', loginData.data.token)
             .then(response => {
 
-
-                setloading(false)
+                console.log("response",response.data.data)
+                // setloading(false)
                 if (response.status == 200 && response.data.status == true || response.data.status == 'true') {
-
+                      const path = response.data.data
+                    const withoutSpaces = path.replaceAll(' ', '%20');
+                    const name = "Invoice No" + value ;
+                 const url =(UPLOAD_IMAGE_PATH +  withoutSpaces)
+                  
+                    Download(url,name)
                 } else {
 
                 }
@@ -43,12 +95,71 @@ export const CreditsModal = (props) => {
             }).catch(err => {
 
 
-
-
                 if (err) {
+                    console.log("err",err.response)
 
                 }
             })
+
+    }
+
+
+    const Download = (url,pdffilename) => {
+     
+
+        const { dirs } = ReactNativeBlobUtil.fs;
+        const dirToSave = Platform.OS == 'ios' ? dirs.DocumentDir : dirs.DownloadDir
+        const configfb = {
+            fileCache: false,
+            useDownloadManager: true,
+            notification: true,
+            mediaScannable: true,
+            title: pdffilename,
+            path: `${dirToSave}/${pdffilename}`,
+
+        }
+        const configOptions = Platform.select({
+            ios: {
+                fileCache: configfb.fileCache,
+                title: configfb.title,
+                path: configfb.path,
+                appendExt: 'pdf',
+            },
+            android: {
+                fileCache: true,
+                addAndroidDownloads: {
+                    useDownloadManager: true,
+                    notification: true,
+                    path: `${dirToSave}/${pdffilename}`,
+                    description: 'Pdf'
+                }
+            },
+        });
+
+        ReactNativeBlobUtil.config(configOptions)
+            .fetch('GET',url,{})
+            .then((res) => {
+                console.log('rerr', res)
+                if (Platform.OS === "ios") {
+                    ReactNativeBlobUtil.ios.openDocument(res.data);
+                    ReactNativeBlobUtil.ios.previewDocument(configfb.path);
+
+                }
+                //   setisdownloaded(false)
+                if (Platform.OS == 'android') {
+                    // showSnackbar('File downloaded');
+                }
+
+                alert('Downloaded successfully')
+
+                console.log('The file saved to ', res);
+            })
+            .catch((e) => {
+                //  setisdownloaded(true)
+                // showSnackbar(e.message);
+                console.log('The file saved to ERROR', e.message)
+            });
+
 
     }
 
@@ -57,6 +168,9 @@ export const CreditsModal = (props) => {
 
 
     try {
+
+
+
         return (
             <Modal transparent={true} isVisible={visible} statusBarTranslucent={true} style={{ justifyContent: 'flex-end', margin: 0 }}
                 onBackdropPress={() => onChange(false)}
@@ -79,7 +193,7 @@ export const CreditsModal = (props) => {
 
                                     </View>
 
-                                    <View>
+                                    {/* <View>
                                         {show_price == 1 &&
                                             <TouchableOpacity disabled={item.payment_status != 1 && true} onPress={() => InvoicePdfDownload(item.invoice_number)}>
 
@@ -89,7 +203,15 @@ export const CreditsModal = (props) => {
                                             </TouchableOpacity>
                                         }
 
-                                    </View>
+                                    </View> */}
+
+                                    {!item.payment_status == 0 &&
+                                        <TouchableOpacity onPress={() => { Permission(item.id) }} style={{ backgroundColor: "#03234C", borderRadius: 5, justifyContent: "center", alignItems: "center", paddingHorizontal: 10 }}>
+                                            <Text style={{ color: "white" }}>
+                                                Download
+                                            </Text>
+                                        </TouchableOpacity>
+                                    }
 
                                 </View>
                                 {/* <Text style={globalStyles.order_heading1}>Order {item.invoice_number}</Text>
@@ -112,9 +234,9 @@ export const CreditsModal = (props) => {
                                                         <Text style={globalStyles.order_title}>Quantity: {item.quantity}</Text>
                                                     </View>
                                                     <View>
-                                                    {show_price == 1 &&
-                                                        <Text style={[globalStyles.order_heading1,]}>S$ {(item.total_amount.toFixed(2))}</Text>
-                                                    }
+                                                        {show_price == 1 &&
+                                                            <Text style={[globalStyles.order_heading1,]}>S$ {(item.total_amount.toFixed(2))}</Text>
+                                                        }
 
                                                     </View>
                                                 </View>
