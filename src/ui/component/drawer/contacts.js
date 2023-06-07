@@ -34,6 +34,9 @@ const Contact = ({ navigation }) => {
   const [SelectMobileNumber, setSelectMobileNumber] = useState(0);
 
 
+  const [ERROR_Name, setERROR_Name] = useState("");
+  const [ERROR_MobileNumber, setERRORMobileNumber] = useState("");
+
 
 
   const dispatch = useDispatch()
@@ -75,36 +78,79 @@ const Contact = ({ navigation }) => {
 
   }
 
+
+  function validateInput(inputValue) {
+
+
+    if (inputValue && inputValue.length > 3) {
+    
+      return true; 
+      // return 'Input value cannot be empty';
+    }
+    return false
+    // additional validation logic here
+    // return null if input is valid
+  }
+
+
+  function validateInputLength(inputValue) {
+    if (inputValue.length >= 8) {
+
+      return true;
+      // return 'Input value cannot be empty';
+    }
+    // additional validation logic here
+    return false // return null if input is valid
+  }
+
   const updateContact = () => {
-    setloading(true)
-    let formData = new FormData();
-    formData.append('customer_unique_id', loginData.data.customer_shipping_address_alias_id.id)
-    formData.append('contact_name', SelecteditName);
-    formData.append('contact_number', Selecteditnumber);
-    formData.append('id', Selecteditid);
- 
-    apicallHeaderPost(formData, 'mupdateCustomerContactDetailsUsingId', loginData.data.token)
-      .then(response => {
-   
 
-        setloading(false)
-        if (response.status == 200 && response.status == 201 && response.data.status == true || response.data.status == 'true') {
-          setEditMode(false)
-          getData()
-        } else {
+    const SelecteditName_Check = validateInput(SelecteditName)
+    console.log(SelecteditName_Check)
+    const Selecteditnumber_Check = validateInputLength(Selecteditnumber)
 
-        }
+    if (SelecteditName_Check && Selecteditnumber_Check) {
+      setloading(true)
+      let formData = new FormData();
+      formData.append('customer_unique_id', loginData.data.customer_shipping_address_alias_id.id)
+      formData.append('contact_name', SelecteditName);
+      formData.append('contact_number', Selecteditnumber);
+      formData.append('id', Selecteditid);
 
-      }).catch(err => {
-        setloading(false)
+      apicallHeaderPost(formData, 'mupdateCustomerContactDetailsUsingId', loginData.data.token)
+        .then(response => {
 
 
+          setloading(false)
+          if (response.status == 200 && response.status == 201 && response.data.status == true || response.data.status == 'true') {
+            setEditMode(false)
+            getData()
+          } else {
+
+          }
+
+        }).catch(err => {
+          setloading(false)
 
 
-        if (err) {
 
-        }
-      })
+
+          if (err) {
+
+          }
+        })
+
+    } else {
+      
+      {!SelecteditName_Check && 
+        setERROR_Name("Please enter a Name")
+      }
+      {!Selecteditnumber_Check && 
+        setERRORMobileNumber("Please enter a Mobile Number")
+      }
+
+    }
+
 
   }
 
@@ -136,9 +182,9 @@ const Contact = ({ navigation }) => {
                 <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
                   <View>
                     <Text style={globalStyles.edit_heading}>{"Contact Name"}</Text>
-                    <CustumTextInput title={"Contact Name"} value={SelecteditName} textLength={50} keyBoardType={"default"} updateMasterState={(value) => (setSelecteditName(value))} />
+                    <CustumTextInput title={"Contact Name"} value={SelecteditName} textLength={50} keyBoardType={"default"} errMessage={ERROR_Name}  updateMasterState={(value) => {(setSelecteditName(value));setERROR_Name("")}} />
                     <Text style={[globalStyles.edit_heading, { marginTop: 15 }]}>{"Contact Number"}</Text>
-                    <CustumTextInput title={"Contact Number"} value={Selecteditnumber} textLength={8} keyBoardType={"number-pad"} updateMasterState={(value) => (setSelecteditnumber(value))} />
+                    <CustumTextInput title={"Contact Number"} value={Selecteditnumber} textLength={8} keyBoardType={"number-pad"} errMessage={ERROR_MobileNumber}  updateMasterState={(value) => {(setSelecteditnumber(value));setERRORMobileNumber("")}} />
                   </View>
                 </View>
 

@@ -83,9 +83,9 @@ const Drawer = ({}) => {
                 </TouchableOpacity>
 
                 
-                <TouchableOpacity>
+                {/* <TouchableOpacity>
                   <DrawerListButton imageSource={IMAGES.translate} title={'Secondary Language'} />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
 
 
 
@@ -93,7 +93,7 @@ const Drawer = ({}) => {
 
 
                   <View style={{ flexDirection: "row", alignItems: "center" }}>
-                    <TouchableOpacity onPress={() => {LogoutScreen()}} style={{ backgroundColor: "#46494A", width: 50, height: 50, borderRadius: 100, alignItems: "center", justifyContent: "center" }}>
+                    <TouchableOpacity onPress={() => {LogoutScreen()}} style={{ backgroundColor: 'rgba(255, 255, 255, 0.2)', width: 50, height: 50, borderRadius: 100, alignItems: "center", justifyContent: "center" }}>
                       <MaterialIcons name="logout" size={normalize(25)} color="white" />
 
                     </TouchableOpacity>

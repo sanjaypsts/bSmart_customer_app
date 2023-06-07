@@ -1,6 +1,6 @@
 import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { COLORS } from "./color";
-import { normalize, wH, wW } from "./size";
+import { globalPadding, normalize, wH, wW } from "./size";
 
 import LinearGradient from 'react-native-linear-gradient'
 import MaskedView from '@react-native-masked-view/masked-view';
@@ -41,7 +41,7 @@ export const globalStyles = StyleSheet.create({
         color: COLORS.appTextColor, fontSize: normalize(16), marginLeft: 5, fontFamily: "RedHatDisplay-Regular", flex: 1, 
     },
     inputText: {
-        color: COLORS.appOppsiteTextColor, fontSize: normalize(16), borderBottomColor: "grey", borderBottomWidth: 2, fontFamily: "RedHatDisplay-Regular", width: "100%", height: 50
+        color: COLORS.appOppsiteTextColor, fontSize: normalize(16),  borderBottomWidth: 2, fontFamily: "RedHatDisplay-Regular", width: "100%", height: 50
     },
 
 
@@ -83,7 +83,7 @@ export const globalStyles = StyleSheet.create({
 
     // notification
     notifyHeading: {
-        color: COLORS.appTextColor, fontSize: normalize(18), fontFamily: "RedHatDisplay-Medium"
+        color: COLORS.appTextColor, fontSize: normalize(16), fontFamily: "RedHatDisplay-Bold"
 
     },
     notifytitle: {
@@ -367,3 +367,29 @@ export function TimeFormat({children,title,style}) {
   }
   
   
+  
+export const CardView = ({ children, style }) => {
+    try {
+        return (
+            <View style={[ {
+               padding: 2,
+            backgroundColor:COLORS.appColor,
+                // shadowColor: "#374143",
+                // shadowOffset: {
+                //     width: 6,
+                //     height: 8,
+                // },
+                // shadowOpacity: 1,
+                // shadowRadius: 0,
+                // elevation: 16,
+
+
+            }, style]}>
+                {children}
+            </View >
+        )
+    } catch (error) {
+        <ErrorScreen errorValue={error} />
+
+    }
+}

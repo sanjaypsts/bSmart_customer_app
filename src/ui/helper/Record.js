@@ -5,7 +5,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { normalize } from './size';
 import { COLORS } from './color';
-
+import RNFS from 'react-native-fs';
 
 
 import { useState } from 'react';
@@ -34,6 +34,7 @@ const Record = (props) => {
   };
 
 
+  const path = RNFS.DocumentDirectoryPath + '/audio.mp3';
 
   const [recordSecs, setrecordsec] = React.useState('');
   const [recordTime, setrecordTime] = React.useState(0);
@@ -56,10 +57,10 @@ const Record = (props) => {
   audioRecorderPlayer.setSubscriptionDuration(0.09);
 
   const onStartRecord = async () => {
-    const path = Platform.OS === 'android'
-      ? '/storage/emulated/0/Download/audio.mp3'
-      : 'file:///var/mobile/Containers/Data/Application/<app-id>/Library/audio.mp3';
-    console.log(path)
+    // const path = Platform.OS === 'android'
+    //   ? '/storage/emulated/0/Download/audio.mp3'
+    //   : 'file:///var/mobile/Containers/Data/Application/<app-id>/Library/audio.mp3';
+    // console.log(path)
     const audioSet = {
       AudioEncoderAndroid: AudioEncoderAndroidType.AAC,
       AudioSourceAndroid: AudioSourceAndroidType.MIC,
@@ -67,7 +68,7 @@ const Record = (props) => {
       AVNumberOfChannelsKeyIOS: 2,
       AVFormatIDKeyIOS: AVEncodingOption.aac,
     };
-    const uri = await audioRecorderPlayer.startRecorder(path, audioSet);
+    const uri = await audioRecorderPlayer.startRecorder(path,audioSet);
     console.log('audioSet', uri);
 
     // const result = await audioRecorderPlayer.startRecorder();
@@ -123,9 +124,9 @@ const Record = (props) => {
   const onStartPlay = async () => {
 
     console.log('onStartPlay');
-    const path = Platform.OS === 'android'
-      ? '/storage/emulated/0/Download/audio.mp3'
-      : 'file:///var/mobile/Containers/Data/Application/<app-id>/Library/audio.mp3';
+    // const path = Platform.OS === 'android'
+    //   ? '/storage/emulated/0/Download/audio.mp3'
+    //   : 'file:///var/mobile/Containers/Data/Application/<app-id>/Library/audio.mp3';
 
     const msg = await audioRecorderPlayer.startPlayer(path);
 

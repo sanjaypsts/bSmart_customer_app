@@ -64,7 +64,7 @@ const Cart = ({ navigation }) => {
     React.useCallback(() => {
 
 
-      setloading(true)
+      // setloading(true)
       setSubtotal(0)
       setGrandtotal(0)
       settotalTax(0)
@@ -86,7 +86,7 @@ const Cart = ({ navigation }) => {
 
   useEffect(() => {
     dispatch(Category_SET("mgetCategoryDetails", loginData.data.token))
-    dispatch(Category_SET("mgetCategoryDetails", loginData.data.token))
+    // dispatch(Category_SET("mgetCategoryDetails", loginData.data.token))
 
 
 
@@ -176,7 +176,7 @@ const Cart = ({ navigation }) => {
     //   name: 'audio.mp3',
     // });
     // console.log(formData)
-    // const response = await fetch('https://wms.demopsts.com/api/uploadFiles', {
+    // const response = await fetch('https://wms.demopsts.comapi/uploadFiles', {
     //   method: 'POST',
     //   headers: {
 
@@ -198,7 +198,7 @@ const Cart = ({ navigation }) => {
     //   name: 'audio.mp3',
     // });
     // console.log(formData)
-    // const response = await fetch('https://wms.demopsts.com/api/uploadFiles', {
+    // const response = await fetch('https://wms.demopsts.comapi/uploadFiles', {
     //   method: 'POST',
     //   headers: {
 
@@ -211,7 +211,7 @@ const Cart = ({ navigation }) => {
 
 
 
-    setloading(true)
+    // setloading(true)
     let formData = new FormData();
 
 
@@ -253,25 +253,25 @@ const Cart = ({ navigation }) => {
 
     {
       AudioFIle == null || AudioFIle == "" || AudioFIle == " " || AudioFIle == undefined ?
-      formData.append('delivery_notes_voice', "")
-      :
-      formData.append('delivery_notes_voice', {
-        uri: AudioFIle,
+        formData.append('delivery_notes_voice', "")
+        :
+        formData.append('delivery_notes_voice', {
+          uri: AudioFIle,
 
-        type: 'audio/mpeg', name: 'audio.mp3',
-      })
+          type: 'audio/mpeg', name: 'audio.mp3',
+        })
 
     }
 
     {
       AudioFIle == null || AudioFIle == "" || AudioFIle == " " || AudioFIle == undefined ?
-      formData.append('delivery_notes_voice', "")
-      :
-      formData.append('delivery_notes_voice', {
-        uri: AudioFIle,
+        formData.append('delivery_notes_voice', "")
+        :
+        formData.append('delivery_notes_voice', {
+          uri: AudioFIle,
 
-        type: 'audio/mpeg', name: 'audio.mp3',
-      })
+          type: 'audio/mpeg', name: 'audio.mp3',
+        })
 
     }
     // formData.append('delivery_notes_voice', "");
@@ -304,10 +304,10 @@ const Cart = ({ navigation }) => {
 
         if (err) {
 
-         console.log(err.response.data.message)
+          console.log(err.response.data.message)
           {
             err.response.data != undefined && err.response.data.message != undefined &&
-            Toast.showWithGravity(err.response.data.message, Toast.LONG, Toast.BOTTOM)
+              Toast.showWithGravity(err.response.data.message, Toast.LONG, Toast.BOTTOM)
 
           }
           // const data = [err.response.data.data]
@@ -347,98 +347,105 @@ const Cart = ({ navigation }) => {
       <BackBottonHeader updateSingleCategory={() => { navigation.push("DashBoard") }} />
       <Text style={globalStyles.appTitle}>{t('cart.cart')}</Text>
 
-      <ScrollView showsVerticalScrollIndicator={false}>
 
 
-        <CartDivider imageSource={IMAGES.ItemsImage} title={'ITEMS'} />
-        <CartBox>
-          {Data && Data.length > 0 &&
-            Data.map((i, index) => (
-              <ItemCartBox title={i.product_name} price={i.standard_price} weight={i.unit_name} quantity={i.quantity} product_id={i.product_id} totalPrice={i.total_price_with_tax} show_price={showPrice} updatequantity={(data) => getData()} />
-            ))}
-          <TouchableOpacity onPress={() => { navigation.push('SingleCategory') }} style={{ flexDirection: 'row', alignItems: "center", width: "100%", justifyContent: "space-between" }}>
-            <View style={{ flexDirection: 'row', alignItems: "center", }}>
-              <Image resizeMode="contain" source={IMAGES.Shopping_cart} style={{ width: 30, height: 30, borderRadius: 10 }} />
-              <Text style={{ color: COLORS.appOppsiteTextColor }}>  Add more products</Text>
-            </View>
+      {Data.length > 0 ?
 
-            <View>
-              <Ionicons name="chevron-forward" size={normalize(25)} color="white" />
-            </View>
-
-          </TouchableOpacity>
-        </CartBox>
+        <ScrollView showsVerticalScrollIndicator={false}>
 
 
-        {showPrice == 1 &&
-          <>
-            <CartDivider imageSource={IMAGES.billImage} title={'SUMMARY '} />
-
-            <CartBox>
-              <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 8 }}>
-                <Text style={[globalStyles.cart_heading1, {}]}>{"Subtotal"}</Text>
-                <Text style={[globalStyles.cart_heading1, {}]}>S$ {Subtotal.toFixed(2)}</Text>
-              </View>
-
-              <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 5 }}>
-                <View style={{ flexDirection: "row", alignItems: "center" }}>
-                  <Image resizeMode='contain' source={IMAGES.Receipt_text} style={{ width: 18, height: 18, borderRadius: 10 }} />
-                  <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "400", fontSize: normalize(16), }}> Tax</Text>
-                </View>
-                <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "400", fontSize: normalize(16), }}>S$ {totalTax.toFixed(2)}</Text>
-              </View>
-
-              <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 5 }}>
-                <View style={{ flexDirection: "row", alignItems: "center" }}>
-                  <Image resizeMode='contain' source={IMAGES.truck} style={{ width: 18, height: 18, borderRadius: 10 }} />
-                  <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "400", fontSize: normalize(16), }}> Delivery</Text>
-                </View>
-                <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "400", fontSize: normalize(16), }}>S$ {deliveryAmt.toFixed(2)}</Text>
-              </View>
-              <View style={{ backgroundColor: "white", height: 0.5, width: "100%", marginVertical: 10 }}></View>
-              <View style={{ flexDirection: "row", justifyContent: "space-between", }}>
-                <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "500", fontSize: normalize(16), }}>{"Grand total"}</Text>
-                <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "500", fontSize: normalize(16), }}>S$ {Grandtotal.toFixed(2)}</Text>
-              </View>
-            </CartBox>
-          </>
-        }
-        <CartDivider imageSource={IMAGES.personalcard} title={'CONTACT '} />
-
-
-
-        <TouchableOpacity onPress={() => navigation.push('Contact')}>
+          <CartDivider imageSource={IMAGES.ItemsImage} title={'ITEMS'} />
           <CartBox>
-            <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+            {Data && Data.length > 0 &&
+              Data.map((i, index) => (
+                <ItemCartBox title={i.product_name} price={i.standard_price} weight={i.unit_name} quantity={i.quantity} product_id={i.product_id} totalPrice={i.total_price_with_tax} show_price={showPrice} updatequantity={(data) => getData()} />
+              ))}
 
-              <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <Image resizeMode='contain' source={IMAGES.ContactUser} style={{ width: normalize(35), height: normalize(35), borderRadius: 10, marginRight: 20 }} />
 
-                <View>
-                  {
-                    SelectName != undefined && SelectName != null && SelectName != "" &&
-                    <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "500", fontSize: normalize(16), }}>{SelectName}</Text>
-                  }
-                  {
-                    SelectName != undefined && SelectName != null && SelectName != "" &&
 
-                    <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "500", fontSize: normalize(16), }}>+ 65 {SelectMobileNumber}</Text>
-
-                  }
-                </View>
+            <TouchableOpacity onPress={() => { navigation.push('SingleCategory') }} style={{ flexDirection: 'row', alignItems: "center", width: "100%", justifyContent: "space-between" }}>
+              <View style={{ flexDirection: 'row', alignItems: "center", }}>
+                <Image resizeMode="contain" source={IMAGES.Shopping_cart} style={{ width: 30, height: 30, borderRadius: 10 }} />
+                <Text style={{ color: COLORS.appOppsiteTextColor }}>  Add more products</Text>
               </View>
 
               <View>
-                <Ionicons name="chevron-forward" size={normalize(25)} color={COLORS.appOppsiteTextColor} />
+                <Ionicons name="chevron-forward" size={normalize(25)} color="white" />
               </View>
-            </View>
+
+            </TouchableOpacity>
           </CartBox>
-        </TouchableOpacity>
+
+
+          {showPrice == 1 &&
+            <>
+              <CartDivider imageSource={IMAGES.billImage} title={'SUMMARY '} />
+
+              <CartBox>
+                <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 8 }}>
+                  <Text style={[globalStyles.cart_heading1, {}]}>{"Subtotal"}</Text>
+                  <Text style={[globalStyles.cart_heading1, {}]}>S$ {Subtotal.toFixed(2)}</Text>
+                </View>
+
+                <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 5 }}>
+                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                    <Image resizeMode='contain' source={IMAGES.Receipt_text} style={{ width: 18, height: 18, borderRadius: 10 }} />
+                    <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "400", fontSize: normalize(16), }}> Tax</Text>
+                  </View>
+                  <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "400", fontSize: normalize(16), }}>S$ {totalTax.toFixed(2)}</Text>
+                </View>
+
+                <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 5 }}>
+                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                    <Image resizeMode='contain' source={IMAGES.truck} style={{ width: 18, height: 18, borderRadius: 10 }} />
+                    <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "400", fontSize: normalize(16), }}> Delivery</Text>
+                  </View>
+                  <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "400", fontSize: normalize(16), }}>S$ {deliveryAmt.toFixed(2)}</Text>
+                </View>
+                <View style={{ backgroundColor: "white", height: 0.5, width: "100%", marginVertical: 10 }}></View>
+                <View style={{ flexDirection: "row", justifyContent: "space-between", }}>
+                  <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "500", fontSize: normalize(16), }}>{"Grand total"}</Text>
+                  <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "500", fontSize: normalize(16), }}>S$ {Grandtotal.toFixed(2)}</Text>
+                </View>
+              </CartBox>
+            </>
+          }
+          <CartDivider imageSource={IMAGES.personalcard} title={'CONTACT '} />
+
+
+
+          <TouchableOpacity onPress={() => navigation.push('Contact')}>
+            <CartBox>
+              <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <Image resizeMode='contain' source={IMAGES.ContactUser} style={{ width: normalize(35), height: normalize(35), borderRadius: 10, marginRight: 20 }} />
+
+                  <View>
+                    {
+                      SelectName != undefined && SelectName != null && SelectName != "" &&
+                      <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "500", fontSize: normalize(16), }}>{SelectName}</Text>
+                    }
+                    {
+                      SelectName != undefined && SelectName != null && SelectName != "" &&
+
+                      <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "500", fontSize: normalize(16), }}>+ 65 {SelectMobileNumber}</Text>
+
+                    }
+                  </View>
+                </View>
+
+                <View>
+                  <Ionicons name="chevron-forward" size={normalize(25)} color={COLORS.appOppsiteTextColor} />
+                </View>
+              </View>
+            </CartBox>
+          </TouchableOpacity>
 
 
 
 
-        {/* <CartBox>
+          {/* <CartBox>
           {contact_Data && contact_Data.length > 0 &&
             contact_Data.map((i, index) => (
               <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 20, }}>
@@ -459,62 +466,80 @@ const Cart = ({ navigation }) => {
             ))}
         </CartBox> */}
 
-        {showPrice == 1 &&
-          <>
+          {showPrice == 1 &&
+            <>
 
-            <CartDivider imageSource={IMAGES.cardtick} title={'PAYMENT MODE '} />
+              <CartDivider imageSource={IMAGES.cardtick} title={'PAYMENT MODE '} />
 
-            <CartBox>
-              <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
-                <View>
-                  <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "500", fontSize: normalize(16), }}>{"Cash"}</Text>
-                  <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "500", fontSize: normalize(16), }}>Balance Credit: S$ {(Balance_Credit).toFixed(2)}</Text>
-                </View>
-                <View>
-                  {/* <Ionicons name="chevron-forward" size={normalize(25)} color="white" /> */}
-                </View>
-
-              </View>
-            </CartBox>
-          </>}
-
-
-        <CartDivider title={'SHIPPING ADDRESS '} />
-
-        <CartBox>
-          {address_Data && address_Data.length > 0 &&
-            address_Data.map((i, index) => (
-              <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", }}>
-                <View>
-                  <Text style={globalStyles.heading}>{"Shipping Address"}</Text>
-                  <Text></Text>
-                  <Text style={globalStyles.title}>{i.shipping_block_number} , {i.shipping_street_drive_number},</Text>
-                  <Text style={globalStyles.title}>{i.shipping_block_number} , {i.shipping_street_drive_number},</Text>
-                  <Text style={globalStyles.title}>{i.shipping_unit_number} - {i.shipping_postal_code}</Text>
+              <CartBox>
+                <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+                  <View>
+                    <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "500", fontSize: normalize(16), }}>{"Cash"}</Text>
+                    <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "500", fontSize: normalize(16), }}>Balance Credit: S$ {(Balance_Credit).toFixed(2)}</Text>
+                  </View>
+                  <View>
+                    {/* <Ionicons name="chevron-forward" size={normalize(25)} color="white" /> */}
+                  </View>
 
                 </View>
-                <TouchableOpacity style={{ flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
-
-                </TouchableOpacity>
-
-
-              </View>
-            ))}
-        </CartBox>
+              </CartBox>
+            </>}
 
 
-        <Record updateMasterState={(value) => { setAudioFIle(value) }} />
-        <Record updateMasterState={(value) => { setAudioFIle(value) }} />
+          <CartDivider title={'SHIPPING ADDRESS '} />
 
-        <View style={{ height: 100, width: wW, justifyContent: "center", right: wW / 20, }}>
+          <CartBox>
+            {address_Data && address_Data.length > 0 &&
+              address_Data.map((i, index) => (
+                <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", }}>
+                  <View>
+                    <Text style={globalStyles.heading}>{"Shipping Address"}</Text>
+                    {/* <Text></Text> */}
+                    {/* <Text style={globalStyles.title}>{i.shipping_block_number} , {i.shipping_street_drive_number},</Text> */}
+                    <Text style={globalStyles.title}>{i.shipping_block_number} , {i.shipping_street_drive_number},</Text>
+                    <Text style={globalStyles.title}>{i.shipping_unit_number} - {i.shipping_postal_code}</Text>
 
-          <TouchableOpacity onPress={() => { Place_order() }}>
-            <SubmitBotton title={"Place Order"} loadingStaus={false} />
+                  </View>
+                  <TouchableOpacity style={{ flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
+
+                  </TouchableOpacity>
+
+
+                </View>
+              ))}
+          </CartBox>
+
+
+          <Record updateMasterState={(value) => { setAudioFIle(value) }} />
+          {/* <Record updateMasterState={(value) => { setAudioFIle(value) }} /> */}
+
+          <View style={{ height: 100, width: wW, justifyContent: "center", right: wW / 20, }}>
+
+            <TouchableOpacity onPress={() => { Place_order() }}>
+              <SubmitBotton title={"Place Order"} loadingStaus={false} />
+            </TouchableOpacity>
+          </View>
+
+        </ScrollView>
+        :
+        <View style={{ justifyContent: 'center', alignItems: "center", marginVertical: "70%" }}>
+  {!loading &&
+  <>
+          <Image resizeMode='contain' source={IMAGES.No_Cart} style={{ width: 150, height: 100, borderRadius: 10 }} />
+          {/* <Text style={{color:"white"}}> Empty cart</Text> */}
+          <TouchableOpacity onPress={() => { navigation.push('SingleCategory') }} style={{ alignItems: "center", justifyContent: "space-between" }}>
+            <View style={{ flexDirection: 'row', alignItems: "center",backgroundColor:COLORS.appLightColor,borderRadius:5,paddingHorizontal:10,paddingVertical:5 }}>
+
+              <Text style={{ color: COLORS.appOppsiteTextColor }}>Add products</Text>
+            </View>
+   
           </TouchableOpacity>
+          </>
+
+}
         </View>
 
-      </ScrollView>
-
+      }
 
     </BackGround>
   )

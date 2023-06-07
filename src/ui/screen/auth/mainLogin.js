@@ -5,6 +5,7 @@ import Login from './login';
 import ForgetPassword from './forgetPassword';
 import Signup from './signup';
 import Success from './success';
+import OtpScreen from './otpScreen';
 
 
 const Stack = createStackNavigator();
@@ -16,6 +17,9 @@ function MyStack() {
       <Stack.Screen name="ForgetPassword" component={ForgetPassword} options={() => ({ gestureEnabled: false, animation: "slide_from_right" })}  />
       <Stack.Screen name="Signup" component={Signup} options={() => ({ gestureEnabled: false, animation: "slide_from_right" })}  />
       <Stack.Screen name="Success" component={Success} options={() => ({ gestureEnabled: false, animation: "slide_from_right" })}  />
+      <Stack.Screen name="OtpScreen" component={OtpScreen} options={() => ({ gestureEnabled: false, animation: "slide_from_right" })}  />
+
+
     </Stack.Navigator>
   );
 }

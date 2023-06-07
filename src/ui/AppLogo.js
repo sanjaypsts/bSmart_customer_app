@@ -4,7 +4,7 @@
 
 // const DynamicAppLogo = () => {
 //     return (
-//         <Image resizeMode="contain" source={{ uri: 'https://wms.demopsts.com/BSmart/customer_applogo.png'/* `${UPLOAD_IMAGE_PATH + data.logourl}` */ }} style={{ width: 130, height: 130 }} />
+//         <Image resizeMode="contain" source={{ uri: 'https://wms.demopsts.comBSmart/customer_applogo.png'/* `${UPLOAD_IMAGE_PATH + data.logourl}` */ }} style={{ width: 130, height: 130 }} />
 //     )
 // }
 

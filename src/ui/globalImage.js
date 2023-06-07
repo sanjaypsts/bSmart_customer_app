@@ -65,6 +65,7 @@ const IMAGES = {
   PayWith: require('../assets/image/payWith.png'),
 
 
+  No_Cart: require('../assets/image/nocart.png'),
 
 
 

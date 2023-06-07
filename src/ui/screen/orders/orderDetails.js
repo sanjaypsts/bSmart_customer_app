@@ -13,6 +13,7 @@ import { COLORS } from '../../helper/color'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AudioPlay from '../../helper/audioPlay'
 import { UPLOAD_IMAGE_PATH } from '../../../../config'
+import MAPScreen from './map'
 
 const OrderDetails = ({ route, navigation }) => {
     const { Order_Data } = useSelector(state => state.orderReducer);
@@ -62,7 +63,6 @@ const OrderDetails = ({ route, navigation }) => {
 
     const routedata = route.params
 
-
     useEffect(() => {
 
 
@@ -80,7 +80,7 @@ const OrderDetails = ({ route, navigation }) => {
         navigation.goBack(null)
     };
 
-    console.log(orderTracker)
+
     try {
         return (
             <BackGround>
@@ -160,6 +160,12 @@ const OrderDetails = ({ route, navigation }) => {
                     </View>
 
 
+                    {orderDetailsData.status_name == "On-Transit" &&
+
+                        <MAPScreen ORDERiD = {orderDetailsData.id} />
+                    }
+
+
                     <View style={{ width: "100%", marginVertical: 20, flexDirection: "row", justifyContent: "space-between" }}>
                         <View style={{ width: "45%" }}>
 
@@ -234,10 +240,10 @@ const OrderDetails = ({ route, navigation }) => {
                     }
 
 
-                 {orderDetailsData.voice_file_url != null  &&
+                    {orderDetailsData.voice_file_url != null &&
 
-                    <AudioPlay value={UPLOAD_IMAGE_PATH+orderDetailsData.voice_file_url} />
-                 }
+                        <AudioPlay value={UPLOAD_IMAGE_PATH + orderDetailsData.voice_file_url} />
+                    }
 
 
                     <View style={{ marginBottom: 50 }}></View>

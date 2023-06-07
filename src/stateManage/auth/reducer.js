@@ -8,6 +8,9 @@ const initialState = {
     }
 
   },
+  interNetData:{
+    
+  }
   
 };
 function loginReducer(state = initialState, action) {

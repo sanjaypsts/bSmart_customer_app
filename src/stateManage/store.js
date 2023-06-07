@@ -5,6 +5,7 @@ import loginReducer from './auth/reducer';
 import {categoryReducer} from './category/reducer';
 import {orderReducer} from './order/reducer';
 import {cartReducer} from './cart/reducer';
+import {carouselReducer} from './Carousel/reducer';
 
 import {userDetailsReducer,addressReducer,userdatareducer,ProductCountReducer,appDatareducer} from './userDetails/reducer';
 
@@ -19,7 +20,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   loginReducer,
   categoryReducer,
-
+carouselReducer,
   userDetailsReducer,
   addressReducer,
   userdatareducer,

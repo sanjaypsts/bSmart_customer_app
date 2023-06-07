@@ -12,13 +12,14 @@ import LoadingModal from '../../component/loading'
 import { SubmitBotton, globalStyles } from '../../helper/globalStyle'
 import { normalize, wW } from '../../helper/size'
 import { IMAGES } from '../../globalImage'
+import { getCartCount } from '../../../stateManage/asynstorage/asyncStore'
 
 const MostOrder = ({navigation}) => {
   const { loginData } = useSelector(state => state.loginReducer);
   const [SingleCategoryData, setSingleCategoryData] = useState([]);
   const [loading, setloading] = useState(false);
 
-  const [TotalProduct, setTotalProduct] = useState(1);
+  const [TotalProduct, setTotalProduct] = useState(0);
 
 
 
@@ -42,10 +43,11 @@ const MostOrder = ({navigation}) => {
 
     apicallHeaderPost({customer_id:loginData.data.customer_shipping_address_alias_id.id,limit:30 },'mmostOrderBasedCustomerId',loginData.data.token)
       .then(response => {
+        console.log("responce",response.status)
         setloading(false)
         if (response.status == 200 && response.data.status == true || response.data.status == 'true') {
 
-          setSingleCategoryData(response.data.data.order_details)
+          setSingleCategoryData(response.data.data)
         } else {
         }
       }).catch(err => {
@@ -57,7 +59,12 @@ const MostOrder = ({navigation}) => {
   }
 
 
-
+  const GetLocal = async () => {
+    
+    const getTotalCount = await getCartCount();
+console.log(getTotalCount)
+    setTotalProduct(getTotalCount)
+  }
 
 
 try{
@@ -75,7 +82,7 @@ try{
           {SingleCategoryData && SingleCategoryData.length > 0 &&
             SingleCategoryData.map((i, index) => (
               <View key={index} >
-                <HorizontalSingleCategoryCard imageSource={i.image_url} title={i.product_name} price={i.per_unit_price} weight={i.unit_name} quantity={i.quantity} product_id={i.product_id}  updateMasterState={(text) => { console.log("single") }}/>
+                <HorizontalSingleCategoryCard imageSource={i.image_url} title={i.product_name} price={i.per_unit_price} weight={i.unit_name} quantity={i.quantity} product_id={i.product_id} show_price={0}   updateMasterState={(text) => { GetLocal() }}/>
               </View>
             ))}
         </ScrollView>

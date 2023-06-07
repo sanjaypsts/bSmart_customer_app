@@ -2,7 +2,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import BackGround from '../../component/backgroundImage'
 import BackBottonHeader from '../../component/header/dashboardHeader'
-import { HorizontalSingleCategoryCard } from '../category/categoryHelper'
+import { HorizontalSingleCategoryCard, HorizontalSingleWithoutAdd } from '../category/categoryHelper'
 import { ScrollView } from 'react-native-gesture-handler'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -148,18 +148,16 @@ const LastOrder = ({ navigation }) => {
           {SingleCategoryData && SingleCategoryData.length > 0 &&
             SingleCategoryData.map((i, index) => (
               <View key={index} >
-                <HorizontalSingleCategoryCard imageSource={i.image_url} title={i.product_name} price={i.per_unit_price} weight={i.unit_name} quantity={i.quantity} product_id={i.product_id} updateMasterState={(text) => { getData() }} />
+                <HorizontalSingleWithoutAdd imageSource={i.image_url} title={i.product_name} price={i.per_unit_price} weight={i.unit_name} quantity={i.quantity} product_id={i.product_id} updateMasterState={(text) => { getData() }} />
               </View>
             ))}
         </ScrollView>
 
-        <View style={{ position: "absolute", bottom: 0, alignItems: 'center', width: wW, backgroundColor: COLORS.appLightColor, height: 100, justifyContent: "center", borderTopWidth: 1, borderTopColor: "grey" }}>
-
+        <View style={{ position: "absolute", bottom: 0, alignItems: 'center', width: wW,  height: 100, justifyContent: "center", borderTopWidth: 1, borderTopColor: "grey" }}>
           <TouchableOpacity onPress={() => {Place_order() }}>
             <SubmitBotton title={"Repeat Order"} loadingStaus={false} />
           </TouchableOpacity>
         </View>
-
       </BackGround>
 
     )

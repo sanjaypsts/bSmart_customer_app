@@ -13,7 +13,7 @@ import { normalize } from '../helper/size';
 
 export const CustumTextInput = (props) => {
     
-    const {  title, value, textLength, keyBoardType,   } = props
+    const {  title, value, textLength, keyBoardType,errMessage   } = props
 
 
     const onChangeText = (updatedValue) => {
@@ -35,18 +35,22 @@ export const CustumTextInput = (props) => {
                         value={value}
                         maxLength={textLength}
                         keyboardType={keyBoardType}
-                        style={[globalStyles.inputText]}
+                        style={[globalStyles.inputText,{borderBottomColor: errMessage ? "red" : "grey" }]}
                         placeholderTextColor={"#606563"}
                         onChangeText={onChangeText}
                   
                     />
-
+  
 
                 </View>
 
 
         
+              
 
+{
+    errMessage &&   <Text style={{alignSelf:"flex-end",color:"red"}}>{errMessage}</Text>
+}
 
 
 

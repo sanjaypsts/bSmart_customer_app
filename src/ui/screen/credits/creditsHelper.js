@@ -32,16 +32,18 @@ export const CreditsModal = (props) => {
 
 
     const Permission = async (value) => {
+        console.log(value,"=============")
         try {
 
             if (Platform.OS === "ios") {
                 await check(PERMISSIONS.IOS.PHOTO_LIBRARY_ADD_ONLY).then((result) => {
                     if (result == 'granted') {
+               
                         InvoicePdfDownload(value)
                     }
                     else {
                         request(PERMISSIONS.IOS.PHOTO_LIBRARY_ADD_ONLY).then((result) => {
-                            // console.log('gdfh',result)
+                       
                             if (result == 'granted') {
                                 InvoicePdfDownload(value)
                                 //  console.log("ss")
@@ -96,7 +98,7 @@ export const CreditsModal = (props) => {
 
 
                 if (err) {
-                    console.log("err",err.response)
+                    console.log("err",err.response.data,"response")
 
                 }
             })
@@ -206,7 +208,7 @@ export const CreditsModal = (props) => {
                                     </View> */}
 
                                     {!item.payment_status == 0 &&
-                                        <TouchableOpacity onPress={() => { Permission(item.id) }} style={{ backgroundColor: "#03234C", borderRadius: 5, justifyContent: "center", alignItems: "center", paddingHorizontal: 10 }}>
+                                        <TouchableOpacity onPress={() => { Permission(item.invoice_number) }} style={{ backgroundColor: "#03234C", borderRadius: 5, justifyContent: "center", alignItems: "center", paddingHorizontal: 10 }}>
                                             <Text style={{ color: "white" }}>
                                                 Download
                                             </Text>
@@ -229,8 +231,8 @@ export const CreditsModal = (props) => {
                                                 <Text style={[globalStyles.order_heading1, { fontFamily: "RedHatDisplay-Regular", marginBottom: 5 }]}>Purchase order</Text>
                                                 <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
                                                     <View>
-                                                        <Text numberOfLines={1} style={[globalStyles.order_heading1, { maxWidth: "80%" }]}>{item.product_name}</Text>
-                                                        <Text style={globalStyles.order_title}>10 KG</Text>
+                                                        <Text numberOfLines={1} style={[globalStyles.order_heading1, { maxWidth: "100%" }]}>{item.product_name}</Text>
+                                                        {/* <Text style={globalStyles.order_title}>10 KG</Text> */}
                                                         <Text style={globalStyles.order_title}>Quantity: {item.quantity}</Text>
                                                     </View>
                                                     <View>

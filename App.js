@@ -9,19 +9,32 @@ import Errorhandling from './src/ui/errorHandle/errorhandling';
 import { COLORS } from './src/ui/helper/color';
 import { useEffect } from 'react';
 import apicallHeader from './src/stateManage/apicallHeader';
+import NetInfo from '@react-native-community/netinfo';
+import { Toastwithoutanimation } from './src/ui/helper/internetalert';
 
 
 const App = () => {
   const [Data, setData] = useState([]);
   const [Status, setStatus] = useState([]);
+  const [isInternetAvailable, setIsInternetAvailable] = React.useState(true);
 
 
   useEffect(() => {
     getData()
   }, [])
 
-
-
+  useEffect(() => {
+    NetInfo.fetch().then(state => {
+      //console.log("Connection type", state.type);
+      setIsInternetAvailable(state.isConnected)
+      // console.log("Is connected?", state.isConnected);
+    });
+    const unsubscribe = NetInfo.addEventListener(state => {
+      //console.log("Connection type", state.type);
+      setIsInternetAvailable(state.isConnected);
+      // console.log("Is connected11?", state.isConnected);
+    });
+  }, [])
 
   const getData = () => {
 
@@ -48,6 +61,7 @@ const App = () => {
       })
   }
 
+  
 
 
   try {
@@ -60,9 +74,11 @@ const App = () => {
 
               <Splashscreen data={Data} />
             }
-            
+
 
           </View>
+            <Toastwithoutanimation title={'No Internet connection !'} status={false} visible={!isInternetAvailable} />
+
         </PersistGate>
       </Provider>
 

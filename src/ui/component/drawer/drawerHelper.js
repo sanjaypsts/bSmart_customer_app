@@ -32,9 +32,9 @@ export const DrawerListButton = ({ imageSource, title }) => {
             }}
         >
       <View style={{flex:1,height:"100%",backgroundColor:COLORS.appLightColor, borderRadius: 10, flexDirection: "row",alignItems:"center",padding:10}}>
-        <View style={{backgroundColor:COLORS.appColor,borderRadius:50, width: normalize(35), height: normalize(35),justifyContent:"center",alignItems:"center",marginRight: 15,}}>
+        <View style={{backgroundColor:COLORS.transParent,borderRadius:50, width: normalize(35), height: normalize(35),justifyContent:"center",alignItems:"center",marginRight: 15,}}>
 
-      <Image style={[{ width: normalize(20), height: normalize(20),  }]} source={imageSource} />
+      <Image style={[{ width: normalize(20), height: normalize(20),tintColor:COLORS.appColor  }]} source={imageSource} />
         </View>
 
       <Text style={{ color:COLORS.appOppsiteTextColor, fontSize: normalize(13) }}>{title}</Text>

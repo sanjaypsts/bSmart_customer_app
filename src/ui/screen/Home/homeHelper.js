@@ -20,7 +20,7 @@ export const PlaceOrderHorizontalCard = ({ imageSource, title }) => {
 
 
         <>
-            <ImageBackground blurRadius={2} resizeMode="cover" style={[{ height: 130, marginVertical: 10, flexDirection: "row", alignItems: "center", justifyContent: "center", }]} source={IMAGES.HomeBackGround} imageStyle={{ borderRadius: 10 }} >
+            <ImageBackground blurRadius={2} resizeMode="cover" style={[{ height: 130,  flexDirection: "row", alignItems: "center", justifyContent: "center", }]} source={IMAGES.HomeBackGround} imageStyle={{ borderRadius: 10 }} >
                 <Image resizeMode="contain" style={[{ width: normalize(120), height: normalize(120), marginRight: 0 }]} source={IMAGES.No_order} />
                 <View>
                     <Text style={[globalStyles.heading, { color: COLORS.appColor }]}>No Orders</Text>

@@ -24,6 +24,24 @@ export const Relogin = (value) => {
 
 
 
+export const InterNetStatusset = (value) => {
+console.log("value")
+   
+  try {
+    return async dispatch => {
+    
+ 
+ 
+    };
+  } catch (error) {
+    // Add custom logic to handle errors
+  }
+};
+
+
+
+
+
 
 
 

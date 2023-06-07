@@ -125,7 +125,7 @@ export const Search = (props) => {
     return (
         <View style={{ flexDirection: "row", width: "100%", marginVertical: 10, justifyContent: "space-between" }}>
             <View style={{
-                backgroundColor: COLORS.appTextColor, alignItems: "center", height: 50, flexDirection: "row", paddingLeft: 15, width: "80%",
+                backgroundColor: COLORS.appTextColor, alignItems: "center", height: 50, flexDirection: "row", paddingLeft: 15, width: "100%",
                 shadowColor: "#000",
                 borderRadius: 5,
                 shadowOffset: {
@@ -142,7 +142,7 @@ export const Search = (props) => {
                     placeholder={t('category.search_products')}
                     // value={'value'}
                     maxLength={50}
-                    style={globalStyles.logininputText}
+                    style={[globalStyles.logininputText,{color:"black"}]}
                     placeholderTextColor={"#8E8F8F"}
                     // onChangeText={onChangeText}
                   
@@ -157,7 +157,7 @@ export const Search = (props) => {
                 } */}
 
             </View>
-            <FilterBotton backgroundColor={COLORS.appTextColor} />
+            {/* <FilterBotton backgroundColor={COLORS.appTextColor} /> */}
 
         </View>
     )
@@ -174,8 +174,8 @@ export const HorizontalSingleCategoryCard = (props) => {
 
     const onChangenewCount = (newCount) => {
 
-        // const { updateMasterState } = props;
-        // updateMasterState(updatedValue);
+        const { updateMasterState } = props;
+        updateMasterState(newCount);
     };
     return (
         <View style={{
@@ -227,6 +227,68 @@ export const HorizontalSingleCategoryCard = (props) => {
     )
 }
 
+
+
+
+export const HorizontalSingleWithoutAdd = (props) => {
+
+    const { imageSource, title, price, weight, quantity, product_id, show_price } = props
+
+
+    const onChangenewCount = (newCount) => {
+
+        // const { updateMasterState } = props;
+        // updateMasterState(updatedValue);
+    };
+    return (
+        <View style={{
+            backgroundColor: COLORS.appLightColor, height: 100, flexDirection: "row", alignItems: "center", marginTop: 20,
+            shadowColor: "#000", borderColor: "white", borderWidth: 1,
+            borderRadius: 15,
+            shadowOffset: {
+                width: 0,
+                height: 7,
+            },
+            shadowOpacity: 0.43,
+            shadowRadius: 9.51,
+
+            elevation: 15,
+        }}>
+            <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", width: "100%", paddingHorizontal: 10 }}>
+                <View style={{ flexDirection: "row", alignItems: "center", width: '40%' }} >
+
+                    {/* {imageSource == undefined && imageSource == null ?
+                        <Image resizeMode="contain" source={IMAGES.AppLogo} style={{ width: normalize(70), height: normalize(70), borderRadius: 20, marginRight: 10 }} />
+                        :
+                        <Image resizeMode="contain" source={{ uri: UPLOAD_IMAGE_PATH + imageSource }} style={{ width: normalize(70), height: normalize(70), borderRadius: 20, marginRight: 10 }} />
+                    } */}
+                    <Imagewithloader imageurl={{ uri: `${UPLOAD_IMAGE_PATH + imageSource}` }} style={{ width: normalize(70), height: normalize(70), marginRight: 10 }} imageStyle={{ borderRadius: 20 }} />
+
+
+
+                    <View>
+
+                        <Text numberOfLines={1} style={{ color: COLORS.appOppsiteTextColor, fontWeight: "700", fontSize: normalize(13), }}>{title}</Text>
+                        <Text style={{ color: COLORS.appOppsiteTextColor, fontWeight: "700", fontSize: normalize(5), }}></Text>
+
+                        <Text style={{ color: COLORS.appOppsiteTextColor }}>{weight}</Text>
+                    </View>
+                    {/* <Text style={{ color: "white", fontWeight: "700", fontSize: normalize(13), width: 150 }}>{title}</Text> */}
+                </View>
+
+                <View style={{ flexDirection: "row", alignItems: "center", alignSelf: "flex-end" }}>
+                    {show_price == 1 &&
+                        < Text style={{ color: COLORS.appOppsiteTextColor }}>S${price.toFixed(2)}   </Text>
+                    }
+
+
+                    {/* <AddBotton quantity={quantity} product_id={product_id} updatequantity={(curentQty) => { onChangenewCount(curentQty) }} /> */}
+                </View>
+            </View>
+
+        </View >
+    )
+}
 
 
 
