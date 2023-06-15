@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { BackHandler, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import BackGround from './backgroundImage'
 import BackBottonHeader from './header/dashboardHeader'
@@ -33,6 +33,21 @@ const Notification = ({ navigation }) => {
     getData()
   }, [])
 
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", handleBackButtonClick);
+    return () => {
+        BackHandler.removeEventListener("hardwareBackPress", handleBackButtonClick);
+    };
+}, []);
+
+
+function handleBackButtonClick() {
+
+
+    navigation.push("DashBoard")
+    return true;
+    
+}
 
   const dispatch = useDispatch()
 

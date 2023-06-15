@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { BackHandler, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { CartBox, Dateformat, Divider, TimeFormat, globalStyles } from '../../helper/globalStyle'
 import { useDispatch, useSelector } from 'react-redux';
@@ -25,10 +25,25 @@ const Orders = ({ }) => {
     const [Current_Orders, setCurrent_Orders] = useState([]);
     const [Previous_Orders, setPrevious_Orders] = useState([]);
 
+ 
 
 
 
+    useEffect(() => {
+        BackHandler.addEventListener("hardwareBackPress", handleBackButtonClick);
+        return () => {
+            BackHandler.removeEventListener("hardwareBackPress", handleBackButtonClick);
+        };
+    }, []);
 
+    
+    function handleBackButtonClick() {
+
+   
+        navigation.push("DashBoard")
+        return true;
+        
+    }
 
     const dispatch = useDispatch()
 

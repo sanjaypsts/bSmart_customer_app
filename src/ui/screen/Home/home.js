@@ -82,7 +82,6 @@ const Home = () => {
 
     }, [category_Data])
 
-
     const getData = () => {
 
 

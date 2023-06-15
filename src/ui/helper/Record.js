@@ -6,7 +6,8 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { normalize } from './size';
 import { COLORS } from './color';
 import RNFS from 'react-native-fs';
-
+import { PermissionsAndroid } from 'react-native';
+import { check, request } from 'react-native-permissions';
 
 import { useState } from 'react';
 
@@ -20,6 +21,7 @@ import AudioRecorderPlayer, {
   AudioSourceAndroidType,
 } from 'react-native-audio-recorder-player';
 import RNFetchBlob from 'rn-fetch-blob';
+import { useEffect } from 'react';
 
 const audioRecorderPlayer = new AudioRecorderPlayer();
 
@@ -27,6 +29,7 @@ const audioRecorderPlayer = new AudioRecorderPlayer();
 
 
 const Record = (props) => {
+
 
   const sendAudio = (value) => {
     const { updateMasterState } = props;
@@ -61,31 +64,45 @@ const Record = (props) => {
     //   ? '/storage/emulated/0/Download/audio.mp3'
     //   : 'file:///var/mobile/Containers/Data/Application/<app-id>/Library/audio.mp3';
     // console.log(path)
-    const audioSet = {
-      AudioEncoderAndroid: AudioEncoderAndroidType.AAC,
-      AudioSourceAndroid: AudioSourceAndroidType.MIC,
-      AVEncoderAudioQualityKeyIOS: AVEncoderAudioQualityIOSType.high,
-      AVNumberOfChannelsKeyIOS: 2,
-      AVFormatIDKeyIOS: AVEncodingOption.aac,
-    };
-    const uri = await audioRecorderPlayer.startRecorder(path,audioSet);
-    console.log('audioSet', uri);
 
-    // const result = await audioRecorderPlayer.startRecorder();
 
-    audioRecorderPlayer.addRecordBackListener((e) => {
+    try {
 
-      const recordTime = audioRecorderPlayer.mmssss(Math.floor(e.currentPosition))
-      setrecordsec(e.currentPosition)
-      setrecordTime(recordTime)
-      return;
+      const audioSet = {
+        AudioEncoderAndroid: AudioEncoderAndroidType.AAC,
+        AudioSourceAndroid: AudioSourceAndroidType.MIC,
+        AVEncoderAudioQualityKeyIOS: AVEncoderAudioQualityIOSType.high,
+        AVNumberOfChannelsKeyIOS: 2,
+        AVFormatIDKeyIOS: AVEncodingOption.aac,
+      };
+      const uri = await audioRecorderPlayer.startRecorder(path, audioSet);
 
-    });
+      console.log(uri)
+      audioRecorderPlayer.addRecordBackListener((e) => {
+
+        const recordTime = audioRecorderPlayer.mmssss(Math.floor(e.currentPosition))
+        setrecordsec(e.currentPosition)
+        setrecordTime(recordTime)
+        return;
+
+      });
+
+    } catch (error) {
+
+    }
+
 
   };
 
 
 
+  const onpauseRecord = async () => {
+
+    const result = await audioRecorderPlayer.pauseRecorder();
+
+    console.log(result);
+
+  };
 
   const onStopRecord = async () => {
 
@@ -98,16 +115,16 @@ const Record = (props) => {
 
   };
 
-  
+
 
 
 
   onDeleteRecord = async () => {
-   
 
-  
+
+
     setaudiorecord(false)
-  
+
     setcurrentPositionSec(0)
     setcurrentDurationSec(0)
     setplayTime(0)
@@ -122,6 +139,7 @@ const Record = (props) => {
 
 
   const onStartPlay = async () => {
+
 
     console.log('onStartPlay');
     // const path = Platform.OS === 'android'
@@ -167,7 +185,7 @@ const Record = (props) => {
   };
 
 
-  
+
 
   onStopPlay = async () => {
 
@@ -178,7 +196,7 @@ const Record = (props) => {
 
   };
 
-  
+
 
 
 
@@ -223,9 +241,21 @@ const Record = (props) => {
                   </TouchableOpacity>
                   :
 
-                  <TouchableOpacity onPress={() => { onStopRecord(); setrecordstart(false); setaudiorecord(true) }} style={{ backgroundColor: "white", width: 40, height: 40, borderRadius: 50, justifyContent: "center", alignItems: "center" }}>
-                    <Ionicons name="stop" size={normalize(25)} color="red" />
-                  </TouchableOpacity>
+
+                  <>
+{/* 
+                    <TouchableOpacity onPress={() => { onpauseRecord(); }} style={{ backgroundColor: "white", width: 40, height: 40, borderRadius: 50, justifyContent: "center", alignItems: "center" }}>
+                      <Ionicons name="pause" size={normalize(25)} color="#71D67A" />
+                    </TouchableOpacity> */}
+
+
+                    <TouchableOpacity onPress={() => { onStopRecord(); setrecordstart(false); setaudiorecord(true) }} style={{ backgroundColor: "white", width: 40, height: 40, borderRadius: 50, justifyContent: "center", alignItems: "center" }}>
+                      <Ionicons name="stop" size={normalize(25)} color="red" />
+                    </TouchableOpacity>
+
+
+                  </>
+
                 }
               </>
 

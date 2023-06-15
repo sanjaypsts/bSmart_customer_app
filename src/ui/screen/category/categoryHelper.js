@@ -78,7 +78,7 @@ export const SmallCategoryCard = ({ title, currentCategory, TextcurrentCategory 
 
         <LinearGradient colors={[currentCategory, currentCategory]} style={[{
             elevation: 50, shadowColor: TextcurrentCategory, height: 50, width: 110, borderRadius: 8, justifyContent: "center", alignItems: "center", borderColor: TextcurrentCategory, borderWidth: 1,
-            paddingHorizontal: 5, marginRight: 8,
+            paddingHorizontal: 5, margin:2,
             shadowOffset: {
                 width: 0,
                 height: 7,
@@ -123,7 +123,7 @@ export const Search = (props) => {
     };
 
     return (
-        <View style={{ flexDirection: "row", width: "100%", marginVertical: 10, justifyContent: "space-between" }}>
+        <View style={{ flexDirection: "row",  marginVertical: 10, justifyContent: "space-between",width: "80%", }}>
             <View style={{
                 backgroundColor: COLORS.appTextColor, alignItems: "center", height: 50, flexDirection: "row", paddingLeft: 15, width: "100%",
                 shadowColor: "#000",
@@ -409,3 +409,22 @@ export const AddBotton = (props) => {
 
 
 
+export const FilterCheckBox = ({style }) => {
+    return (
+        <View style={[style,{
+            borderRadius: 20, borderColor: "black", borderWidth: 1, flexDirection: "row", justifyContent: "center", alignItems: "center",
+            height:20,width:20
+
+        }]}
+        >
+            <View style={{
+                backgroundColor: "#1B2F48",
+            }}>
+
+            </View>
+
+
+        </View>
+
+    )
+}

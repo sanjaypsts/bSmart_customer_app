@@ -12,29 +12,23 @@ import { useEffect } from 'react'
 import { ADDRESS_SET, CONTACT_SET, CUSTOMER_PROFILE_SET, Product_Count_SET } from '../../../stateManage/userDetails/actions'
 import { useDispatch, useSelector } from 'react-redux'
 import { Category_SET } from '../../../stateManage/category/actions'
-
+import { PermissionsAndroid } from 'react-native';
+import { check, request } from 'react-native-permissions';
 
 const DashBoard = ({ route, navigation }) => {
     const routedata = route.params
     const { loginData } = useSelector(state => state.loginReducer);
-    const { USER_DATA } = useSelector(state => state.userdatareducer);
-
-    const { contact_Data } = useSelector(state => state.userDetailsReducer);
+  
 
 
     const dispatch = useDispatch()
 
     useEffect(() => {
+        dispatch(Category_SET("mgetCategoryDetails",loginData.data.token))
         if (routedata != undefined && routedata.Screen != undefined) {
             setintialBottom(routedata.Screen)
         }
     }, [routedata])
-    
-    useEffect(() => {
-        // dispatch(CONTACT_SET({ customer_unique_id: USER_DATA.customer_unique_id }, "mgetParticularCustomerContactDetails", loginData.data.token))
-        // dispatch(Category_SET("mgetCategoryDetails", loginData.data.token))
-
-    })
 
 
 
@@ -86,6 +80,44 @@ const DashBoard = ({ route, navigation }) => {
 
 
 
+  
+    useEffect(() => {
+        requestAudioPermission();
+      }, []);
+    
+      const requestAudioPermission = async () => {
+        try {
+    
+          if (Platform.OS === 'android') {
+            const granted = await PermissionsAndroid.requestMultiple([
+              PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+              PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+              PermissionsAndroid.PERMISSIONS.RECORD_AUDIO
+            ]);
+      
+            if (
+              granted['android.permission.READ_EXTERNAL_STORAGE'] === PermissionsAndroid.RESULTS.GRANTED &&
+              granted['android.permission.WRITE_EXTERNAL_STORAGE'] === PermissionsAndroid.RESULTS.GRANTED
+            ) {
+              // Permission granted, you can now access media files.
+            } else {
+              // Permission denied, handle the scenario accordingly.
+            }
+          } else if (Platform.OS === 'ios') {
+            const result = await request(PERMISSIONS.IOS.PHOTO_LIBRARY);
+      
+            if (result === 'granted') {
+              // Permission granted, you can now access media files.
+            } else {
+              // Permission denied, handle the scenario accordingly.
+            }
+          }
+    
+
+        } catch (error) {
+          console.log('Error requesting audio permission:', error);
+        }
+      };
 
   
 

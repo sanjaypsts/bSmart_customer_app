@@ -1,11 +1,10 @@
 
 import { SET_SINGLE_CATEGORY_DATA } from './actions';
 const single_categoryinitialState = {
-  single_category_Data: {
-    loading: false,
-    error: ""
+  single_category_Data: []
 
-  },
+
+  
 
 }
 
@@ -13,7 +12,7 @@ export const single_categoryReducer = (state = single_categoryinitialState,actio
 
   switch (action.type) {
     case SET_SINGLE_CATEGORY_DATA:
-      return { loading: false,single_category_Data:action.payload };
+      return {single_category_Data:action.payload };
     default:
       return state;
   }

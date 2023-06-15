@@ -20,6 +20,7 @@ import { Relogin } from '../../../stateManage/auth/actions';
 import RNRestart from 'react-native-restart';
 import { COLORS } from '../../helper/color';
 import DynamicAppLogo from '../../AppLogo';
+import { SingleCategorySET } from '../../../stateManage/add_product/actions';
 
 // import { LogoutScreen } from '../../screen/auth/logout';
 
@@ -40,7 +41,7 @@ const Drawer = ({}) => {
    await dispatch(Relogin({ status:false,data:{
       tocken:null
     }}))
-
+  dispatch(SingleCategorySET([]))
     RNRestart.Restart()
   }
 

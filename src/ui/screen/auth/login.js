@@ -21,8 +21,8 @@ const Login = ({ navigation }) => {
     const dispatch = useDispatch()
     const [username, setUsername] = useState('cuswms@gmail.com');
     const [password, setPassword] = useState('Admin123@');
-    // const [username, setUsername] = useState('');
-    // const [password, setPassword] = useState('');
+    // const [username, setUsername] = useState('hema.psts@gmail.com');
+    // const [password, setPassword] = useState('Test123$');
     const [error, seterrorMessage] = useState(false);
     const [loading, setLoading] = useState(false);
     const [emailError, setemailError] = useState("");

@@ -6,6 +6,7 @@ import {categoryReducer} from './category/reducer';
 import {orderReducer} from './order/reducer';
 import {cartReducer} from './cart/reducer';
 import {carouselReducer} from './Carousel/reducer';
+import {single_categoryReducer} from './add_product/reducer';
 
 import {userDetailsReducer,addressReducer,userdatareducer,ProductCountReducer,appDatareducer} from './userDetails/reducer';
 
@@ -27,7 +28,7 @@ carouselReducer,
   ProductCountReducer,
   appDatareducer,
   orderReducer,
-  cartReducer
+  cartReducer,single_categoryReducer
 
 });
 

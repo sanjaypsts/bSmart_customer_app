@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, View, Image, TouchableOpacity, TextInput } from 'react-native'
+import { Text, View, Image, TouchableOpacity, TextInput,StyleSheet } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { UPLOAD_IMAGE_PATH } from '../../../../config';
@@ -20,17 +20,50 @@ import { useTranslation } from 'react-i18next';
 
 
 export const CartDivider = ({ imageSource, title }) => {
+    const styles = StyleSheet.create({
+
+        textContainer: {
+          flexDirection: 'row',
+          alignItems: 'center', marginVertical: 10,
+        },
+        text: {
+          flex: 1,
+          textAlign: 'center',
+          fontSize: 16,
+        },
+        divider: {
+          flex: 0.5,
+          borderBottomWidth: 1,
+          borderColor: "#8E8E8E",
+          marginHorizontal: 10,
+       
+        },
+      });
+      
     return (
-        <View style={{ flexDirection: "row", marginVertical: 10, justifyContent: "space-around", alignItems: "center", paddingHorizontal: 20 }}>
-            <View style={{ height: 1, backgroundColor: "#8E8E8E", flex:1}}></View>
-            <View style={{ flexDirection: 'row', alignItems: "center", justifyContent: "center" }}>
-                <Image source={imageSource} style={{ width: 20, height: 20, borderRadius: 10 }} />
-                <Text style={[globalStyles.cart_title,{  letterSpacing: 5,color:"#8E8E8E" }]}> {title} </Text>
+        // <View style={{ flexDirection: "row", marginVertical: 10, justifyContent: "space-around", alignItems: "center", paddingHorizontal: 20 }}>
+        //     <View style={{ height: 1, backgroundColor: "#8E8E8E", flex:1}}></View>
+        //     <View style={{ flexDirection: 'row', alignItems: "center", justifyContent: "center" }}>
+        //         <Image resizeMode="contain" source={imageSource} style={{ width: 20, height: 20, borderRadius: 10 }} />
+        //         <Text style={[globalStyles.cart_title,{  letterSpacing: 5,color:"#8E8E8E" }]}> {title} </Text>
 
-            </View>
-            <View style={{ height: 1, backgroundColor: "#8E8E8E", flex:1 }}></View>
+        //     </View>
+        //     <View style={{ height: 1, backgroundColor: "#8E8E8E", flex:1 }}></View>
 
+        // </View>
+
+  
+        <View style={styles.textContainer}>
+
+          <View style={styles.divider} />
+             <View style={{ flexDirection: 'row', alignItems: "center", justifyContent: "center" }}>
+               <Image resizeMode="contain" source={imageSource} style={{ width: 20, height: 20, borderRadius: 10,tintColor:"white" }} />
+               <Text style={[globalStyles.cart_title,{  letterSpacing: 5,color:"white" }]}> {title}</Text>
+
+           </View>
+          <View style={styles.divider} />
         </View>
+
 
     )
 }

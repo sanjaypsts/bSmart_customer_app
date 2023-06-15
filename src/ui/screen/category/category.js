@@ -1,4 +1,4 @@
-import { StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { BackHandler, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { normalize } from '../../helper/size'
 import { CategoryCard } from './categoryHelper'
@@ -7,7 +7,7 @@ import LoadingModal from '../../component/loading'
 import { globalStyles } from '../../helper/globalStyle'
 import { useTranslation } from 'react-i18next'
 import { Category_SET } from '../../../stateManage/category/actions'
-import { useFocusEffect } from '@react-navigation/native'
+import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import NoDataFound from '../../errorHandle/noDataFound'
 
 
@@ -19,6 +19,7 @@ const Category = (props) => {
     const [categoryData, setCategoryData] = useState([]);
     const [loading, setloading] = useState(false);
     const { t, i18n } = useTranslation();
+    const navigation = useNavigation();
 
     const dispatch = useDispatch()
 
@@ -64,7 +65,21 @@ const Category = (props) => {
 
     }
 
-
+    useEffect(() => {
+        BackHandler.addEventListener("hardwareBackPress", handleBackButtonClick);
+        return () => {
+            BackHandler.removeEventListener("hardwareBackPress", handleBackButtonClick);
+        };
+    }, []);
+    
+    
+    function handleBackButtonClick() {
+    
+    
+        navigation.push("DashBoard")
+        return true;
+        
+    }
 
     try {
 
