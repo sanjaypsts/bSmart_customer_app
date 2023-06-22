@@ -36,18 +36,18 @@ const Notification = ({ navigation }) => {
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", handleBackButtonClick);
     return () => {
-        BackHandler.removeEventListener("hardwareBackPress", handleBackButtonClick);
+      BackHandler.removeEventListener("hardwareBackPress", handleBackButtonClick);
     };
-}, []);
+  }, []);
 
 
-function handleBackButtonClick() {
+  function handleBackButtonClick() {
 
 
     navigation.push("DashBoard")
     return true;
-    
-}
+
+  }
 
   const dispatch = useDispatch()
 
@@ -63,17 +63,17 @@ function handleBackButtonClick() {
           // setUnReadReadData(response.data.data.notification_list.unread)
 
           getOrderData()
-     
+
         } else {
 
         }
       }).catch(err => {
-   
+
         setloading(false)
         if (err.status == 401) {
 
         } else {
-        
+
           {
             err.response != undefined && err.response.data.message != undefined ?
               Toast.showWithGravity(err.response.data.message, Toast.SHORT, Toast.BOTTOM)
@@ -86,22 +86,41 @@ function handleBackButtonClick() {
   }
 
   const getOrderData = () => {
-   
-  
+
+
     let formData = new FormData();
     formData.append('customer_id', loginData.data.customer_shipping_address_alias_id.id);
     formData.append('sorting', JSON.stringify({ "id": "desc" }));
-    dispatch(Order_SET(formData,"mpreviousOrderDetailsByCustomerId",loginData.data.token))
-  
-}
+    dispatch(Order_SET(formData, "mpreviousOrderDetailsByCustomerId", loginData.data.token))
 
+  }
+
+
+  const ReadNotification = (Notificationid) => {
+    navigation.push('OrderDetails', { id: Notificationid }) 
+    apicallHeaderPost({ 'id': JSON.stringify([Notificationid]), }, 'CustomerNotificationReadStatusChange', loginData.data.token)
+    .then(response => {
+      setloading(false)
+      if (response.status == 200 && response.data.status == true || response.data.status == 'true' && response.data.data != undefined && response.data.data.notification_list != undefined) {
+
+
+      } else {
+
+      }
+    }).catch(err => {
+     
+      setloading(false)
+   
+    })
+
+  }
 
 
   const renderreadNotificationItem = ({ item }) => {
 
     return (
 
-      <TouchableOpacity onPress={() => { navigation.push('OrderDetails', { id: item.order_id }) }}  style={{ flexDirection: 'row', marginHorizontal: 10, marginVertical: 10, alignItems: "center" }}>
+      <TouchableOpacity onPress={() => { ReadNotification(item.id) /* navigation.push('OrderDetails', { id: item.order_id }) */ }} style={{ flexDirection: 'row', marginHorizontal: 10, marginVertical: 10, alignItems: "center" }}>
 
         {item.readable != 1 &&
           <View style={{ width: 8, height: 8, backgroundColor: "green", borderRadius: 20 }}>

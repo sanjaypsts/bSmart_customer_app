@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Platform, ScrollView, StyleSheet, Text, View } from 'react-native'
 import React, { useState } from 'react'
 import BackGround from '../../component/backgroundImage'
 
@@ -13,7 +13,7 @@ import { ADDRESS_SET, CONTACT_SET, CUSTOMER_PROFILE_SET, Product_Count_SET } fro
 import { useDispatch, useSelector } from 'react-redux'
 import { Category_SET } from '../../../stateManage/category/actions'
 import { PermissionsAndroid } from 'react-native';
-import { check, request } from 'react-native-permissions';
+import { PERMISSIONS, check, request } from 'react-native-permissions';
 
 const DashBoard = ({ route, navigation }) => {
     const routedata = route.params
@@ -128,12 +128,12 @@ const DashBoard = ({ route, navigation }) => {
         <BackGround>
             <DrawerHeader />
 
-            <ScrollView style={{ marginHorizontal: 2,marginBottom:100 }}>
+            <View style={{ marginHorizontal: 2,marginBottom:100 }}>
                 {intialBottom == "category" ?
                     <Category singleCategory={CategoryCallback} /> :
                     intialBottom == 'Orders' ? <Orders /> : <Home />
                 }
-            </ScrollView>
+            </View>
 
             <View style={[globalPaddingHorizontal, { position: "absolute", bottom: 30, width: wW }]}>
                 <DrawerBottom parentCallback={handleCallback} />

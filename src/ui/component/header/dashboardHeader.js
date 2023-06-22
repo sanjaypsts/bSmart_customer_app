@@ -8,7 +8,7 @@ import DynamicAppLogo from '../../AppLogo';
 
 const BackBottonHeader = (props) => {
     const [modalVisible, setModalVisible] = useState(false);
-    const { langBtnDisable,logoHide } = props;
+    const { langBtnDisable, logoHide } = props;
 
     const onChangeChild = (updatedValue) => {
         const { updateSingleCategory, } = props;
@@ -20,27 +20,48 @@ const BackBottonHeader = (props) => {
             <>
 
 
-                <View style={{ height: 70, alignItems: "center", flexDirection: 'row', justifyContent: "space-evenly",width:"100%",paddingHorizontal:wW/20 }}>
-                    <View   >
+                <View style={{ height: 70, alignItems: "center", flexDirection: 'row', justifyContent: "space-between",   }}>
+                    <TouchableOpacity onPress={() => { onChangeChild("backBotton") }}>
+                        <BackBotton />
+                    </TouchableOpacity>
+
+                    <View>
+                        {!logoHide &&
+                            <DynamicAppLogo style={{ width: normalize(40), height: normalize(40) }} imageStyle={{ borderRadius: 10 }} />
+                        }
+                    </View>
+                  
+                   <View>
+
+                   {langBtnDisable == true ? 
+                            <TouchableOpacity disabled={true} onPress={() => { onChangeChild("language") }}>
+                                <LanguageBotton />
+                            </TouchableOpacity>
+                            :<View style={{width:30}}>
+                                 </View>
+                        }
+
+                   </View>
+                    {/* <View   >
                         <TouchableOpacity onPress={() => { onChangeChild("backBotton") }}>
                             <BackBotton />
                         </TouchableOpacity>
-                    </View>
+                    </View> */}
 
 
-                    <View style={{width:"100%" ,alignItems:"center",}}>
+                    {/* <View style={{width:"100%" ,alignItems:"center",backgroundColor:'red',alignSelf:"center"}}>
                     {!logoHide && 
             <DynamicAppLogo style={{ width: normalize(40), height: normalize(40) }} imageStyle={{ borderRadius: 10 }} />
 
-                        // <AppLogo width={normalize(40)} height={normalize(50)} />
+                       
                     }
-                    </View>
+                    </View> */}
 
 
 
                     {/* <Ionicons name="notifications-outline" size={wW / 18} /> */}
 
-                    <View  >
+                    {/* <View  >
                         {langBtnDisable == true ? 
                             <TouchableOpacity disabled={true} onPress={() => { onChangeChild("language") }}>
                                 <LanguageBotton />
@@ -48,7 +69,7 @@ const BackBottonHeader = (props) => {
                             :<View style={{width:50}}>
                                  </View>
                         }
-                    </View>
+                    </View> */}
 
                 </View>
 

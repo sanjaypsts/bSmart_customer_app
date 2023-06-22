@@ -6,6 +6,8 @@
 
 
 const Url ='https://wms.demopsts.com/'
+// const Url = 'https://anandasbe.demopsts.com/'
+
 export const BASEURL = Url+"api/";
 export const UPLOAD_IMAGE_PATH = Url
 

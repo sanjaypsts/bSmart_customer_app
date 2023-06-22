@@ -277,6 +277,7 @@ export const HorizontalSingleWithoutAdd = (props) => {
                 </View>
 
                 <View style={{ flexDirection: "row", alignItems: "center", alignSelf: "flex-end" }}>
+                    <Text> quantity {quantity}</Text>
                     {show_price == 1 &&
                         < Text style={{ color: COLORS.appOppsiteTextColor }}>S${price.toFixed(2)}   </Text>
                     }
@@ -337,7 +338,7 @@ export const AddBotton = (props) => {
 
                 setloading(false)
                 if (response.status == 200 && response.data.status == true || response.data.status == 'true') {
-                    console.log("Add")
+                    // console.log("Add")
                     const data = response.data.data.data_list.quantity == undefined ? 0 : response.data.data.data_list.quantity
                     // updatequantity(response.data.data.data_list.quantity)
                     // console.log("bsjhdubcsdjub",response.data.data.data_list.quantity)
@@ -408,8 +409,7 @@ export const AddBotton = (props) => {
 
 
 
-
-export const FilterCheckBox = ({style }) => {
+export const FilterUNCheckBox = ({style }) => {
     return (
         <View style={[style,{
             borderRadius: 20, borderColor: "black", borderWidth: 1, flexDirection: "row", justifyContent: "center", alignItems: "center",
@@ -422,6 +422,23 @@ export const FilterCheckBox = ({style }) => {
             }}>
 
             </View>
+
+
+        </View>
+
+    )
+}
+
+export const FilterCheckBox = ({style }) => {
+    return (
+        <View style={[style,{
+            borderRadius: 20, borderColor: "black", borderWidth: 1, flexDirection: "row", justifyContent: "center", alignItems: "center",
+            height:20,width:20,backgroundColor:COLORS.appColor 
+
+        }]}
+        >
+<Ionicons name="md-checkmark-sharp" size={normalize(15)} color={"white"} />
+     
 
 
         </View>

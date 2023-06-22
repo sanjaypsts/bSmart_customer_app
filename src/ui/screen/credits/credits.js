@@ -12,16 +12,21 @@ import { useFocusEffect } from '@react-navigation/native'
 import apicallHeaderPost from '../../../stateManage/apicallHeaderPost'
 import moment from 'moment/moment'
 
+import Modal from 'react-native-modal';
+import { PdfSHowMOdal } from './pdfShow'
 
 const Credits = ({ navigation }) => {
     const [creditBalance, setcreditBalance] = useState(0);
     const [PendindData, setPendindData] = useState([]);
     const [modal_data, setmodal_data] = useState("");
     const [settleData, setsettleData] = useState([]);
-    const [showPrice,setshowPrice ] = useState(false);
+    const [showPrice, setshowPrice] = useState(false);
+
+    const [showInvoice, setshowInvoice] = useState(false);
+
 
     const { loginData } = useSelector(state => state.loginReducer);
-
+    const [selectinvoiceId, setInvoiceId] = useState("");
 
     useFocusEffect(
         React.useCallback(() => {
@@ -43,7 +48,7 @@ const Credits = ({ navigation }) => {
         formData.append('customer_id', loginData.data.customer_shipping_address_alias_id.id);
         formData.append('sorting', JSON.stringify({ "id": "desc" }));
 
-        apicallHeaderPost(formData,'mgetCustomerPaymentBillUsingCustomerShippingAliasId', loginData.data.token)
+        apicallHeaderPost(formData, 'mgetCustomerPaymentBillUsingCustomerShippingAliasId', loginData.data.token)
             .then(response => {
 
 
@@ -84,21 +89,26 @@ const Credits = ({ navigation }) => {
             <LoadingModal loading={loading} setloading={setloading} />
             <CreditsModal visible={modalvisible} modalData={modal_data} show_price={showPrice} UpdateVisible={(value) => setmodalvisible(value)} /* setvisible={setmodalvisible} */ />
 
+            <PdfSHowMOdal visible={showInvoice} idInvoice={selectinvoiceId} UpdateVisible={(value) => {setshowInvoice(value);setInvoiceId(null)}} /* setvisible={setmodalvisible} */ />
+
+     
+            
+
             <BackBottonHeader updateSingleCategory={() => { navigation.goBack(null) }} />
 
             <Text style={globalStyles.appTitle}>Credits</Text>
-   
-                {showPrice == 1 &&
 
-            <View style={{ marginVertical: 20 }}>
-                <CartBox>
-                    <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
-                        <Text style={globalStyles.order_heading1}>Credit Balance</Text>
-                        <Text style={[globalStyles.order_heading1, { color: "#FFA500" }]}>S$ {creditBalance}</Text>
-                    </View>
-                </CartBox>
-            </View>
-                }
+            {showPrice == 1 &&
+
+                <View style={{ marginVertical: 20 }}>
+                    <CartBox>
+                        <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
+                            <Text style={globalStyles.order_heading1}>Credit Balance</Text>
+                            <Text style={[globalStyles.order_heading1, { color: "#FFA500" }]}>S$ {creditBalance}</Text>
+                        </View>
+                    </CartBox>
+                </View>
+            }
             <ScrollView showsVerticalScrollIndicator={false}>
                 <Divider title={" CREDIT ORDERS "} />
 
@@ -108,39 +118,42 @@ const Credits = ({ navigation }) => {
 
                         <View style={{ marginTop: 10 }}>
 
+                            <TouchableOpacity onPress={() => ModalPop(item)}>
 
-                            <CartBox>
-                                <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", width: "100%", }}>
-                                    <View>
-                                        <Text style={globalStyles.order_heading1}>Order {item.invoice_number}</Text>
-                                        {showPrice == 1 && 
-                                      <>
-                                        <Text style={globalStyles.order_title}>Total Bill</Text>
-                                        <Text style={globalStyles.order_title}>S$ {item.total_amount.toFixed(2)}</Text>
-                                        </>}
+                                <CartBox>
+                                    <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", width: "100%", }}>
+                                        <View>
+                                            <Text style={globalStyles.order_heading1}>Order {item.invoice_number}</Text>
+                                            {showPrice == 1 &&
+                                                <>
+                                                    <Text style={globalStyles.order_title}>Total Bill</Text>
+                                                    <Text style={globalStyles.order_title}>S$ {item.total_amount.toFixed(2)}</Text>
+                                                </>}
+                                        </View>
+                                        <View>
+                                            {showPrice == 1 &&
+                                                <>
+                                                    <Text style={[globalStyles.order_heading1, { color: "#FFA500" }]}>S$ {item.pending_amount.toFixed(2)}</Text>
+                                                    <Text style={globalStyles.order_title}>Paid</Text>
+                                                    <Text style={globalStyles.order_title}>S$ {item.amount_paid.toFixed(2)}</Text>
+                                                </>}
+
+                                        </View>
                                     </View>
-                                    <View>
-                                      {showPrice == 1 && 
-                                      <>
-                                      <Text style={[globalStyles.order_heading1, { color: "#FFA500" }]}>S$ {item.pending_amount.toFixed(2)}</Text>
-                                        <Text style={globalStyles.order_title}>Paid</Text>
-                                        <Text style={globalStyles.order_title}>S$ {item.amount_paid.toFixed(2)}</Text>
-                                        </>}
+                                    <View style={{ height: 1, backgroundColor: "#8E8E8E", width: "100%", marginVertical: 10 }}></View>
+                                    <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
+                                        {/* <Text style={[globalStyles.order_title, { color: COLORS.appOppsiteTextColor }]}>{moment(item.invoice_date).format(Dateformat)}</Text> */}
+                                        <TimeFormat title={item.invoice_date} style={[globalStyles.order_title, { color: COLORS.appOppsiteTextColor }]} />
+                                        <TouchableOpacity onPress={() =>{setInvoiceId(item.invoice_number);setshowInvoice(true); }} >
+                                            <MiniCartBox>
+                                                <Text style={[globalStyles.order_title, { color: 'white' }]}>PO</Text>
+                                            </MiniCartBox>
+                                        </TouchableOpacity>
 
                                     </View>
-                                </View>
-                                <View style={{ height: 1, backgroundColor: "#8E8E8E", width: "100%", marginVertical: 10 }}></View>
-                                <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
-                                    {/* <Text style={[globalStyles.order_title, { color: COLORS.appOppsiteTextColor }]}>{moment(item.invoice_date).format(Dateformat)}</Text> */}
-                                    <TimeFormat title={item.invoice_date} style={[globalStyles.order_title, { color: COLORS.appOppsiteTextColor }]}/>
-                                    <TouchableOpacity onPress={() => ModalPop(item)}>
-                                        <MiniCartBox>
-                                            <Text style={[globalStyles.order_title, { color: 'white' }]}>PO</Text>
-                                        </MiniCartBox>
-                                    </TouchableOpacity>
+                                </CartBox>
 
-                                </View>
-                            </CartBox>
+                            </TouchableOpacity>
                         </View>
                     ))}
 
@@ -150,26 +163,28 @@ const Credits = ({ navigation }) => {
                 {settleData && settleData.length > 0 &&
                     settleData.map((item, index) => (
                         <>
-                            <CartBox key={index}>
-                                <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
-                                    <Text  style={globalStyles.order_heading1}>order {item.invoice_number}</Text>
-                                    <Text style={[globalStyles.order_title, { color: "#65AE6D" }]}>Settled</Text>
-                                </View>
+                            <TouchableOpacity onPress={() => ModalPop(item)}>
+                                <CartBox key={index}>
+                                    <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
+                                        <Text style={globalStyles.order_heading1}>order {item.invoice_number}</Text>
+                                        <Text style={[globalStyles.order_title, { color: "#65AE6D" }]}>Settled</Text>
+                                    </View>
 
-                                <View style={{ height: 1, backgroundColor: "#8E8E8E", width: "100%", marginVertical: 10 }}></View>
+                                    <View style={{ height: 1, backgroundColor: "#8E8E8E", width: "100%", marginVertical: 10 }}></View>
 
-                                <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
-                                    {/* <Text style={[globalStyles.order_title, { color: COLORS.appOppsiteTextColor }]}>{moment(item.invoice_date).format(Dateformat)}</Text> */}
-                                    <TimeFormat title={item.invoice_date} style={[globalStyles.order_title, { color: COLORS.appOppsiteTextColor }]}/>
+                                    <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
+                                        {/* <Text style={[globalStyles.order_title, { color: COLORS.appOppsiteTextColor }]}>{moment(item.invoice_date).format(Dateformat)}</Text> */}
+                                        <TimeFormat title={item.invoice_date} style={[globalStyles.order_title, { color: COLORS.appOppsiteTextColor }]} />
 
-                                    <TouchableOpacity onPress={() => ModalPop(item)}>
-                                        <MiniCartBox>
-                                            <Text style={[globalStyles.order_title, { color: 'white' }]}>Invoice</Text>
-                                        </MiniCartBox>
-                                    </TouchableOpacity>
+                                        <TouchableOpacity onPress={() =>{setInvoiceId(item.id);setshowInvoice(true); }} >
+                                            <MiniCartBox>
+                                                <Text style={[globalStyles.order_title, { color: 'white' }]}>Invoice</Text>
+                                            </MiniCartBox>
+                                        </TouchableOpacity>
 
-                                </View>
-                            </CartBox>
+                                    </View>
+                                </CartBox>
+                            </TouchableOpacity>
                             <View style={{ marginBottom: 10 }}></View>
                         </>
                     ))}

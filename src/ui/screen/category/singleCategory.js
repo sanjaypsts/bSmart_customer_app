@@ -8,9 +8,9 @@ import { FilterBotton } from '../../custumsIcons';
 import Feather from 'react-native-vector-icons/Feather';
 import { normalize, wW } from '../../helper/size';
 import { useState } from 'react';
-import { CustumModal, SubmitBotton, globalStyles } from '../../helper/globalStyle';
+import { CustumModal, Divider, SubmitBotton, globalStyles } from '../../helper/globalStyle';
 import Modal from 'react-native-modal';
-import { FilterCheckBox, HorizontalSingleCategoryCard, SmallCategoryCard } from './categoryHelper';
+import { FilterCheckBox, FilterUNCheckBox, HorizontalSingleCategoryCard, SmallCategoryCard } from './categoryHelper';
 import { useFocusEffect } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import apicallHeaderPost from '../../../stateManage/apicallHeaderPost';
@@ -30,15 +30,17 @@ const SingleCategory = ({ route, navigation }) => {
   const { single_category_Data } = useSelector(state => state.single_categoryReducer);
 
   const [visible, setvisible] = useState(false);
+  const [TempmultycurrentCategory, setTempmultycurrentCategory] = useState("");
+
   const [multycurrentCategory, setmultycurrentCategory] = useState("");
   const [loading, setloading] = useState(false);
 
   const [Data, setData] = useState("");
-  const [newsinglecategoryData, setnewsingleCategory] = useState([]);
+  const [selectCategory, setselectCategory] = useState("");
 
   const routedata = route?.params
 
-  console.log("single_categoryinitialState", single_category_Data)
+  // console.log("single_categoryinitialState", single_category_Data)
   try {
 
     useFocusEffect(
@@ -56,7 +58,7 @@ const SingleCategory = ({ route, navigation }) => {
 
         }
         setmultycurrentCategory(respoceData)
-
+        setTempmultycurrentCategory(respoceData)
 
         if (routedata != undefined && routedata.id != undefined) {
 
@@ -64,7 +66,8 @@ const SingleCategory = ({ route, navigation }) => {
 
             if (item.id == routedata.id) {
               item.selectstatus = true
-              const sendId = [routedata.id]
+              setselectCategory(routedata.id)
+              const sendId = routedata.id
               ApisingleCategoryData(sendId)
 
             }
@@ -73,8 +76,17 @@ const SingleCategory = ({ route, navigation }) => {
 
         } else {
 
+          respoceData.map((item, key) => {
 
-          const sendId = []
+            if (item.id) {
+              item.selectstatus = true
+             
+           
+            }
+          })
+
+
+          const sendId = [respoceData[0].id]
           ApisingleCategoryData(sendId)
         }
 
@@ -89,17 +101,20 @@ const SingleCategory = ({ route, navigation }) => {
 
 
     // data api 
-    const ApisingleCategoryData = (SelectID) => {
+    const ApisingleCategoryData = (id,searchText) => {
+      const searchVAlue = searchText?.length >0  ? searchText : " "
+   
+      setselectCategory(id)
       setData([])
 
       setloading(true)
 
       let formData = new FormData();
-      formData.append('category_id', JSON.stringify(SelectID));
+      formData.append('category_id', JSON.stringify([id]));
       formData.append('limit', 100);
       formData.append('page_number', 1);
       formData.append('sorting', JSON.stringify({ "id": "asc" }));
-      formData.append('search_data', "");
+      formData.append('search_data', searchVAlue);
 
       apicallHeaderPost(formData, 'mfilterProductDetailsUsingCategoryId', loginData.data.token)
         .then(response => {
@@ -128,7 +143,7 @@ const SingleCategory = ({ route, navigation }) => {
               }
             });
             setData(mergedArray)
-            console.log(mergedArray)
+            // console.log(mergedArray)
           } else {
 
           }
@@ -150,7 +165,7 @@ const SingleCategory = ({ route, navigation }) => {
 
     const FilterCard = (props) => {
 
-      let NewData = [...multycurrentCategory]
+      let NewData = [...TempmultycurrentCategory]
 
       const ChangeStatus = (id) => {
         let temp = NewData.map((NewData) => {
@@ -159,18 +174,32 @@ const SingleCategory = ({ route, navigation }) => {
           }
           return NewData;
         })
-        setmultycurrentCategory(temp)
+        // setmultycurrentCategory(temp)
+        setTempmultycurrentCategory(temp)
 
       }
+      const key = 'selectstatus';
+      const valueToMatch = true;
 
-
+      const matchingElements = TempmultycurrentCategory.filter(item => item[key] === valueToMatch);
+      const count = matchingElements.length;
+     
       return (
         <>
           {NewData && NewData.length > 0 &&
             NewData.map((i, index) => (
-              <TouchableOpacity onPress={() => ChangeStatus(i.id)} style={{ width: 110, height: 50, backgroundColor: i.selectstatus ? COLORS.imageBgCOLOR3 : COLORS.transParent, margin: 2, borderRadius: 10, borderWidth: 0.5, justifyContent: "center", alignItems: "center" }}>
-                <Text style={[globalStyles.appSubtitle, { color: i.selectstatus ? COLORS.appTextColor : COLORS.appColor }]}>{i.category_name}</Text>
+              <TouchableOpacity disabled={count == 1 && i.selectstatus } onPress={() => ChangeStatus(i.id)} style={{ flexDirection: 'row', marginTop: 5, alignItems: "center", }}>
+                {
+                  i.selectstatus ? <FilterCheckBox /> : <FilterUNCheckBox />
+                }
+
+
+                <Text style={{ fontSize: normalize(16), fontFamily: "RedHatDisplay-Regular", color: COLORS.appColor, marginLeft: 20 }}>{i.category_name}</Text>
+
               </TouchableOpacity>
+              // <TouchableOpacity onPress={() => ChangeStatus(i.id)} style={{ width: 110, height: 50, backgroundColor: i.selectstatus ? COLORS.imageBgCOLOR3 : COLORS.transParent, margin: 2, borderRadius: 10, borderWidth: 0.5, justifyContent: "center", alignItems: "center" }}>
+              //   <Text style={[globalStyles.appSubtitle, { color: i.selectstatus ? COLORS.appTextColor : COLORS.appColor }]}>{i.category_name}</Text>
+              // </TouchableOpacity>
             ))}
         </>
       )
@@ -180,11 +209,20 @@ const SingleCategory = ({ route, navigation }) => {
 
 
     const FilterSet = () => {
-      const filteredIds = multycurrentCategory
-        .filter(item => item.selectstatus == true)
-        .map(item => item.id);
-      ApisingleCategoryData(filteredIds)
+
+      const key = 'selectstatus';
+      const valueToMatch = true;
+
+     
+      setmultycurrentCategory(TempmultycurrentCategory)
+      const matchingElements = TempmultycurrentCategory.filter(item => item[key] === valueToMatch);
+      ApisingleCategoryData(matchingElements[0].id)
       setvisible(false)
+      // const filteredIds = multycurrentCategory
+      //   .filter(item => item.selectstatus == true)
+      //   .map(item => item.id);
+      // ApisingleCategoryData(filteredIds)
+      // setvisible(false)
 
     }
 
@@ -230,7 +268,7 @@ const SingleCategory = ({ route, navigation }) => {
             </TouchableOpacity>
 
 
-            <TextInput onChangeText={(text) => changeEditValue(parseInt(text), item.id, index)} value={JSON.stringify(item.quantity)} keyboardType="number-pad" style={{ width: 30, height: 30, fontSize: 15, textAlign: "center", borderRadius: 10, paddingVertical: 0,color:COLORS.appOppsiteTextColor }} />
+            <TextInput onChangeText={(text) => changeEditValue(parseInt(text), item.id, index)} value={JSON.stringify(item.quantity)} keyboardType="number-pad" style={{ width: 30, height: 30, fontSize: 15, textAlign: "center", borderRadius: 10, paddingVertical: 0, color: COLORS.appOppsiteTextColor }} />
             <TouchableOpacity onLongPress={() => changeEditValue(item.quantity + 10, item.id, index)} onPress={() => { changeEditValue(item.quantity + 1, item.id, index) }} style={{ width: 30, height: 30, backgroundColor: COLORS.appColor, borderRadius: 20, justifyContent: "center", alignItems: "center" }}>
               <Text style={{ color: COLORS.appTextColor }}>+</Text>
             </TouchableOpacity>
@@ -243,18 +281,18 @@ const SingleCategory = ({ route, navigation }) => {
 
 
     const changeEditValue = (value, id, key) => {
-      
-     
+
+
       const value2 = value ? value : 0
       const updatedData = [...Data];
       updatedData[key].quantity = value2;
-      
+
       setData(updatedData)
 
 
 
 
-      const mergedArray = [...updatedData,...single_category_Data]
+      const mergedArray = [...updatedData, ...single_category_Data]
       const uniqueArray = [];
 
       mergedArray.forEach((obj) => {
@@ -263,7 +301,7 @@ const SingleCategory = ({ route, navigation }) => {
         if (!isDuplicate) {
 
           uniqueArray.push(obj);
-          
+
         }
       });
       const filteredData = uniqueArray
@@ -273,79 +311,70 @@ const SingleCategory = ({ route, navigation }) => {
 
       dispatch(SingleCategorySET(filteredData))
 
-      //       setnewsingleCategory(filteredData)
-      //       console.log(filteredData)
-      // console.log("filteredData",filteredData)
-
-      // const mergedArray = [...updatedData, ...newsinglecategoryData]
-      // const uniqueArray = [];
-
-      // mergedArray.forEach((obj) => {
-      //   const isDuplicate = uniqueArray.some((item) => item.id === obj.id);
-      //   if (!isDuplicate) {
-      //    const datanew = [obj]
-      //    console.log(datanew)
-
-      //   }
-      // });
-
-      //   mergedArray.forEach((obj) => {
-      //   const filteredData = mergedArray
-      //     .some((item) => item.id === obj.id)
-      //     .filter(item => item.quantity > 0)
-      //     .map(({ id, }) => ({ id, quantity }));
-
-      //   console.log(filteredData);
-      // });
-      // mergedArray.forEach((obj) => {
-      //   const isDuplicate = uniqueArray.some((item) => item.id === obj.id);
 
 
-      //   if (!isDuplicate) {
-
-
-      //   }
-      // });
-
-      // console.log("uniqueArray", uniqueArray)
-
-      // setnewsingleCategory(uniqueArray)
-
-      // console.log("uniqueArray",uniqueArray)
-      // setnewsingleCategory(uniqueArray)
-
-      // setnewsingleCategory(updatedData)
+    }
 
 
 
-      // setnewsingleCategory(updatedData)
 
-      // NewData.map((item, k) => {
-      //   if (item.id == id) {
-
-      //     item.quantity = value2
-
-      //   } else {
-
-      //   }
-      // })
+    const CategorySliderData = () => {
 
 
-      // const NewData = [...Data]
-      // const value2 = value ? value : 0
-      // NewData.map((item, k) => {
-      //   if (item.id == id) {
-
-      //     item.quantity = value2
-
-      //   } else {
-
-      //   }
-      // })
-      // setnewsingleCategory(NewData)
-      // // setData(NewData)
 
 
+      return (
+        <>
+          {multycurrentCategory && multycurrentCategory.length > 0 &&
+            multycurrentCategory.map((i, index) => (
+
+
+              <>
+
+                {i.selectstatus &&
+
+                  <TouchableOpacity onPress={() => ApisingleCategoryData(i.id)} style={{ width: 110, height: 50, backgroundColor: selectCategory == i.id ? COLORS.imageBgCOLOR3 : COLORS.transParent, margin: 2, borderRadius: 10, borderWidth: 0.5, justifyContent: "center", alignItems: "center", borderColor: selectCategory == i.id ? COLORS.appTextColor : "white" }}>
+                    <Text style={[globalStyles.appSubtitle, { color: selectCategory == i.id ? COLORS.appTextColor : "white" }]}>{i.category_name}</Text>
+                  </TouchableOpacity>
+
+                }
+              </>
+            ))}
+        </>
+      )
+    }
+
+    const Reset = () => {
+      if (routedata != undefined && routedata.id != undefined) {
+
+        TempmultycurrentCategory.map((item, key) => {
+
+          if (item.id == routedata.id) {
+            item.selectstatus = true
+            setselectCategory(routedata.id)
+            const sendId = routedata.id
+            ApisingleCategoryData(sendId)
+            setvisible(false)
+
+          }
+        })
+
+
+      } else {
+
+        TempmultycurrentCategory.map((item, key) => {
+          setvisible(false)
+          if (item.id) {
+            item.selectstatus = true
+           
+         
+          }
+        })
+
+
+        const sendId = [TempmultycurrentCategory[0].id]
+        ApisingleCategoryData(sendId)
+      }
     }
 
 
@@ -360,30 +389,49 @@ const SingleCategory = ({ route, navigation }) => {
           onSwipeComplete={() => setvisible(false)}
         >
           <CustumModal>
-            <View style={{ marginTop: 10 }}>
+            {/* <FilterCheckBox /> */}
+            {/* <View style={{ marginTop: 10 }}>
               <View style={{ flexDirection: "row" }}>
-                {/* <FilterCheckBox /> */}
-                <Text style={{ color: COLORS.appColor, fontSize: normalize(20), marginBottom: 10 }}>  {/* All  */}Category</Text>
+               
+                <Text style={{ color: COLORS.appColor, fontSize: normalize(20), marginBottom: 10 }}>Category</Text>
               </View>
 
               <View style={{ flexWrap: 'wrap', height: "60%", alignItems: "center", alignContent: "center" }}>
                 <FilterCard />
               </View>
 
+            </View> */}
+
+            <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+              <Text style={{ fontSize: normalize(20), fontFamily: "RedHatDisplay-Bold", color: COLORS.appColor }}>Filter</Text>
+              <TouchableOpacity onPress={() => Reset()}>
+              <Text style={{ fontSize: normalize(16), fontFamily: "RedHatDisplay-Medium", color: COLORS.appColor }}>Reset</Text>
+              </TouchableOpacity>
+             
+
+            </View>
+            <View style={{ height: 1, backgroundColor: "#8E8E8E", width: "100%", marginVertical: 10 }}></View>
+            <Text style={{ fontSize: normalize(18), fontFamily: "RedHatDisplay-Bold", color: COLORS.appColor }}>Categories</Text>
+
+
+            <View style={{ width: "90%", alignSelf: 'center', marginTop: 10 }}>
+
+              <FilterCard />
             </View>
 
-            <TouchableOpacity style={{alignSelf:'center'}} onPress={() => { FilterSet() }}>
-            <SubmitBotton title={' Filter'} loadingStaus={loading} />
-              {/* <Text style={{ color: COLORS.appColor, fontSize: normalize(20), marginBottom: 10 }}>  All FilterCard</Text> */}
+            <TouchableOpacity style={{ alignSelf: 'center' }} onPress={() => { FilterSet() }}>
+              <SubmitBotton title={' Filter'} loadingStaus={loading} />
+             
             </TouchableOpacity>
           </CustumModal>
 
         </Modal>
 
 
+
         <BackBottonHeader updateSingleCategory={(text) => { onChangeChild(false) }} />
         <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", height: 50 }}>
-          <NewSearch updateMasterState={(text) => { ApisingleCategoryData([], text) }} />
+          <NewSearch updateMasterState={(text) => { ApisingleCategoryData(selectCategory, text) }} />
           <TouchableOpacity onPress={() => { setvisible(true) }} style={{ height: 50, width: 50, justifyContent: "center", alignItems: "center", backgroundColor: COLORS.appTextColor, borderRadius: 5 }}>
             <Feather name="filter" size={normalize(20)} color={COLORS.appOppsiteTextColor} />
           </TouchableOpacity>
@@ -391,10 +439,13 @@ const SingleCategory = ({ route, navigation }) => {
 
 
         <View style={{ marginVertical: 10 }} >
-          {/* <CardForSingleCategory>
 
+          <View style={{ flexDirection: "row" }}>
+            <ScrollView showsHorizontalScrollIndicator={false} horizontal={true} >
+              <CategorySliderData />
+            </ScrollView>
+          </View>
 
-              </CardForSingleCategory> */}
 
           <FlatList
             data={Data}

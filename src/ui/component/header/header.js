@@ -10,12 +10,12 @@ import { AppLogo } from '../../globalSvg';
 import { useNavigation } from '@react-navigation/native';
 import DynamicAppLogo from '../../AppLogo';
 
-const DrawerHeader = ({}) => {
+const DrawerHeader = ({ }) => {
     const navigation = useNavigation();
     const [modalVisible, setModalVisible] = useState(false);
 
     const sliderOpen = () => {
-      
+
         setModalVisible(true)
 
     }
@@ -32,11 +32,11 @@ const DrawerHeader = ({}) => {
                         animationOut="fadeOut"
 
                     />
-            <DynamicAppLogo style={{ width: normalize(40), height: normalize(40)}} imageStyle={{ borderRadius: 10 }} />
+                    <DynamicAppLogo style={{ width: normalize(40), height: normalize(40) }} imageStyle={{ borderRadius: 10 }} />
 
                     {/* <AppLogo width={normalize(40)} height={normalize(50)} /> */}
                     {/* <Ionicons name="notifications-outline" size={wW / 18} /> */}
-                    <TouchableOpacity onPress={() => { navigation.push('Notification')}}>
+                    <TouchableOpacity onPress={() => { navigation.push('Notification') }}>
                         <NotificationBotton />
                     </TouchableOpacity>
 

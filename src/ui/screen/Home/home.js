@@ -144,6 +144,8 @@ const Home = () => {
                 </CustumModal>
 
             </Modal>
+   <ScrollView>
+
 
 
             <Text style={[globalStyles.appTitle, { marginBottom: 10 }]}>Welcome {loginData.data.customer_shipping_address_alias_id.alias_name}</Text>
@@ -203,7 +205,7 @@ const Home = () => {
                     ))}
             </ScrollView>
 
-
+            </ScrollView>
 
         </>
 

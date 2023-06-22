@@ -217,9 +217,9 @@ const Contact = ({ navigation }) => {
             <Divider title={t('Address.view_contacts')} />
             {Data && Data.length > 0 &&
               Data.map((i, index) => (
-                <CartBox>
+                <CartBox style={{marginVertical:5}}>
 
-                  <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-evenly", width: "100%" }}>
+                  <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-evenly", width: "100%", }}>
                     <View style={{ flexDirection: "row", alignItems: "center", width: "80%" }}>
 
 

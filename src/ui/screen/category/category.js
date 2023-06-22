@@ -1,4 +1,4 @@
-import { BackHandler, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { BackHandler, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { normalize } from '../../helper/size'
 import { CategoryCard } from './categoryHelper'
@@ -54,9 +54,9 @@ const Category = (props) => {
     const getData = () => {
         setloading(true)
 
- 
-        dispatch(Category_SET("mgetCategoryDetails",loginData.data.token))
-     
+
+        dispatch(Category_SET("mgetCategoryDetails", loginData.data.token))
+
     }
 
     const single_category = (id) => {
@@ -71,21 +71,21 @@ const Category = (props) => {
             BackHandler.removeEventListener("hardwareBackPress", handleBackButtonClick);
         };
     }, []);
-    
-    
+
+
     function handleBackButtonClick() {
-    
-    
+
+
         navigation.push("DashBoard")
         return true;
-        
+
     }
 
     try {
 
         return (
             <View>
-                 <LoadingModal loading={loading} setloading={setloading} />
+                <LoadingModal loading={loading} setloading={setloading} />
                 {/* <SingleCategory isVisible={singleCategoryVisible} id={singleCategoryId} categoryData={categoryData} updateCategory={() => { setsingleCategoryVisible(false) }} /> */}
                 <View style={{ flexDirection: 'row', justifyContent: "space-between", alignItems: "center", marginVertical: normalize(20), }}>
                     <Text style={globalStyles.appTitle}>{t('category.category')}</Text>
@@ -94,7 +94,7 @@ const Category = (props) => {
 
 
                 {/* {categoryData.length > 0 ? */}
-
+                <ScrollView showsVerticalScrollIndicator={false}>
                     <View style={{ flexWrap: "wrap", flexDirection: "row", justifyContent: "space-around" }}>
                         {categoryData && categoryData.length > 0 &&
                             categoryData.map((i, index) => (
@@ -103,7 +103,12 @@ const Category = (props) => {
                                 </TouchableOpacity>
                             ))}
                     </View>
-                    {/* :
+                    
+                    <View style={{marginBottom:200}}></View>
+
+                </ScrollView>
+
+                {/* :
 
                     <View >
 

@@ -121,13 +121,15 @@ const Cart = ({ navigation }) => {
 
 
   const ContactDATaSEt = async () => {
-    await storeContactNumber(contact_Data[0].contact_number)
-    await storeName(contact_Data[0].contact_name)
+ 
+
+
 
     // get data
 
     const getNumber = await getContactNumber();
     const getName = await getContactName();
+    if(getNumber && getName){
 
 
     {
@@ -141,6 +143,21 @@ const Cart = ({ navigation }) => {
         setSelectName(getName)
 
     }
+  }else{
+    await storeContactNumber(contact_Data[0].contact_number)
+    await storeName(contact_Data[0].contact_name)
+    {
+      getNumber != null && getNumber != undefined &&
+        setSelectMobileNumber(getNumber)
+
+    }
+
+    {
+      getName != null && getName != undefined &&
+        setSelectName(getName)
+
+    }
+  }
 
   }
 
@@ -168,7 +185,7 @@ const Cart = ({ navigation }) => {
         }}>
           <View style={{ maxWidth: "70%" }}>
 
-            <Text style={{ color: COLORS.appColor, fontSize: normalize(16), fontFamily: "RedHatDisplay-Bold" }}>{item.product_name}</Text>
+            <Text numberOfLines={1} textBreakStrategy='simple' style={{ color: COLORS.appColor, fontSize: normalize(16), fontFamily: "RedHatDisplay-Bold",minWidth:"100%" }}>{item.product_name}</Text>
             {/* <Text numberOfLines={1} style={{ color: COLORS.appOppsiteTextColor, fontFamily: "RedHatDisplay-Regular", fontSize: normalize(13), }}>{"item.product_name"}</Text> */}
           </View>
 
@@ -199,6 +216,7 @@ const Cart = ({ navigation }) => {
 
 
   const changeEditValue = (value, id, key) => {
+    console.log()
     setloading(true)
     const value2 = value ? value : 0
     const updatedData = [...ValidData];
@@ -218,11 +236,21 @@ const Cart = ({ navigation }) => {
         quantity: item.quantity
       };
     });
-    // console.log(modifiedData)
+    console.log("modifiedData",modifiedData)
     dispatch(SingleCategorySET(modifiedData))
 
     // console.log("modifiedData", modifiedData)
-    ApiCallForVAlidCartDAta(modifiedData)
+    { modifiedData.length > 0 ?
+       ApiCallForVAlidCartDAta(modifiedData)
+       :
+     
+       setValidData([])
+       setsubTotal("")
+       setTaxAmount("")
+       setGrandtotal("")
+
+    }
+    setloading(false)
     // dispatch(SingleCategorySET(filteredData))
 
     // ApiCallForVAlidCartDAta()

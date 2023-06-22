@@ -291,7 +291,7 @@ export default Address = ({ navigation }) => {
             :
 
             <>
-              <CartBox>
+              <CartBox style={{marginVertical:5}}>
                 <Text style={[globalStyles.heading, { marginBottom: 10 }]}>{"Shipping Address"}</Text>
 
                 {address_Data && address_Data.length > 0 &&

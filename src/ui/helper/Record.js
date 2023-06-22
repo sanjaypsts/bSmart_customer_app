@@ -40,21 +40,31 @@ const Record = (props) => {
   const path = RNFS.DocumentDirectoryPath + '/audio.mp3';
 
   const [recordSecs, setrecordsec] = React.useState('');
-  const [recordTime, setrecordTime] = React.useState(0);
+  const [recordTime, setrecordTime] = React.useState('00:00');
   const [currentPositionSec, setcurrentPositionSec] = React.useState('')
   const [currentDurationSec, setcurrentDurationSec] = React.useState('')
   const [playTime, setplayTime] = React.useState('')
-  const [duration, setduration] = React.useState('')
-
-
+  const [duration, setduration] = React.useState('00:00')
   const [audiorecord, setaudiorecord] = React.useState(false)
   const [playStart, setplaystart] = React.useState(false)
   const [recordStart, setrecordstart] = React.useState(false)
 
 
 
+  const [PlayTime2, setPlayTime2] = React.useState("00:00")
+  const [RecordTime2, setRecordTime2] = React.useState("00:00")
 
 
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+  
+    const formattedMinutes = String(minutes).padStart(2, '0');
+    const formattedSeconds = String(remainingSeconds).padStart(2, '0');
+  
+    return `${formattedMinutes}:${formattedSeconds}`;
+  };
+  
 
 
   audioRecorderPlayer.setSubscriptionDuration(0.09);
@@ -81,6 +91,9 @@ const Record = (props) => {
       audioRecorderPlayer.addRecordBackListener((e) => {
 
         const recordTime = audioRecorderPlayer.mmssss(Math.floor(e.currentPosition))
+        const time2 = audioRecorderPlayer.mmss(Math.floor(e.currentPosition / 1000))
+
+        setRecordTime2(time2);
         setrecordsec(e.currentPosition)
         setrecordTime(recordTime)
         return;
@@ -128,8 +141,10 @@ const Record = (props) => {
     setcurrentPositionSec(0)
     setcurrentDurationSec(0)
     setplayTime(0)
-    setduration(0)
-    setrecordTime(0)
+    setduration('00:00')
+    setrecordTime('00:00')
+    setRecordTime2("00:00")
+    setPlayTime2("00:00")
 
     sendAudio(null)
 
@@ -158,6 +173,8 @@ const Record = (props) => {
       }
       setcurrentPositionSec(e.currentPosition)
       setcurrentDurationSec(e.duration)
+      const playtime = audioRecorderPlayer.mmss(Math.floor(e.currentPosition /1000))
+      setPlayTime2(playtime);
       setplayTime(audioRecorderPlayer.mmssss(Math.floor(e.currentPosition)))
       setduration(audioRecorderPlayer.mmssss(Math.floor(e.duration)))
 
@@ -175,7 +192,15 @@ const Record = (props) => {
 
   const onPausePlay = async () => {
 
-    const msg = await audioRecorderPlayer.pausePlayer();
+    const msg = await audioRecorderPlayer.pausePlayer((e) => {
+      const playtime = audioRecorderPlayer.mmss(Math.floor(e.currentPosition /1000))
+      setPlayTime2(playtime);
+  
+    }
+
+
+
+    );
 
     console.log(msg);
 
@@ -216,13 +241,23 @@ const Record = (props) => {
           <Text style={[{ width: "50%", color: COLORS.appOppsiteTextColor }]}>
             Delivery notes by customer goes here
           </Text>
+          
 
           <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-around", width: "50%" }}>
 
             {!audiorecord ?
-              <Text style={[globalStyles.cart_heading1, {}]}>{recordTime}</Text>
+              <Text style={[globalStyles.cart_heading1, {}]}>{RecordTime2}</Text>
               :
-              <Text style={[globalStyles.cart_heading1, {}]}>{playTime} </Text>
+              // <Text style={[globalStyles.cart_heading1, {}]}>{playTime} </Text>
+              <>
+                {playStart ?
+              
+                  <Text style={[globalStyles.cart_heading1, {}]}>{PlayTime2}</Text>
+                  :
+                  <Text style={[globalStyles.cart_heading1, {}]}>{RecordTime2}</Text>
+                  
+                }
+              </>
 
             }
 
@@ -243,13 +278,13 @@ const Record = (props) => {
 
 
                   <>
-{/* 
+                    {/* 
                     <TouchableOpacity onPress={() => { onpauseRecord(); }} style={{ backgroundColor: "white", width: 40, height: 40, borderRadius: 50, justifyContent: "center", alignItems: "center" }}>
                       <Ionicons name="pause" size={normalize(25)} color="#71D67A" />
                     </TouchableOpacity> */}
 
 
-                    <TouchableOpacity onPress={() => { onStopRecord(); setrecordstart(false); setaudiorecord(true) }} style={{ backgroundColor: "white", width: 40, height: 40, borderRadius: 50, justifyContent: "center", alignItems: "center" }}>
+                    <TouchableOpacity  onPress={() => { onStopRecord(); setrecordstart(false); setaudiorecord(true) }} style={{ backgroundColor: "white", width: 40, height: 40, borderRadius: 50, justifyContent: "center", alignItems: "center" }}>
                       <Ionicons name="stop" size={normalize(25)} color="red" />
                     </TouchableOpacity>
 
@@ -263,7 +298,7 @@ const Record = (props) => {
 
               <>
                 {playStart ?
-                  <TouchableOpacity onPress={() => { onStopPlay(); setplaystart(false) }} style={{ backgroundColor: "white", width: 40, height: 40, borderRadius: 50, justifyContent: "center", alignItems: "center" }}>
+                  <TouchableOpacity onPress={() => { onPausePlay(); setplaystart(false) }} style={{ backgroundColor: "white", width: 40, height: 40, borderRadius: 50, justifyContent: "center", alignItems: "center" }}>
                     <Ionicons name="pause" size={normalize(25)} color="#71D67A" />
                   </TouchableOpacity>
                   :

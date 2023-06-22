@@ -1,4 +1,4 @@
-import { BackHandler, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { BackHandler, FlatList, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { CartBox, Dateformat, Divider, TimeFormat, globalStyles } from '../../helper/globalStyle'
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,198 +10,216 @@ import LoadingModal from '../../component/loading';
 import moment from 'moment';
 import NoDataFound from '../../errorHandle/noDataFound';
 import Entypo from 'react-native-vector-icons/Entypo';
-import { normalize } from '../../helper/size';
+import { normalize, wH, wW } from '../../helper/size';
+import apicallHeaderPost from '../../../stateManage/apicallHeaderPost';
 
-const Orders = ({ }) => {
+const Orders = () => {
     const navigation = useNavigation();
-
+    const dispatch = useDispatch()
     const { Order_Data } = useSelector(state => state.orderReducer);
     const [loading, setloading] = useState(false);
     const { loginData } = useSelector(state => state.loginReducer);
     const { USER_DATA } = useSelector(state => state.userdatareducer);
-    const [orderData, setorderData] = useState([]);
-
-    const [Purchase_Order, setPurchase_Order] = useState([]);
-    const [Current_Orders, setCurrent_Orders] = useState([]);
-    const [Previous_Orders, setPrevious_Orders] = useState([]);
-
- 
-
-
-
-    useEffect(() => {
-        BackHandler.addEventListener("hardwareBackPress", handleBackButtonClick);
-        return () => {
-            BackHandler.removeEventListener("hardwareBackPress", handleBackButtonClick);
-        };
-    }, []);
-
-    
-    function handleBackButtonClick() {
-
-   
-        navigation.push("DashBoard")
-        return true;
-        
-    }
-
-    const dispatch = useDispatch()
+    const [PurchaseShowAll, setPurchaseShowAll] = useState(false)
+    const [Purchase_Order, setPurchase_Order] = useState([
+    ]);
 
     useEffect(() => {
         getData()
     }, [])
 
-
-    useEffect(() => {
-
-        const Data = Order_Data.Data
-
-        const newPurchase = Data.filter(function (item) {
-            return item.status_name == "Incoming";
-        }).map(function (item) {
-      
-            return { ...item, bgColor: "#FFC40C", TextColor:"#FFFFE0"   };
-        });
-        setPurchase_Order([...newPurchase]);
-    
-    
-        const newCurrent = Data.filter(function (item) {
-            return item.status_name == "On-Transit" || item.status_name == "Dispatch";
-        }).map(function (item) {
-    
-            return { ...item, bgColor:  "#007F66", TextColor: "#D2F8D2" };
-        });
-        setCurrent_Orders([...newCurrent]);
-    
-    
-        const newPrevious = Data.filter(function (item) {
-            return item.status_name == "Cancelled";
-        }).map(function (item) {
-    
-            return { ...item, bgColor: "#65000B", TextColor: "#FFD8D8" };
-        });
-        setPrevious_Orders([...newPrevious]);
-    
-
-    }, [Order_Data])
-
+    // const getData = () => {
+    //     let formData = new FormData();
+    //     formData.append('customer_id', loginData.data.customer_shipping_address_alias_id.id);
+    //     formData.append('sorting', JSON.stringify({ "id": "desc" }));
+    //     dispatch(Order_SET(formData,"previousOrderDetailsDividedByCustomerId",loginData.data.token))
+    // }
 
 
     const getData = () => {
+
         setloading(true)
-        setorderData([])
-        setPurchase_Order([]);
-        setCurrent_Orders([])
+
         let formData = new FormData();
         formData.append('customer_id', loginData.data.customer_shipping_address_alias_id.id);
         formData.append('sorting', JSON.stringify({ "id": "desc" }));
-        dispatch(Order_SET(formData,"mpreviousOrderDetailsByCustomerId",loginData.data.token))
-        setloading(false)
+        apicallHeaderPost(formData, 'previousOrderDetailsDividedByCustomerId', loginData.data.token)
+            .then(response => {
+                setloading(false)
+                if (response.status == 200 && response.data.status == true || response.data.status == 'true') {
+                    const data = response?.data?.data?.data_list
+
+
+                    const PurchaseDATA = response?.data?.data?.data_list?.current_order
+                    const newPurchase = PurchaseDATA.map(item => {
+                        return {
+                            ...item, bgColor: "#FFC40C", TextColor: "#FFFFE0"
+                        };
+                    });
+
+                    const previousData = response?.data?.data?.data_list?.previous_order
+                    const newprevious = previousData.map(item => {
+                        return {
+                            ...item, bgColor: "#65000B", TextColor: "#FFD8D8"
+                        };
+                    });
+
+                    setPurchase_Order(newPurchase)
+                    setPrevious_Orders(newprevious)
+
+                } else {
+                }
+            }).catch(err => {
+                setloading(false)
+                if (err) {
+
+                }
+            })
     }
 
 
 
-    const renderData = ({ item }) => {
-        const ProductData = item.order_details
 
-        return (
-            <TouchableOpacity onPress={() => { navigation.push('OrderDetails', { id: item.id }) }}>
-                <CartBox>
-                    <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 5, alignItems: "center" }}>
-                        <Text style={globalStyles.order_heading1}>Order :  {item.bill_no}</Text>
-                        <View style={{ backgroundColor: item.bgColor, padding: 1, padding: 5, borderRadius: 5,
+
+    const [PreviousShowAll, setPreviousShowAll] = useState(false)
+
+    const [Previous_Orders, setPrevious_Orders] = useState([]);
+    try {
+        const onRefresh = async () => {
+
+            getData()
+
+        };
+
+
+
+
+        const renderData = ({ item }) => {
+
+
+            return (
+                <TouchableOpacity onPress={() => { navigation.push('OrderDetails', { id: item.id }) }} style={{ marginBottom: 10 }}>
+
+
+                    <CartBox>
+                        <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", }}>
+                            <Text style={globalStyles.order_heading1}>Order :  #{item.bill_no}</Text>
+                            <View style={{
+                                backgroundColor: item.bgColor, padding: 1, padding: 5, borderRadius: 5,
                                 shadowColor: "#000",
-                         
+
                                 shadowOffset: {
                                     width: 0,
                                     height: 7,
                                 },
                                 shadowOpacity: 0.43,
                                 shadowRadius: 9.51,
-                    
+
                                 elevation: 15,
-                        }}>
-                            <Text style={[globalStyles.order_title, { color: item.TextColor, }]}> • {item.status_name}</Text>
+                            }}>
+                                <Text style={[globalStyles.order_title, { color: item.TextColor, }]}> • {item.display_name}</Text>
+                            </View>
                         </View>
-                    </View>
-                    <Text numberOfLines={1} style={[globalStyles.order_title, { width: "80%" }]}>
-                        {ProductData && ProductData.length > 0 &&
-                            ProductData.map((i, index) => (
-                                <Text>{i.product_name} </Text>
-                            ))}
-                    </Text>
-                    <View style={{ height: 1, backgroundColor: "#8E8E8E", marginVertical: 10 }}></View>
+                        <View style={{ height: 1, backgroundColor: "#8E8E8E", marginVertical: 10 }}></View>
 
-                    <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
-                        <TimeFormat title={item.created_at} style={globalStyles.order_title2}/>
-                        <Entypo name="chevron-right" size={normalize(20)} color="black" />
-
-                  
-                    </View>
+                        <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+                            <TimeFormat title={item.created_at} style={globalStyles.order_title2} />
+                            <Entypo name="chevron-right" size={normalize(20)} color="black" />
 
 
-                </CartBox>
-                <Text></Text>
-            </TouchableOpacity>
-        )
-    }
+                        </View>
+                    </CartBox>
+                </TouchableOpacity>
+            )
+        }
 
 
 
-    const onRefresh = async () => {
 
-        // getData()
-
-    };
-
-
-    try {
         return (
-            <>
-                <LoadingModal loading={Order_Data.loading} setloading={setloading} />
+            <View >
+                <LoadingModal loading={loading} />
+                <ScrollView scrollEnabled={PreviousShowAll || PurchaseShowAll}>
+
+                    <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: "row", marginVertical: 10 }}>
+                        <Text style={[globalStyles.appTitle]}>Current Orders</Text>
+                        <TouchableOpacity onPress={() => { setPurchaseShowAll(!PurchaseShowAll) }}><Text style={[globalStyles.appTitle]}>{PurchaseShowAll ? "Hide" : "Show more"}</Text></TouchableOpacity>
+                    </View>
+
+
+
+                    <View style={{ height: PurchaseShowAll ? "auto" : wH / 2.5, }}>
+
+
+
+                        {Purchase_Order.length > 0 ?
+
+                            <FlatList
+                                style={{ height: "100%" }}
+                                data={Purchase_Order}
+                                onRefresh={onRefresh}
+                                refreshing={false}
+                                showsVerticalScrollIndicator={false}
+                                renderItem={(item) => renderData(item)}
+                            />
+                            :
+                            <>
+                            {!loading &&
+                                <NoDataFound />
+
+                            }
+                            </>
+                     
+                        }
+
+
+
+                    </View>
 
 
 
 
-
-                <Text style={[globalStyles.appTitle, { marginBottom: 20 }]}>Purchase Order</Text>
-
-
-                <FlatList
-                    data={Purchase_Order}
-                    onRefresh={onRefresh}
-                    refreshing={false}
-                    showsVerticalScrollIndicator={false}
-                    renderItem={(item) => renderData(item)}
-                />
-
-                <Text style={[globalStyles.appTitle, { marginBottom: 20 }]}>Current Orders</Text>
-
-                <FlatList
-                    data={Current_Orders}
-                    onRefresh={onRefresh}
-                    showsVerticalScrollIndicator={false}
-                    refreshing={false}
-                    renderItem={(item) => renderData(item)}
-                />
+                    {/* closed order */}
 
 
-                <Text style={[globalStyles.appTitle, { marginBottom: 20 }]}>Previous Orders</Text>
+                    <View style={{ height: PreviousShowAll ? "auto" : wH / 2.5, }}>
+                        <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: "row", marginVertical: 10 }}>
+                            <Text style={[globalStyles.appTitle]}>Previous Orders</Text>
+                            <TouchableOpacity onPress={() => { setPreviousShowAll(!PreviousShowAll) }}><Text style={[globalStyles.appTitle]}>{PreviousShowAll ? "Hide" : "Show more"}</Text></TouchableOpacity>
+                        </View>
 
-                <FlatList
-                    data={Previous_Orders}
-                    onRefresh={onRefresh}
-                    refreshing={false}
-                    renderItem={(item) => renderData(item)}
-                />
+                        {Previous_Orders.length > 0 ?
 
-                <View style={{ marginBottom: 100 }}>
 
-                </View>
-            </>
+                            <FlatList
+                                style={{ height: "100%" }}
+                                data={Previous_Orders}
+                                onRefresh={onRefresh}
+                                refreshing={false}
+                                showsVerticalScrollIndicator={false}
+                                renderItem={(item) => renderData(item)}
+                            />
+                            :
+
+                            <>
+                            {!loading &&
+                                <NoDataFound />
+
+                            }
+                            </>
+                        }
+
+
+
+
+                    </View>
+
+                </ScrollView>
+
+            </View>
         )
-    }
-    catch {
+
+    } catch (error) {
 
     }
 }

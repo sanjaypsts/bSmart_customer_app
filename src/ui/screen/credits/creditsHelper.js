@@ -22,6 +22,7 @@ export const CreditsModal = (props) => {
     const { loginData } = useSelector(state => state.loginReducer);
 
 
+
     useEffect(() => {
         setData([modalData])
     }, [modalData])

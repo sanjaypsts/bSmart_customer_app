@@ -22,13 +22,12 @@ const audioRecorderPlayer = new AudioRecorderPlayer();
 
 
 const AudioPlay = ({value}) => {
-  console.log(value)
-    console.log(value)
+ 
     const [recordSecs, setrecordsec] = React.useState('');
     const [recordTime, setrecordTime] = React.useState(0);
     const [currentPositionSec, setcurrentPositionSec] = React.useState('')
     const [currentDurationSec, setcurrentDurationSec] = React.useState('')
-    const [playTime, setplayTime] = React.useState('')
+    const [playTime, setplayTime] = React.useState('00:00')
     const [duration, setduration] = React.useState('')
 
     const [audiorecord, setaudiorecord] = React.useState(false)
@@ -54,7 +53,7 @@ const AudioPlay = ({value}) => {
 
   const onStartPlay = async () => {
 
-    console.log('onStartPlay');
+
 
     const dirs = RNFetchBlob.fs.dirs;
     // const path = Platform.select({
@@ -79,8 +78,8 @@ const AudioPlay = ({value}) => {
       }
       setcurrentPositionSec(e.currentPosition)
       setcurrentDurationSec(e.duration)
-      setplayTime(audioRecorderPlayer.mmssss(Math.floor(e.currentPosition)))
-      setduration(audioRecorderPlayer.mmssss(Math.floor(e.duration)))
+      setplayTime(audioRecorderPlayer.mmss(Math.floor(e.currentPosition /1000)))
+      setduration(audioRecorderPlayer.mmss(Math.floor(e.duration / 1000)))
 
 
       return;
@@ -97,7 +96,7 @@ const AudioPlay = ({value}) => {
 
     const msg = await audioRecorderPlayer.pausePlayer();
 
-    console.log(msg);
+   
 
 
 

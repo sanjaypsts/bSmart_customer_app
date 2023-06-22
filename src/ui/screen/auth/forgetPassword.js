@@ -14,40 +14,64 @@ import { globalStyles, GradiateText, SubmitBotton } from '../../helper/globalSty
 import { useTranslation } from 'react-i18next';
 import BackBottonHeader from '../../component/header/dashboardHeader';
 import DynamicAppLogo from '../../AppLogo';
+import apicallHeaderPost from '../../../stateManage/apicallHeaderPost';
 
 const ForgetPassword = ({ navigation }) => {
     const dispatch = useDispatch()
 
     const [username, setUsername] = useState('');
     const [error, seterrorMessage] = useState('');
-
+    const [emailError, setemailError] = useState("");
     const [loading, setLoading] = useState(false);
 
     const { loginData } = useSelector(state => state.loginReducer);
 
+
+
+    const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+
+    // Function to validate an email address
+    const validateEmail = (email) => {
+        return emailPattern.test(email);
+    };
+
+    
+
     const authentication = async () => {
 
 
-        navigation.push('OtpScreen')
-        // setLoading(true)
+        const email = username;
+        const isValid = validateEmail(email);
 
-        // apicall({ 'login_email': username, 'password': password }, 'mcustomerLogin')
-        //     .then(response => {
-        //         setLoading(false)
-        //         if (response.data.status == true || response.data.status == 'true') {
-        //             dispatch(Relogin(response.data))
-        //         } else {
+        if (isValid) {
 
-        //         }
-        //     }).catch(err => {
-        //         setLoading(false)
 
-        //    
+            setLoading(true)
+            apicallHeaderPost({ "login_email": username }, 'mcustomerForgetPassword', loginData.data.token)
+                .then(response => {
+                    setLoading(false)
 
-        //         if (err) {
-        //          \
-        //         }
-        //     })
+                    if (response.status == 200 && response.data.status == true || response.data.status == 'true') {
+                        const data = response.data.data
+                        navigation.push('OtpScreen', { data })
+
+                    } else {
+                    }
+                }).catch(err => {
+                    setLoading(false)
+
+                    if (err.response.status == 404 || err.response.status == 404) {
+                        seterrorMessage(true)
+                        setemailError(err.response.data.message)
+
+                    }
+                })
+        } else {
+
+            seterrorMessage(true)
+            setemailError("Invalid email address")
+
+        }
 
 
     }
@@ -61,22 +85,22 @@ const ForgetPassword = ({ navigation }) => {
                 behavior={Platform.OS === 'ios' ? 'padding' : 'position'}
                 style={styles.container}>
                 <BackGround>
-                <BackBottonHeader logoHide ={true} updateSingleCategory={(text) => {  navigation.push('Login') }} />
+                    <BackBottonHeader logoHide={true} updateSingleCategory={(text) => { navigation.push('Login') }} />
 
 
                     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
 
-                    <DynamicAppLogo style={{ width: normalize(120), height: normalize(120)}} imageStyle={{ borderRadius: 10 }} />
+                        <DynamicAppLogo style={{ width: normalize(120), height: normalize(120) }} imageStyle={{ borderRadius: 10 }} />
 
                         {/* <AppLogo width={normalize(120)} height={normalize(120)} /> */}
-                          {/* Forget Password title */}
-                          <Text style={globalStyles.loginHeading}><Text>{t('login.forgot_password')}</Text></Text>
+                        {/* Forget Password title */}
+                        <Text style={globalStyles.loginHeading}><Text>{t('login.forgot_password')}</Text></Text>
                         <Text style={globalStyles.loginTitle}><Text>{t('login.forgot_password_descripton')}</Text></Text>
 
-                       
+
 
                         <View style={{ width: "100%", marginVertical: 30, }} >
-                            <LoginInput imageSource={IMAGES.emailIcon}  title={t('login.email')} value={username} updateMasterState={(text) => { setUsername(text); seterrorMessage("")  }} err={error} />
+                            <LoginInput imageSource={IMAGES.emailIcon} title={t('login.email')} value={username} updateMasterState={(text) => { setUsername(text); seterrorMessage(false); setemailError("") }} err={error} errorMessage={emailError} />
                         </View>
 
                         <TouchableOpacity disabled={loading} onPress={() => { authentication() }} >
@@ -92,8 +116,8 @@ const ForgetPassword = ({ navigation }) => {
 
 
 
-                        <TouchableOpacity onPress={() =>  navigation.push('Login')}>
-                        <GradiateText title={t('Login Instead')} />
+                        <TouchableOpacity onPress={() => navigation.push('Login')}>
+                            <GradiateText title={t('Login Instead')} />
                         </TouchableOpacity>
 
 
@@ -105,7 +129,7 @@ const ForgetPassword = ({ navigation }) => {
             </KeyboardAvoidingView>
         )
     } catch (err) {
-    
+
         <Errorhandling />
     }
 }

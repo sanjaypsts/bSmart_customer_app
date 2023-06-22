@@ -152,7 +152,7 @@ export const GradientGenerate = ({ colors, ...rest }) => {
     return (
         <MaskedView maskElement={<Text {...rest} />}>
             <LinearGradient colors={colors} start={{ x: 0, y: 0 }} end={{ x: 0.8, y: 0 }}>
-                <Text {...rest} style={[rest.style, { opacity: 0, fontFamily: 'Inter-Medium' }]} />
+                <Text {...rest} style={[rest.style, { opacity: 0, }]} />
             </LinearGradient>
         </MaskedView>
     );
@@ -162,7 +162,7 @@ export const GradientGenerate = ({ colors, ...rest }) => {
 export const GradiateText = ({ title }) => {
     return (
 
-        <GradientGenerate colors={['#03234C', '#03234C', '#03234C']} style={[]}>{title}</GradientGenerate>
+        <GradientGenerate colors={['#202020', '#03234C', '#03234C']} style={[]}>{title}</GradientGenerate>
 
 
     )
@@ -188,12 +188,12 @@ export const Divider = ({ imageSource, title }) => {
 
 
 
-export const CartBox = ({ children }) => {
+export const CartBox = ({ children,style }) => {
     return (
-        <View style={{
-            backgroundColor: COLORS.appLightColor, padding: 15, borderRadius: 12, borderColor: "#CCCCCC", borderWidth: 1,
+        <View style={[{
+            backgroundColor: COLORS.appLightColor, padding: 15, borderRadius: 12, borderColor: "#CCCCCC", borderWidth: 1,...style
 
-        }}
+        }]}
         >
             {children}
 
